@@ -1,0 +1,1 @@
+from HikeIt.settings import *
