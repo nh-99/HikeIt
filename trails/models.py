@@ -7,4 +7,4 @@ class Trail(models.Model):
   difficulty = models.CharField(max_length=50)
   distance = models.FloatField()
   location = models.CharField(max_length=100)
-  likes = models.IntegerField()
+  likes = models.IntegerField(default=0)
