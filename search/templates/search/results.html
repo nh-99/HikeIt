@@ -1,0 +1,88 @@
+{% load staticfiles %}
+<title>HikeIt</title>
+
+<link href="{% static "static_pages/css/bootstrap.min.css" %}" rel="stylesheet">
+
+<ul class="col-md-2">
+<h4><b>Sort by:</b></h4>
+<form>
+<input id="all" type="radio" name="difficulty" value="All" checked>  All
+<br>
+<input id="easy" type="radio" name="difficulty" value="Easy">  Easy
+<br>
+<input id="mod" type="radio" name="difficulty" value="Moderate">  Moderate
+<br>
+<input id="adv" type="radio" name="difficulty" value="Advanced">  Advanced
+<br>
+</form>
+<br>
+</ul>
+
+<ul class="list-group col-md-4 trails">
+{% for trail in trails %}
+<li id="{{ trail.name }}:{{ trail.diff }}" class="list-group-item"><a href="/trail/{{ trail.id }}"</a>{{ trail.name }}</li>
+{% endfor %}
+<br><br>
+</ul>
+
+<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+<script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+<script src='{% static "static_pages/js/bootstrap.min.js" %}'></script>
+
+<script>
+$(document).ready(function() {
+console.log("ready");
+    $('#all').change(function() {
+        if($(this).is(":checked")) {
+          updateResults("all");
+        }
+    });
+    $('#easy').change(function() {
+        if($(this).is(":checked")) {
+          updateResults("easy");
+        }
+    });
+    $('#mod').change(function() {
+        if($(this).is(":checked")) {
+          updateResults("mod");
+        }
+    });
+    $('#adv').change(function() {
+        if($(this).is(":checked")) {
+          updateResults("adv");
+        }
+    });
+});
+
+function updateResults(diff) {
+  if(diff == "all") {
+    $(".trails li").each(function() {
+      $(this).show();
+    });
+  } else if(diff == "easy") {
+    $(".trails li").each(function() {
+      if($(this).attr('id').includes("Easy")) {
+        $(this).fadeIn();
+      } else {
+        $(this).fadeOut();
+      }
+    });
+  } else if(diff == "mod") {
+    $(".trails li").each(function() {
+      if($(this).attr('id').includes("Moderate")) {
+        $(this).fadeIn();
+      } else {
+        $(this).fadeOut();
+      }
+    });
+  } else if(diff == "adv") {
+    $(".trails li").each(function() {
+      if($(this).attr('id').includes("Advanced")) {
+        $(this).fadeIn();
+      } else {
+        $(this).fadeOut();
+      }
+    });
+  }
+}
+</script>
