@@ -72,20 +72,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'HikeIt.wsgi.application'
 
-
-# Database
-# https://docs.djangoproject.com/en/1.8/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'hikeit',
-        'USER': os.environ.get("HIKEIT_DB_USER", ''),
-        'PASSWORD': os.environ.get("HIKEIT_DB_PASSWORD", ''),
-    }
-}
-
-
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
 

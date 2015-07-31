@@ -5,7 +5,7 @@ class Command(BaseCommand):
     help = "Populate the database with seed trails"
 
     def handle(self, *args, **options):
-      f = open('/home/noah/result.csv', 'r')
+      f = open('./result.csv', 'r')
       for line in f:
         line =  line.split(';')
         trail = Trail()
