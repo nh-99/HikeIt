@@ -13,11 +13,18 @@
         <p>Length: {{ length }} miles</p>
         <p>Difficulty: {{ difficulty }}</p>
         <p>Likes: {{ trail.likes }}</p>
+        <button id="like" type="button" onclick="gotoLike()" class="btn btn-success"><span class="glyphicon glyphicon-thumbs-up"></span> Like</button>
       </div>
     </div>
   </div>
 </div>
 </div>
+
+<script>
+	function gotoLike() {
+		window.location.href = "/trail/{{ id }}/like";
+	}
+</script>
 
 <script src="https://code.jquery.com/jquery.js"></script>
 <script src="{% static "static_pages/js/bootstrap.min.js" %}"></script>
