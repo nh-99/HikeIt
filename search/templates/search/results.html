@@ -20,7 +20,7 @@
 
 <ul class="list-group col-md-4 trails">
 {% for trail in trails %}
-<li id="{{ trail.name }}:{{ trail.diff }}" class="list-group-item"><a href="/trail/{{ trail.id }}"</a>{{ trail.name }}</li>
+<li id="{{ trail.name }}:{{ trail.difficulty }}" class="list-group-item"><a href="/trail/{{ trail.id }}"</a>{{ trail.name }}</li>
 {% endfor %}
 <br><br>
 </ul>
