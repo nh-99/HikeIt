@@ -23,7 +23,8 @@
 
 <script>
 	function gotoLike() {
-		window.location.href = "/trail/{{ id }}/like";
+		$.get("/trail/{{ trail.id}}/like");
+        location.reload();
 	}
 </script>
 
