@@ -1,4 +1,6 @@
 {% load staticfiles %}
+{% include 'static_pages/navbar.html' %}
+<br><br><br><br>
 <title>HikeIt</title>
 
 <link href="{% static "static_pages/css/bootstrap.min.css" %}" rel="stylesheet">
@@ -7,6 +9,7 @@
 <div class="row">
   <div class="col-sm-6 col-md-4"></div>
   <div class="col-sm-6 col-md-4">
+    <center>
     <div class="thumbnail">
       <div class="caption">
         <h3>{{ trail.name }}</h3>
@@ -17,6 +20,7 @@
         <button id="like" type="button" onclick="gotoLike()" class="btn btn-success"><span class="glyphicon glyphicon-thumbs-up"></span> Like</button>
       </div>
     </div>
+	</center>
   </div>
 </div>
 </div>
@@ -27,6 +31,3 @@
         location.reload();
 	}
 </script>
-
-<script src="https://code.jquery.com/jquery.js"></script>
-<script src='{% static "static_pages/js/bootstrap.min.js" %}'></script>

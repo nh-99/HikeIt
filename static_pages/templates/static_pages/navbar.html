@@ -1,0 +1,136 @@
+{% load staticfiles %}
+
+<style>
+  .nav a:hover {
+  text-decoration: none;
+  background:rgba(0,0,0,0);
+  }
+  
+  a:hover {
+  text-decoration: none;
+  background:rgba(255, 255, 255, 1);
+  color:rgba(0,0,0,1);
+  }
+</style>
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation" style="height: 55px">
+  <div class="container">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+      <span class="sr-only">Toggle navigation</span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand topnav" href="/">HikeIt</a>
+    </div>
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="navbar-collapse collapse" id="bs-example-navbar-collapse-1">
+      <!-- Search bar -->
+      <ul class="nav navbar-nav navbar-right">
+      <li>
+      
+          <div class="btn-group">
+          {% if searchtype != None %}
+          {% if searchtype == 'location' %}
+          <button id="dropdown-btn" type="button" style="margin-top:8px" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Location <span class="caret"></span></button>
+          <ul id="dropdown" class="dropdown-menu" role="menu">
+          <li id="dropdown-option"><a onclick="changeSearchType()">Name</a></li>
+          </ul>
+          {% else %}
+          <button id="dropdown-btn" type="button" style="margin-top:8px" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Name <span class="caret"></span></button>
+          <ul id="dropdown" class="dropdown-menu" role="menu">
+          <li id="dropdown-option"><a onclick="changeSearchType()">Location</a></li>
+          </ul>
+          {% endif %}
+          {% else %}
+          <button id="dropdown-btn" type="button" style="margin-top:8px" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Location <span class="caret"></span></button>
+          <ul id="dropdown" class="dropdown-menu" role="menu">
+          <li id="dropdown-option"><a onclick="changeSearchType()">Name</a></li>
+          </ul>
+          {% endif %}
+          </div>
+       </li>
+      <li>
+      <div id="search-div" class="navbar-form navbar-right">
+        <form id="search">
+          <div class="form-group">
+            {% if searchtype != None %}
+            {% if searchtype == 'location' %}
+            <input id="search-input" type="text" class="form-control" placeholder="Trail location">
+            {% else %}
+            <input id="search-input" type="text" class="form-control" placeholder="Trail name">
+            {% endif %}
+            {% else %}
+            <input id="search-input" type="text" class="form-control" placeholder="Trail location">
+            {% endif %}
+          </div>
+          <input id="searchbtn" onclick="searchBtn()" type="button" class="btn btn-default" value="Search">
+        </form>
+      </div>
+      </li>
+      </ul>
+    </div>
+    <!-- /.navbar-collapse -->
+  </div>
+  <!-- /.container -->
+</nav>
+
+<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+<script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+<script src='{% static "static_pages/js/bootstrap.min.js" %}'></script>
+
+<script>
+  $("#search").submit(function( event ) {
+    if($("#dropdown-btn").text() == "Location ") {
+      console.log('search');
+      event.preventDefault();
+      console.log('prevent');
+      var form = document.getElementById("search");
+      console.log('getInfo');
+      window.location.href = '/search/location/' + form.elements[0].value;
+      console.log('redirect');
+      } else {
+      console.log('search');
+      event.preventDefault();
+      console.log('prevent');
+      var form = document.getElementById("search");
+      console.log('getInfo');
+      window.location.href = '/search/name/' + form.elements[0].value;
+      console.log('redirect');
+      }
+    });
+    
+    function searchBtn() {
+      if($("#dropdown-btn").text() == "Location ") {
+      console.log('search');
+      event.preventDefault();
+      console.log('prevent');
+      var form = document.getElementById("search");
+      console.log('getInfo');
+      window.location.href = '/search/location/' + form.elements[0].value;
+      console.log('redirect');
+      } else {
+      console.log('search');
+      event.preventDefault();
+      console.log('prevent');
+      var form = document.getElementById("search");
+      console.log('getInfo');
+      window.location.href = '/search/name/' + form.elements[0].value;
+      console.log('redirect');
+      }
+    }
+    
+    function changeSearchType() {
+      if($("#dropdown-btn").text() == "Location ") {
+      $("#dropdown-btn").replaceWith('<button id="dropdown-btn" type="button" style="margin-top:8px" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Name <span class="caret"></span></button>');
+      $("#dropdown-option").replaceWith('<li id="dropdown-option"><a onclick="changeSearchType()">Location</a></li>');
+      $("#search-input").attr("placeholder", "Trail Name").val("").focus().blur();
+      } else {
+      $("#dropdown-btn").replaceWith('<button id="dropdown-btn" type="button" style="margin-top:8px" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Location <span class="caret"></span></button>');
+      $("#dropdown-option").replaceWith('<li id="dropdown-option"><a onclick="changeSearchType()">Name</a></li>');
+      $("#search-input").attr("placeholder", "Trail Location").val("").focus().blur();
+      }
+    }
+</script>
