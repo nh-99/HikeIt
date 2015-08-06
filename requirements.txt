@@ -2,3 +2,4 @@ django
 mysql
 pillow
 django-jenkins
+coverage
