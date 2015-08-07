@@ -3,14 +3,18 @@ from django.test import Client
 
 from .models import Trail
 
+def create_trail():
+    trail = Trail.objects.create(name="abcd", lat=12.123, long=12.1234, difficulty="hard", distance=1.354, location="Maine")
+    trail.save()
+    return trail
+
 class TrailTestCase(TestCase):
     def test_trail_create(self):
-        trail = Trail.objects.create(name="abcd", lat=12.123, long=12.1234, difficulty="hard", distance=1.354, location="Maine")
+        trail = create_trail()
         self.assertEqual(trail.name, "abcd")
 	  
     def test_trail_view(self):
-        trail = Trail.objects.create(name="abcd", lat=12.123, long=12.1234, difficulty="hard", distance=1.354, location="Maine")
-        trail.save()
+        trail = create_trail()
         response = self.client.get('/trail/{0}/'.format(str(trail.id)))
         self.assertEqual(response.status_code, 200)
         
@@ -19,8 +23,7 @@ class TrailTestCase(TestCase):
         self.assertEqual(response.status_code, 404)
         
     def test_trail_like(self):
-        trail = Trail.objects.create(name="abcd", lat=12.123, long=12.1234, difficulty="hard", distance=1.354, location="Maine")
-        trail.save()
+        trail = create_trail()
         response = self.client.get('/trail/{0}/like'.format(str(trail.id)))
         self.assertEqual(response.status_code, 302)
     

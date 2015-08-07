@@ -19,9 +19,13 @@
 </ul>
 
 <ul class="list-group col-md-4 trails">
+{% if trails|length < 1 %}
+<h3>No trails found for {{ location }}</h3>
+{% else %}
 {% for trail in trails %}
 <li id="{{ trail.name }}:{{ trail.difficulty }}" class="list-group-item"><a href="/trail/{{ trail.id }}"</a>{{ trail.name }}</li>
 {% endfor %}
+{% endif %}
 <br><br>
 </ul>
 
