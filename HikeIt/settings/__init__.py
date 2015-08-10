@@ -42,6 +42,7 @@ INSTALLED_APPS = (
     'search',
     'static_pages',
     'images',
+    'users',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -94,4 +95,5 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 MEDIA_ROOT = 'C://Users/Noah/Pictures/'
+AUTH_USER_MODEL = 'users.HikeItUser'
 
