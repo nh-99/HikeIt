@@ -94,6 +94,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
 STATIC_URL = '/static/'
-MEDIA_ROOT = 'C://Users/Noah/Pictures/'
+MEDIA_ROOT = 'media'
 AUTH_USER_MODEL = 'users.HikeItUser'
 
