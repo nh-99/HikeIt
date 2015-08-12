@@ -1,5 +1,5 @@
 from django import forms
 
 class TrailImageForm(forms.Form):
-    trail = 
+    trail = forms.
     image = forms.FileField(label='Select a trail image')

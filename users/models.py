@@ -8,7 +8,8 @@ class HikeItUserManager(BaseUserManager):
         return user
 
     def create_superuser(self, email, password, first_name, last_name):
-        user = self.create_user(email=email, password=password)
+        user = self.create(email=email)
+        user.set_password(password)
         user.first_name = first_name
         user.last_name = last_name
         user.role = "admin"
