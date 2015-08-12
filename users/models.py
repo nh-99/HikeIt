@@ -2,8 +2,11 @@ from django.db import models
 from django.contrib.auth.models import (AbstractBaseUser, BaseUserManager)
 
 class HikeItUserManager(BaseUserManager):
-    def create_user(self, email, password):
-        user = self.model(email=email, password=password)
+    def create_user(self, email, password, first_name, last_name):
+        user = self.create(email=email)
+        user.set_password(password)
+        user.first_name = first_name
+        user.last_name = last_name
         user.save()
         return user
 
