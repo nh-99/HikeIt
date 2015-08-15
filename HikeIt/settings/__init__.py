@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+from django.contrib.messages import constants as messages
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -38,6 +39,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_jenkins',
+    'sorl.thumbnail',
     'trails',
     'search',
     'static_pages',
@@ -95,5 +97,10 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 MEDIA_ROOT = 'media'
+MEDIA_URL = '/images/'
 AUTH_USER_MODEL = 'users.HikeItUser'
+
+MESSAGE_TAGS = {
+    messages.ERROR: 'danger',
+}
 

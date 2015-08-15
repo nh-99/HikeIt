@@ -1,10 +1,11 @@
 from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponse, HttpResponseRedirect
+from django.contrib import messages
 
 from .models import Trail
 from .forms import TrailImageForm
 
-from images.models import Image
+from images.models import TrailImage
 
 def trailpage(request, trail_id):
     trail = get_object_or_404(Trail, pk=trail_id)
@@ -39,11 +40,12 @@ def upload_trail_image(request, trail_id):
         form = TrailImageForm(request.POST, request.FILES)
         if request.user:
             if form.is_valid():
-                image = Image()
+                image = TrailImage()
                 image.image = form.cleaned_data['image']
                 image.user = request.user
                 image.trail = get_object_or_404(Trail, pk=trail_id)
                 image.save()
-                return HttpResponse('image upload success')
+                messages.add_message(request, messages.SUCCESS, 'Image uploaded successfully!')
+                return HttpResponseRedirect('/trail/%s' % str(trail_id))
                 
     return render(request, 'trails/trail_image_form.html', {'trail_id':trail_id, 'form':form})

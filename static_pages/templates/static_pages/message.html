@@ -1,0 +1,17 @@
+{% if messages %}
+{% for message in messages %}
+<center>
+<div id="useralert" class="alert alert-{{ message.tags }}">{{ message }}</div>
+</center>
+{% endfor %}
+{% endif %}
+
+<script>
+    $(document).ready(function() {
+    window.setTimeout(function() {
+        $("#useralert").fadeTo(500, 0).slideUp(500, function(){
+            $(this).remove();
+        });
+    }, 3000);
+    });
+</script>

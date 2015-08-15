@@ -1,5 +1,6 @@
 django
 mysql
 pillow
+python-image-resize
 django-jenkins
 coverage
