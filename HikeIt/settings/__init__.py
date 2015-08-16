@@ -39,7 +39,6 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_jenkins',
-    'sorl.thumbnail',
     'trails',
     'search',
     'static_pages',
