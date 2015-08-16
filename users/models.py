@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import (AbstractBaseUser, BaseUserManager, PermissionsMixin)
 
+from trails.models import Trail
+
 class HikeItUserManager(BaseUserManager):
     def create_user(self, email, password, first_name, last_name):
         user = self.create(email=email)
@@ -30,6 +32,7 @@ class HikeItUser(AbstractBaseUser, PermissionsMixin):
     role = models.CharField(max_length=30, default="member")
     image = models.CharField(max_length=200, blank=True)
     token = models.CharField(max_length=300, blank=True)
+    liked_trails = models.ManyToManyField(Trail)
     
     def get_full_name(self):
         return self.email

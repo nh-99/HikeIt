@@ -22,12 +22,19 @@ def trailpage(request, trail_id):
 
 def liketrail(request, trail_id):
     trail = get_object_or_404(Trail, pk=trail_id)
+    user = request.user
     
     if request.user.is_authenticated():
-        trail.likes = trail.likes + 1
-        trail.save()
-    #else:
-        # TODO: message to user saying to login
+        try:
+            trail.hikeituser_set.get(pk=user.pk)
+        except user.DoesNotExist:
+            trail.hikeituser_set.add(user)
+            trail.likes = trail.likes + 1
+            trail.save()
+    else:
+        messages.add_message(request, messages.WARNING, 'You need to be signed in to like trails!')
+        return HttpResponseRedirect('/trail/%s' % str(trail_id))
+        
     try:
         return HttpResponseRedirect('/trail/%s' % str(trail_id))
     except:

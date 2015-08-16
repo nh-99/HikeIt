@@ -8,12 +8,13 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ('trails', '0001_initial'),
+        ('users', '0001_initial'),
     ]
 
     operations = [
-        migrations.AlterField(
-            model_name='trail',
-            name='likes',
-            field=models.IntegerField(default=0),
+        migrations.AddField(
+            model_name='hikeituser',
+            name='liked_trails',
+            field=models.ManyToManyField(to='trails.Trail'),
         ),
     ]

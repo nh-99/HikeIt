@@ -13,11 +13,11 @@ class TrailImage(models.Model):
     long = models.FloatField(null=True, blank=True)
     image = models.FileField(upload_to='images')
     
-    def save(self):
+    def save(self, *args, **kwargs):
         if not self.id and not self.image:
             return
 
-        super(TrailImage, self).save()
+        super(TrailImage, self).save(*args, **kwargs)
         
         size = 500, 500
 

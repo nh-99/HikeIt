@@ -19,8 +19,9 @@ class Migration(migrations.Migration):
                 ('long', models.FloatField()),
                 ('difficulty', models.CharField(max_length=50)),
                 ('distance', models.FloatField()),
-                ('location', models.CharField(max_length=100)),
-                ('likes', models.IntegerField()),
+                ('location', models.CharField(max_length=500)),
+                ('description', models.CharField(default=b'No description found', max_length=500)),
+                ('likes', models.IntegerField(default=0)),
             ],
         ),
     ]
