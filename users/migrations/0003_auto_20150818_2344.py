@@ -7,14 +7,13 @@ from django.db import models, migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('trails', '0001_initial'),
-        ('users', '0001_initial'),
+        ('users', '0002_auto_20150818_2337'),
     ]
 
     operations = [
-        migrations.AddField(
-            model_name='hikeituser',
+        migrations.AlterField(
+            model_name='usertrails',
             name='liked_trails',
-            field=models.ManyToManyField(to='trails.Trail'),
+            field=models.ManyToManyField(to='trails.Trail', null=True, blank=True),
         ),
     ]

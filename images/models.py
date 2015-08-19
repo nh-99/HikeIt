@@ -1,13 +1,13 @@
 from django.db import models
+from django.contrib.auth.models import User
 from django.views.generic import FormView
 
 from PIL import Image
 
 from trails.models import Trail
-from users.models import HikeItUser
 
 class TrailImage(models.Model):
-    user = models.ForeignKey(HikeItUser, related_name='+')
+    user = models.ForeignKey(User, related_name='+')
     trail = models.ForeignKey(Trail)
     lat = models.FloatField(null=True, blank=True)
     long = models.FloatField(null=True, blank=True)

@@ -26,9 +26,12 @@ def liketrail(request, trail_id):
     
     if request.user.is_authenticated():
         try:
-            trail.hikeituser_set.get(pk=user.pk)
-        except user.DoesNotExist:
-            trail.hikeituser_set.add(user)
+            user.profile.liked_trails.get(pk=trail_id)
+        except trail.DoesNotExist:
+            # Add the trail to the user model, in a many to many state
+            user.profile.liked_trails.add(trail)
+            user.save()
+            
             trail.likes = trail.likes + 1
             trail.save()
     else:

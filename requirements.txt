@@ -4,3 +4,5 @@ pillow
 python-image-resize
 django-jenkins
 coverage
+python-social-auth
+oauthlib

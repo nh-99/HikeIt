@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
 from django.contrib.messages import constants as messages
+from .config import *
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -38,12 +39,25 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'social.apps.django_app.default',
     'django_jenkins',
     'trails',
     'search',
     'static_pages',
     'images',
     'users',
+)
+
+TEMPLATE_CONTEXT_PROCESSORS = (
+    'django.contrib.auth.context_processors.auth',
+    'django.core.context_processors.debug',
+    'django.core.context_processors.i18n',
+    'django.core.context_processors.media',
+    'django.core.context_processors.static',
+    'django.core.context_processors.tz',
+    'django.contrib.messages.context_processors.messages',
+    'social.apps.django_app.context_processors.backends',
+    'social.apps.django_app.context_processors.login_redirect',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -97,9 +111,18 @@ USE_TZ = True
 STATIC_URL = '/static/'
 MEDIA_ROOT = 'media'
 MEDIA_URL = '/images/'
-AUTH_USER_MODEL = 'users.HikeItUser'
 
 MESSAGE_TAGS = {
     messages.ERROR: 'danger',
 }
+
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend', 
+    'social.backends.facebook.FacebookOAuth2',
+)
+
+SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/'
+SOCIAL_AUTH_LOGIN_URL = '/login'
+SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
+AUTH_PROFILE_MODULE = 'users.UserTrails'
 

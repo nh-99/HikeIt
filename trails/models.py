@@ -9,3 +9,6 @@ class Trail(models.Model):
     location = models.CharField(max_length=500)
     description = models.CharField(max_length=500, default="No description found")
     likes = models.IntegerField(default=0)
+    
+    def __str__(self):
+        return self.name

@@ -23,4 +23,5 @@ urlpatterns = [
     url(r'^trail/', include('trails.urls')),
     url(r'^search/', include('search.urls')),
     url(r'^admin/', include(admin.site.urls)),
+    url('', include('social.apps.django_app.urls', namespace='social')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
