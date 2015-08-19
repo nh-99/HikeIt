@@ -1,6 +1,9 @@
 from django.test import TestCase, RequestFactory
 from django.test import Client
+
 from django.contrib.auth.models import AnonymousUser
+from django.contrib.messages.storage.fallback import FallbackStorage
+from django.contrib.auth.models import User
 
 from .models import Trail
 from .views import liketrail
@@ -29,18 +32,12 @@ class TrailTestCase(TestCase):
         self.assertEqual(response.status_code, 404)
         
     def test_trail_like(self):
+        my_admin = User.objects.create_superuser('myuser', 'myemail@test.com', 'test')
         trail = create_trail()
-        request = self.factory.get('/trail/{0}/like'.format(str(trail.id)))
-        request.user = AnonymousUser()
-        
-        response = liketrail(request, trail.id)
-        
-        response = self.client.get('/trail/{0}'.format(str(trail.id)))
-        
-        doesWork = False
-        if "Likes: 1" in response.content:
-            doesWork = True
-        self.assertEqual(doesWork, True)
+        self.client.login(username=my_admin.username, password='test')
+        response = self.client.get('/trail/{0}/like'.format(str(trail.id)))
+        response = self.client.get('/trail/{0}/'.format(str(trail.id)))
+        self.assertEqual("Likes: 1" in response.content, True)
     
     def test_trail_like_fail(self):
         response = self.client.get('trail/2384792384/like')
