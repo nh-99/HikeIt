@@ -41,6 +41,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'social.apps.django_app.default',
     'django_jenkins',
+    'widget_tweaks',
     'trails',
     'search',
     'static_pages',
@@ -125,4 +126,5 @@ SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/'
 SOCIAL_AUTH_LOGIN_URL = '/login'
 SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
 AUTH_PROFILE_MODULE = 'users.UserTrails'
+LOGIN_REDIRECT_URL = '/'
 

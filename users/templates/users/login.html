@@ -1,0 +1,42 @@
+{% load staticfiles %}
+{% load widget_tweaks %}
+<div id="user_nav" style="overflow:hidden">
+{% include 'static_pages/navbar.html' %}
+<head>
+    <title>HikeIt</title>
+    <link href="{% static "static_pages/css/socialicons.css" %}" rel="stylesheet">
+    <link href="{% static "static_pages/css/font-awesome.min.css" %}" rel="stylesheet">
+</head>
+<br><br><br><br>
+{% include 'static_pages/message.html' %}
+  {% if request.user.is_authenticated %}
+    Welcome, {{ request.user.first_name }}!
+  {% else %}
+    <div class="row">
+    <div class="col-md-3"></div>
+    <form method="post" action="{% url 'django.contrib.auth.views.login' %}">
+        {% csrf_token %}
+        <div class="form-group col-md-3">
+            {% render_field form.username class+="form-control input-group-lg reg_name" placeholder="Username" %}
+            {% render_field form.password class+="form-control input-group-lg reg_name" placeholder="Password" %}
+
+            <input type="submit" class="form-control input-group-lg reg_name" type="submit" name="submit" value="Login" />
+            <input type="hidden" name="next" value="{{ next }}" />
+        </div>
+    </form>
+    <form action="/users/new">
+            <div class="form-group col-md-3" style="margin-top: -15px">
+                <input id="name" class="form-control input-group-lg reg_name" type="text" name="name" placeholder="Name">
+                <input id="email" class="form-control input-group-lg reg_name" type="text" name="email" placeholder="Email">
+                <input id="password" class="form-control input-group-lg reg_name" type="password" name="password" placeholder="Password">
+                <input id="password_confirm" class="form-control input-group-lg reg_name" type="password" name="password_confirm" placeholder="Confirm">
+                <input id="submit" class="form-control input-group-lg reg_name" type="submit" name="submit" value="Login">
+                <br><br><br><br>
+            </div>
+    </form>
+        </div>
+            <center>
+                <a class="btn btn-social btn-facebook" href="/login/facebook"><i class="fa fa-facebook"></i> Login with Facebook</a>
+            </center>
+  {% endif %} 
+</div>

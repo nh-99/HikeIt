@@ -6,3 +6,4 @@ django-jenkins
 coverage
 python-social-auth
 oauthlib
+django-widget-tweaks

@@ -21,7 +21,13 @@ from django.conf import settings
 urlpatterns = [
     url(r'^$', include('static_pages.urls')),
     url(r'^trail/', include('trails.urls')),
+    url(r'^user/', include('users.urls')),
     url(r'^search/', include('search.urls')),
     url(r'^admin/', include(admin.site.urls)),
     url('', include('social.apps.django_app.urls', namespace='social')),
+    
+    # Auth
+    url('^', include('django.contrib.auth.urls'), {'template_name': 'users/login.html'}),
+    url(r'^logout/$', 'django.contrib.auth.views.logout', {'next_page': '/'}),
+    
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

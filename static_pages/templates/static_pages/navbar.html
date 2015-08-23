@@ -71,6 +71,13 @@
         </form>
       </div>
       </li>
+      <li>
+        {% if request.user.is_authenticated %}
+        <p class="navbar-text pull-right">{{ request.user.username }} | <a href="{% url 'logout' %}?next=/">Logout</a></p>
+        {% else %}
+        <p class="navbar-text pull-right"><a href="{% url 'login' %}">Login</a></p>
+        {% endif %}
+      </li>
       </ul>
     </div>
     <!-- /.navbar-collapse -->
