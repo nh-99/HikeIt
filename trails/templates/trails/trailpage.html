@@ -43,7 +43,7 @@
         {% endif %}
       <div class="caption">
         <h3>{{ trail.name }}</h3>
-        <p>Location: {{ trail.location }}</p>
+        <p>Location: <a href="{% url 'trail_location' id %}">{{ trail.location }}</a></p>
         <p>Length: {{ length }} miles</p>
         <p>Difficulty: {{ difficulty }}</p>
         <p>Likes: {{ trail.likes }}</p>
