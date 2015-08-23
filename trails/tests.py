@@ -1,6 +1,9 @@
 from django.test import TestCase, RequestFactory
 from django.test import Client
 
+from django.conf import settings
+from django.utils.importlib import import_module
+
 from django.contrib.auth.models import AnonymousUser
 from django.contrib.messages.storage.fallback import FallbackStorage
 from django.contrib.auth.models import User
@@ -24,6 +27,9 @@ class TrailTestCase(TestCase):
 	  
     def test_trail_view(self):
         trail = create_trail()
+        session = self.client.session
+        session['searchtype'] = 'location'
+        session.save()
         response = self.client.get('/trail/{0}/'.format(str(trail.id)))
         self.assertEqual(response.status_code, 200)
         
@@ -35,19 +41,36 @@ class TrailTestCase(TestCase):
         my_admin = User.objects.create_superuser('myuser', 'myemail@test.com', 'test')
         trail = create_trail()
         self.client.login(username=my_admin.username, password='test')
+        session = self.client.session
+        session['searchtype'] = 'location'
+        session.save()
         response = self.client.get('/trail/{0}/like'.format(str(trail.id)))
         response = self.client.get('/trail/{0}/'.format(str(trail.id)))
         self.assertEqual("Likes: 1" in response.content, True)
+    
+    def test_trail_like_fail(self):
+        response = self.client.get('trail/2384792384/like')
+        self.assertEqual(response.status_code, 404)
         
     def test_trail_completed(self):
         my_admin = User.objects.create_superuser('myuser', 'myemail@test.com', 'test')
         trail = create_trail()
         self.client.login(username=my_admin.username, password='test')
+        session = self.client.session
+        session['searchtype'] = 'location'
+        session.save()
         response = self.client.get('/trail/{0}/completed'.format(str(trail.id)))
         response = self.client.get('/trail/{0}/'.format(str(trail.id)))
         self.assertEqual("Users completed: 1" in response.content, True)
-    
-    def test_trail_like_fail(self):
-        response = self.client.get('trail/2384792384/like')
-        self.assertEqual(response.status_code, 404)
+        
+    def test_trail_review(self):
+        my_admin = User.objects.create_superuser('myuser', 'myemail@test.com', 'test')
+        trail = create_trail()
+        self.client.login(username=my_admin.username, password='test')
+        session = self.client.session
+        session['searchtype'] = 'location'
+        session.save()
+        response = self.client.post('/trail/{0}/review/'.format(str(trail.id)), {'review_text' : 'test'})
+        response = self.client.get('/trail/{0}/'.format(str(trail.id)))
+        self.assertEqual("test" in response.content, True)
         

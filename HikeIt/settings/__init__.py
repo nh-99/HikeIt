@@ -43,6 +43,7 @@ INSTALLED_APPS = (
     'django_jenkins',
     'widget_tweaks',
     'trails',
+    'reviews',
     'search',
     'static_pages',
     'images',

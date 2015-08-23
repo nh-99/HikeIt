@@ -53,6 +53,11 @@
         <button id="uploadImage" type="button" onclick="gotoUpload()" class="btn btn-primary"><span class="glyphicon glyphicon-picture"></span> Upload Image</button>
       </div>
     </div>
+    <div class="col-sm-6 col-md-4">
+      {% for review in trail.review_set.all %}
+      <p>{{ review.review_text }}</p>
+      {% endfor %}
+    </div>
 	</center>
   </div>
 </div>
