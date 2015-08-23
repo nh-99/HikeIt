@@ -47,7 +47,9 @@
         <p>Length: {{ length }} miles</p>
         <p>Difficulty: {{ difficulty }}</p>
         <p>Likes: {{ trail.likes }}</p>
+        <p>Users completed: {{ trail.completed.count }}</p>
         <button id="like" type="button" onclick="gotoLike()" class="btn btn-success"><span class="glyphicon glyphicon-thumbs-up"></span> Like</button>
+        <button id="like" type="button" onclick="gotoCompleted()" class="btn btn-success"><span class="glyphicon glyphicon-flag"></span> Completed</button>
         <button id="uploadImage" type="button" onclick="gotoUpload()" class="btn btn-primary"><span class="glyphicon glyphicon-picture"></span> Upload Image</button>
       </div>
     </div>
@@ -58,8 +60,11 @@
 
 <script>
 	function gotoLike() {
-		$.get("/trail/{{ trail.id}}/like");
-        location.reload();
+		window.location.href = "/trail/{{ trail.id}}/like";
+	}
+	
+	function gotoCompleted() {
+		window.location.href = "/trail/{{ trail.id}}/completed";
 	}
     
     function gotoUpload() {

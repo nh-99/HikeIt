@@ -44,6 +44,28 @@ def liketrail(request, trail_id):
         pass
     return HttpResponse("Like")
     
+def completedtrail(request, trail_id):
+    trail = get_object_or_404(Trail, pk=trail_id)
+    user = request.user
+    
+    if request.user.is_authenticated():
+        try:
+            user.profile.completed_trails.get(pk=trail_id)
+        except trail.DoesNotExist:
+            # Add the trail to the user model, in a many to many state
+            user.profile.completed_trails.add(trail)
+            user.save()
+            
+    else:
+        messages.add_message(request, messages.WARNING, 'You need to be signed in to mark trails as completed!')
+        return HttpResponseRedirect('/trail/%s' % str(trail_id))
+        
+    try:
+        return HttpResponseRedirect('/trail/%s' % str(trail_id))
+    except:
+        pass
+    return HttpResponse("Completed")
+    
 def upload_trail_image(request, trail_id):
     form = TrailImageForm()
     if request.method == 'POST':

@@ -6,7 +6,8 @@ from trails.models import Trail
 
 class UserTrails(models.Model):
     user = models.OneToOneField(User, related_name='profile')
-    liked_trails = models.ManyToManyField(Trail)
+    liked_trails = models.ManyToManyField(Trail, related_name='liked')
+    completed_trails = models.ManyToManyField(Trail, related_name='completed')
 
 def create_user_profile(sender, instance, created, **kwargs):  
     if created:  

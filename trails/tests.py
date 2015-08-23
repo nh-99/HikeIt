@@ -38,6 +38,14 @@ class TrailTestCase(TestCase):
         response = self.client.get('/trail/{0}/like'.format(str(trail.id)))
         response = self.client.get('/trail/{0}/'.format(str(trail.id)))
         self.assertEqual("Likes: 1" in response.content, True)
+        
+    def test_trail_completed(self):
+        my_admin = User.objects.create_superuser('myuser', 'myemail@test.com', 'test')
+        trail = create_trail()
+        self.client.login(username=my_admin.username, password='test')
+        response = self.client.get('/trail/{0}/completed'.format(str(trail.id)))
+        response = self.client.get('/trail/{0}/'.format(str(trail.id)))
+        self.assertEqual("Users completed: 1" in response.content, True)
     
     def test_trail_like_fail(self):
         response = self.client.get('trail/2384792384/like')
