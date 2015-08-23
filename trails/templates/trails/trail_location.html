@@ -1,0 +1,37 @@
+<head>
+    <title>HikeIt</title>
+    <style>
+      #map-canvas {
+        height: 90%;
+        width: 80%;
+        margin: 0px;
+        padding: 0px;
+        margin-left: 100px;
+      }
+    </style>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true"></script>
+    <script>
+function initialize() {
+  console.log("init");
+  var myLatlng = new google.maps.LatLng({{ trail.lat }},{{ trail.long }});
+  var mapOptions = {
+    zoom: 13,
+    center: myLatlng
+  }
+  var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+
+  var marker = new google.maps.Marker({
+      position: myLatlng,
+      map: map,
+      title: '{{ trail.name }}'
+  });
+}
+
+google.maps.event.addDomListener(window, 'load', initialize);
+
+    </script>
+</head>
+{% include 'static_pages/navbar.html' %}
+<br><br><br><br>
+{% include 'static_pages/message.html' %}
+<div id="map-canvas" style="width: 80%; margin: 0px auto;"></div>

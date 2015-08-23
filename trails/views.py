@@ -21,6 +21,16 @@ def trailpage(request, trail_id):
            }
     
     return render(request, 'trails/trailpage.html', args)
+    
+def traillocation(request, trail_id):
+    trail = get_object_or_404(Trail, pk=trail_id)
+    
+    args = {'trail': trail,
+            'id': trail_id,
+            'searchtype': request.session['searchtype']
+           }
+    
+    return render(request, 'trails/trail_location.html', args)
 
 def liketrail(request, trail_id):
     trail = get_object_or_404(Trail, pk=trail_id)
