@@ -51,6 +51,7 @@
         <button id="like" type="button" onclick="gotoLike()" class="btn btn-success"><span class="glyphicon glyphicon-thumbs-up"></span> Like</button>
         <button id="like" type="button" onclick="gotoCompleted()" class="btn btn-success"><span class="glyphicon glyphicon-flag"></span> Completed</button>
         <button id="uploadImage" type="button" onclick="gotoUpload()" class="btn btn-primary"><span class="glyphicon glyphicon-picture"></span> Upload Image</button>
+        <button id="uploadImage" type="button" onclick="gotoReview()" class="btn btn-primary"><span class="glyphicon glyphicon-pencil"></span> Create Review</button>
       </div>
     </div>
     <div class="col-sm-6 col-md-4">
@@ -74,5 +75,9 @@
     
     function gotoUpload() {
         window.location.href = "/trail/{{ trail.id }}/upload/"
+    }
+    
+    function gotoReview() {
+        window.location.href = "/trail/{{ trail.id }}/review/"
     }
 </script>
