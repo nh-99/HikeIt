@@ -36,7 +36,7 @@ hgroup h2.lead { font: normal normal 1.125em "Roboto",Arial,Verdana,sans-serif; 
 
     <hgroup class="mb20">
 		<h1>Search Results</h1>
-		<h2 class="lead"><strong class="text-danger">{{ trails|length }}</strong> results were found for the search for <strong class="text-danger">{{ location }}</strong></h2>								
+		<h2 class="lead"><strong class="text-danger">{{ total }}</strong> results were found for the search for <strong class="text-danger">{{ location }}</strong>. Showing <strong class="text-danger">{{ trails|length }}</strong> results.</h2>								
 	</hgroup>
 
     <section class="col-xs-12 col-sm-6 col-md-12">
@@ -67,4 +67,11 @@ hgroup h2.lead { font: normal normal 1.125em "Roboto",Arial,Verdana,sans-serif; 
         {% endif %}
 
 	</section>
+        <center>
+        <ul class="pagination">
+        {% for i in trails.paginator.page_range %}
+          <li{% if i == trails.number %} class="active"{% endif %}><a href="?page={{ i }}">{{ i }}</a></li>
+        {% endfor %}
+        </ul>
+        </center>
 </div>
