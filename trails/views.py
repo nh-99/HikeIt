@@ -15,7 +15,8 @@ def trailpage(request, trail_id):
     args = {'trail': trail,
             'length': length,
             'difficulty': difficulty,
-            'id': trail_id
+            'id': trail_id,
+            'searchtype': request.session['searchtype']
            }
     
     return render(request, 'trails/trailpage.html', args)
@@ -80,4 +81,4 @@ def upload_trail_image(request, trail_id):
                 messages.add_message(request, messages.SUCCESS, 'Image uploaded successfully!')
                 return HttpResponseRedirect('/trail/%s' % str(trail_id))
                 
-    return render(request, 'trails/trail_image_form.html', {'trail_id':trail_id, 'form':form})
+    return render(request, 'trails/trail_image_form.html', {'trail_id':trail_id, 'form':form, 'searchtype': request.session['searchtype']})
