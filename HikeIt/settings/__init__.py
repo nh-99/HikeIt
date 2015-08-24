@@ -42,6 +42,7 @@ INSTALLED_APPS = (
     'social.apps.django_app.default',
     'django_jenkins',
     'widget_tweaks',
+    'registration',
     'trails',
     'reviews',
     'search',
@@ -123,15 +124,17 @@ AUTHENTICATION_BACKENDS = (
     'social.backends.facebook.FacebookOAuth2',
 )
 
+ACCOUNT_ACTIVATION_DAYS = 7
+
 SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/'
 SOCIAL_AUTH_LOGIN_URL = '/login'
 SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
 AUTH_PROFILE_MODULE = 'users.UserTrails'
 LOGIN_REDIRECT_URL = '/'
 
-EMAIL_HOST = 'localhost'
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
 EMAIL_HOST_USER = ''
 EMAIL_HOST_PASSWORD = ''
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
 

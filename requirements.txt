@@ -7,3 +7,4 @@ coverage
 python-social-auth
 oauthlib
 django-widget-tweaks
+django-registration-redux

@@ -24,9 +24,11 @@
             <input type="hidden" name="next" value="{{ next }}" />
         </div>
     </form>
-    <form action="/users/new">
+    <form action="/user/new/" method="post">
+        {% csrf_token %}
             <div class="form-group col-md-3" style="margin-top: -15px">
                 <input id="name" class="form-control input-group-lg reg_name" type="text" name="name" placeholder="Name">
+                <input id="username" class="form-control input-group-lg reg_name" type="text" name="username" placeholder="Userame">
                 <input id="email" class="form-control input-group-lg reg_name" type="text" name="email" placeholder="Email">
                 <input id="password" class="form-control input-group-lg reg_name" type="password" name="password" placeholder="Password">
                 <input id="password_confirm" class="form-control input-group-lg reg_name" type="password" name="password_confirm" placeholder="Confirm">

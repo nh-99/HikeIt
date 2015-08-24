@@ -8,9 +8,10 @@ class UserTrails(models.Model):
     user = models.OneToOneField(User, related_name='profile')
     liked_trails = models.ManyToManyField(Trail, related_name='liked')
     completed_trails = models.ManyToManyField(Trail, related_name='completed')
+    token = models.CharField(max_length=100, default=None, null=True)
 
 def create_user_profile(sender, instance, created, **kwargs):  
-    if created:  
+    if created:
        profile, created = UserTrails.objects.get_or_create(user=instance)  
 
 post_save.connect(create_user_profile, sender=User) 
