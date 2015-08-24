@@ -11,7 +11,7 @@ class TrailImage(models.Model):
     trail = models.ForeignKey(Trail)
     lat = models.FloatField(null=True, blank=True)
     long = models.FloatField(null=True, blank=True)
-    image = models.FileField(upload_to='images')
+    image = models.ImageField(upload_to='images')
     approved = models.BooleanField(default=False)
     
     def save(self, *args, **kwargs):
