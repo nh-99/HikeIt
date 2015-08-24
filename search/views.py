@@ -28,7 +28,7 @@ def location(request, location):
 def name(request, name):
 	request.session['searchtype'] = 'name'
 	
-	trail_list = Trail.objects.filter(name__contains=location)[:50]
+	trail_list = Trail.objects.filter(name__contains=name)[:50]
         paginator = Paginator(trail_list, 10)
         
         total = trail_list.count()

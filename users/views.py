@@ -4,25 +4,6 @@ from django.contrib import messages
 
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
-
-def loginpage(request):
-    return render(request, 'users/login.html', {'request':request})
-    
-def loginuser(request):
-    username = request.POST['username']
-    password = request.POST['password']
-    user = authenticate(username=username, password=password)
-    if user is not None:
-        if user.is_active:
-            login(request, user)
-            messages.add_message(request, messages.SUCCESS, 'You have been logged in successfully')
-            return HttpResponseRedirect('/')
-        else:
-            messages.add_message(request, messages.WARNING, 'Your account has been disabled')
-            return HttpResponseRedirect('/')
-    else:
-        messages.add_message(request, messages.WARNING, 'Incorrect login information')
-        return HttpResponseRedirect('/user/login/')
         
 def registeruser(request):
     username = request.POST['username']
