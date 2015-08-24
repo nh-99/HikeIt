@@ -1,0 +1,24 @@
+{% include 'static_pages/navbar.html' %}
+<br><br><br><br>
+{% include 'static_pages/message.html' %}
+<table>
+  <center>
+    <h3>Images:</h3>
+  </center>
+  <br><br>
+  <div class="row">
+    <div class="col-sm-6 col-md-4"></div>
+    <div class="col-sm-6 col-md-4">
+      {% for image in images %}
+      <div class="thumbnail">
+        <a href="#" title="Image" class="thumbnail"><img src="{{ image.image.url }}" alt="Image" /></a>
+        <p>
+        <center>
+          <a href="#" class="btn btn-default" role="button">Destroy</a>
+        </center>
+        </p>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</table>

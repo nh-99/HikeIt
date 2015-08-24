@@ -13,11 +13,14 @@ def trailpage(request, trail_id):
     length = str(trail.distance)
     difficulty = str(trail.difficulty)
     
+    images = trail.trailimage_set.filter(approved=True)
+    
     args = {'trail': trail,
             'length': length,
             'difficulty': difficulty,
             'id': trail_id,
-            'searchtype': request.session['searchtype']
+            'searchtype': request.session['searchtype'],
+            'images': images
            }
     
     return render(request, 'trails/trailpage.html', args)

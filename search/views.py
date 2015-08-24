@@ -28,8 +28,21 @@ def location(request, location):
 def name(request, name):
 	request.session['searchtype'] = 'name'
 	
-	trails = Trail.objects.filter(name__contains=name)[:50]
+	trail_list = Trail.objects.filter(name__contains=location)[:50]
+        paginator = Paginator(trail_list, 10)
+        
+        total = trail_list.count()
+        
+        page = request.GET.get('page')
+        try:
+            trails = paginator.page(page)
+        except PageNotAnInteger:
+            # If page is not an integer, deliver first page.
+            trails = paginator.page(1)
+        except EmptyPage:
+            # If page is out of range (e.g. 9999), deliver last page of results.
+            trails = paginator.page(paginator.num_pages)
 	
-	args = {'trails': trails, 'location': name, 'searchtype': request.session['searchtype']}
+	args = {'trails': trails, 'location': location, 'searchtype': request.session['searchtype'], 'total': total}
 	
 	return render(request, 'search/results.html', args)

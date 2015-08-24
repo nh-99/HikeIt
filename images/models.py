@@ -12,6 +12,7 @@ class TrailImage(models.Model):
     lat = models.FloatField(null=True, blank=True)
     long = models.FloatField(null=True, blank=True)
     image = models.FileField(upload_to='images')
+    approved = models.BooleanField(default=False)
     
     def save(self, *args, **kwargs):
         if not self.id and not self.image:

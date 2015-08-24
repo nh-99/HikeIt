@@ -12,18 +12,18 @@
   <div class="col-sm-6 col-md-4">
     <center>
     <div class="thumbnail">
-        {% if trail.trailimage_set.all|length > 0 %}
+        {% if images.count > 0 %}
         <div id="myCarousel" class="carousel slide" data-ride="carousel" data-interval="false">
           <!-- Indicators -->
           <ol class="carousel-indicators">
-              {% for i in trail.trailimage_set.all %}
+            {% for i in images.all %}
             <li data-target="#myCarousel" data-slide-to="{{ forloop.counter0 }}" {% if forloop.first %} class="active"{% endif %}></li>
             {% endfor %}
           </ol>
 
           <!-- Wrapper for slides -->
           <div class="carousel-inner" role="listbox">
-          {% for image in trail.trailimage_set.all %}
+          {% for image in images.all %}
             <div class="item{% if forloop.first %} active{% endif %}">
               <img src="{{ image.image.url }}" width="500" height="500">
             </div>
