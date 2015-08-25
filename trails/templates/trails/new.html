@@ -1,0 +1,79 @@
+{% load staticfiles %}
+{% include 'static_pages/navbar.html' %}
+<br><br><br><br>
+{% include 'static_pages/message.html' %}
+
+<head>
+    <title>HikeIt</title>
+  <script type="text/javascript" src='https://maps.google.com/maps/api/js?sensor=false&libraries=places'></script>
+  <script src="{% static "static_pages/js/locationpicker.jquery.min.js" %}"></script>
+</head>
+<center>
+<div id="memap" style="width: 500px; height: 400px;"></div>
+</center>
+<br><br>
+
+<center>
+    <div class="col-sm-6 col-md-4"></div>
+    <div class="col-sm-6 col-md-4">
+    <form role="form" action="/trail/create/" method="post">
+      {% csrf_token %}
+      <div class="form-group">
+        <label for="name">Trail name:</label>
+        <input name="name" type="name" class="form-control" id="name">
+      </div>
+      <div class="form-group">
+          <label for="diff">Difficulty:</label>
+          <input type="radio" name="diff" value="easy" checked>Easy
+          <input type="radio" name="diff" value="moderate" checked>Moderate
+          <input type="radio" name="diff" value="advanced" checked>Advanced
+      </div>
+      <div class="form-group">
+        <label for="distance">Distance:</label>
+        <input name="distance" type="name" class="form-control" id="length">
+      </div>
+      <div class="form-group">
+        <label for="location">Location:</label>
+        <input name="location" type="name" class="form-control" id="trails_to_approve_location" readonly>
+      </div>
+      <div class="form-group">
+        <label for="lat">Latitude:</label>
+        <input name="lat" type="name" class="form-control" id="trails_to_approve_lat" readonly>
+      </div>
+      <div class="form-group">
+        <label for="long">Longitude:</label>
+        <input name="long" type="name" class="form-control" id="trails_to_approve_lng" readonly>
+      </div>
+      <button type="submit" class="btn btn-default">Submit</button>
+    </form>
+    </div>
+</center>
+
+<script>
+function updateControls(addressComponents) {
+    $('#trails_to_approve_location').val(addressComponents.city + ', ' + addressComponents.stateOrProvince);
+}
+
+$(document).ready(function() {
+$('#memap').locationpicker({
+  location : {
+    latitude:45.097765,
+    longitude:-68.967795
+  },
+  radius:0,
+  zoom:7,
+  onchanged: function (currentLocation, radius, isMarkerDropped) {
+    var addressComponents = $(this).locationpicker('map').location.addressComponents;
+    updateControls(addressComponents);
+  },
+  oninitialized: function(component) {
+    var addressComponents = $(component).locationpicker('map').location.addressComponents;
+    updateControls(addressComponents);
+  },
+  inputBinding : {
+    latitudeInput: $('#trails_to_approve_lat'),
+    longitudeInput: $('#trails_to_approve_lng')
+  }
+});
+});
+</script>

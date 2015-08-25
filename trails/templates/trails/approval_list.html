@@ -1,0 +1,35 @@
+{% load staticfiles %}
+{% include 'static_pages/navbar.html' %}
+<br><br><br><br>
+{% include 'static_pages/message.html' %}
+
+<head>
+    <title>HikeIt</title>
+</head>
+
+<table>
+  <center>
+    <h3>Trails:</h3>
+  </center>
+  <br><br>
+  <div class="row">
+    <div class="col-sm-6 col-md-4"></div>
+    <div class="col-sm-6 col-md-4">
+      {% for trail in trails %}
+      <div class="thumbnail">
+        <center>
+          <h3>Name: {{ trail.name }}</h3>
+          <p>Location: {{ trail.location }}</p>
+          <p>Difficulty: {{ trail.difficulty }}</p>
+          <p>Length: {{ trail.distance }}</p>
+          <p>Submitter: {{ trail.submitter.username }}</p>
+          <br>
+          <button onclick="location.href='/trail/approve?id={{ trail.pk }}';" class="btn btn-default">Approve</button>
+          <a href="#" class="btn btn-danger" role="button">Destroy</a>
+        </center>
+        </p>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</table>

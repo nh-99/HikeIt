@@ -6,7 +6,7 @@ from trails.models import Trail
 def location(request, location):
 	request.session['searchtype'] = 'location'
 	
-	trail_list = Trail.objects.filter(location__contains=location)[:50]
+	trail_list = Trail.objects.filter(location__contains=location, approved=True)[:50]
         paginator = Paginator(trail_list, 10)
         
         total = trail_list.count()
@@ -28,7 +28,7 @@ def location(request, location):
 def name(request, name):
 	request.session['searchtype'] = 'name'
 	
-	trail_list = Trail.objects.filter(name__contains=name)[:50]
+	trail_list = Trail.objects.filter(name__contains=name, approved=True)[:50]
         paginator = Paginator(trail_list, 10)
         
         total = trail_list.count()
@@ -43,6 +43,6 @@ def name(request, name):
             # If page is out of range (e.g. 9999), deliver last page of results.
             trails = paginator.page(paginator.num_pages)
 	
-	args = {'trails': trails, 'location': location, 'searchtype': request.session['searchtype'], 'total': total}
+	args = {'trails': trails, 'location': name, 'searchtype': request.session['searchtype'], 'total': total}
 	
 	return render(request, 'search/results.html', args)

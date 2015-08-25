@@ -15,6 +15,7 @@ class Command(BaseCommand):
         trail.difficulty = line[3]
         trail.distance = float(line[4].replace(' miles', ''))
         trail.location = line[5]
+        trail.approved = True
         trail.save()
 
       f.close()
