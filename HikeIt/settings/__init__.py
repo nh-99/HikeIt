@@ -42,7 +42,6 @@ INSTALLED_APPS = (
     'social.apps.django_app.default',
     'django_jenkins',
     'widget_tweaks',
-    'registration',
     'trails',
     'reviews',
     'search',
