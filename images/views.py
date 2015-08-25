@@ -4,6 +4,7 @@ from django.http import HttpResponseRedirect
 from django.template import Context
 from django.template.loader import render_to_string, get_template
 from django.core.mail import EmailMessage
+from django.contrib import messages
 
 from .models import TrailImage
 
@@ -23,8 +24,12 @@ def send_approval_email(user):
     msg.send()
 
 def index(request):
-    images = TrailImage.objects.filter(approved=False)
-    return render(request, 'images/index.html', {'images': images})
+    if request.user.is_authenticated() and request.user.is_staff:
+        images = TrailImage.objects.filter(approved=False)
+        return render(request, 'images/index.html', {'images': images})
+    else:
+        messages.add_message(request, messages.WARNING, 'You do not have significant access to perform this function')
+        return HttpResponseRedirect('/login/')
     
 def approve(request, image_id):
     if request.user.is_authenticated and request.user.is_staff:
@@ -32,4 +37,8 @@ def approve(request, image_id):
         image.approved = True
         image.save()
         send_approval_email(image.user)
+        messages.add_message(request, messages.SUCCESS, 'Image has been approved successfully')
         return HttpResponseRedirect('/image/')
+    else:
+        messages.add_message(request, messages.WARNING, 'You do not have significant access to perform this function')
+        return HttpResponseRedirect('/login/')

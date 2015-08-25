@@ -25,6 +25,13 @@ def send_confirm_email(user, token):
     msg = EmailMessage(subject, message, to=to, from_email=from_email)
     msg.content_subtype = 'html'
     msg.send()
+    
+def profile(request):
+    if request.user.is_authenticated():
+        return render(request, 'users/profile.html')
+    else:
+        messages.add_message(request, messages.WARNING, 'You need to be signed in to see your profile')
+        return HttpResponseRedirect('/')
         
 def registeruser(request):
     username = request.POST['username']
