@@ -46,7 +46,11 @@ hgroup h2.lead { font: normal normal 1.125em "Roboto",Arial,Verdana,sans-serif; 
         {% for trail in trails %}
 		<article class="search-result row">
 			<div class="col-xs-12 col-sm-12 col-md-3">
-				<a href="#" title="Lorem ipsum" class="thumbnail"><img src="http://directivecommunication.net/wp-content/uploads/2014/03/no-image-found.jpg" alt="Lorem ipsum" /></a>
+                                {% if trail.trailimage_set.count > 0 %}
+				<a class="thumbnail"><img src="{{ trail.trailimage_set.first.image.url }}" alt="Trail image: {{ trail.name }}" /></a>
+                                {% else %}
+				<a class="thumbnail"><img src="http://charlestonharborproperties.com/images/no_image_available.png" alt="Trail image: {{ trail.name }}" /></a>
+                                {% endif %}
 			</div>
 			<div class="col-xs-12 col-sm-12 col-md-2">
 				<ul class="meta-search">
