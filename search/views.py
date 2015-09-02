@@ -21,7 +21,7 @@ def location(request, location):
             # If page is out of range (e.g. 9999), deliver last page of results.
             trails = paginator.page(paginator.num_pages)
 	
-	args = {'trails': trails, 'location': location, 'searchtype': request.session['searchtype'], 'total': total}
+	args = {'trails': trails, 'location': location, 'total': total}
 	
 	return render(request, 'search/results.html', args)
 	
@@ -43,6 +43,6 @@ def name(request, name):
             # If page is out of range (e.g. 9999), deliver last page of results.
             trails = paginator.page(paginator.num_pages)
 	
-	args = {'trails': trails, 'location': name, 'searchtype': request.session['searchtype'], 'total': total}
+	args = {'trails': trails, 'location': name, 'total': total}
 	
 	return render(request, 'search/results.html', args)

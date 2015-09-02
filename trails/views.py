@@ -86,8 +86,7 @@ def traillocation(request, trail_id):
     trail = get_object_or_404(Trail, pk=trail_id)
     
     args = {'trail': trail,
-            'id': trail_id,
-            'searchtype': request.session['searchtype']
+            'id': trail_id
            }
     
     return render(request, 'trails/trail_location.html', args)
@@ -152,7 +151,7 @@ def upload_trail_image(request, trail_id):
                 messages.add_message(request, messages.SUCCESS, 'Image uploaded successfully!')
                 return HttpResponseRedirect('/trail/%s' % str(trail_id))
                 
-    return render(request, 'trails/trail_image_form.html', {'trail_id':trail_id, 'form':form, 'searchtype': request.session['searchtype']})
+    return render(request, 'trails/trail_image_form.html', {'trail_id':trail_id, 'form':form})
     
 def create_review(request, trail_id):
     form = TrailReviewForm()
@@ -168,4 +167,4 @@ def create_review(request, trail_id):
                 messages.add_message(request, messages.SUCCESS, 'Review added successfully')
                 return HttpResponseRedirect('/trail/%s' % str(trail_id))
                 
-    return render(request, 'trails/create_review.html', {'trail_id':trail_id, 'form':form, 'searchtype': request.session['searchtype']})
+    return render(request, 'trails/create_review.html', {'trail_id':trail_id, 'form':form})
