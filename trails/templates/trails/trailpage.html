@@ -5,13 +5,14 @@
 <title>HikeIt</title>
 
 <link href="{% static "static_pages/css/bootstrap.min.css" %}" rel="stylesheet">
+<link href="{% static "static_pages/css/shop-item.css" %}" rel="stylesheet">
+<link href="{% static "static_pages/css/ionicons.css" %}" rel="stylesheet">
 
 <div class="container">
-<div class="row">
-  <div class="col-sm-6 col-md-4"></div>
-  <div class="col-sm-6 col-md-4">
-    <center>
-    <div class="thumbnail">
+  <div class="row">
+            <div class="col-md-9">
+              
+              <div class="thumbnail">
         {% if images.count > 0 %}
         <div id="myCarousel" class="carousel slide" data-ride="carousel" data-interval="false">
           <!-- Indicators -->
@@ -24,8 +25,7 @@
           <!-- Wrapper for slides -->
           <div class="carousel-inner" role="listbox">
           {% for image in images.all %}
-            <div class="item{% if forloop.first %} active{% endif %}">
-              <img src="{{ image.image.url }}" width="500" height="500">
+            <div class="item{% if forloop.first %} active{% endif %}" style="width:800px;height:300px;background-image: url('{{ image.image.url }}');background-size: cover;background-repeat: no-repeat;background-position: 50% 50%;">6
             </div>
           {% endfor %}
           </div>
@@ -39,45 +39,52 @@
             <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
             <span class="sr-only">Next</span>
           </a>
-        </div>
         {% endif %}
-      <div class="caption">
-        <h3>{{ trail.name }}</h3>
-        <p>Location: <a href="{% url 'trail_location' id %}">{{ trail.location }}</a></p>
-        <p>Length: {{ length }} miles</p>
-        <p>Difficulty: {{ difficulty }}</p>
-        <p>Likes: {{ trail.likes }}</p>
-        <p>Users completed: {{ trail.completed.count }}</p>
-        <button id="like" type="button" onclick="gotoLike()" class="btn btn-success"><span class="glyphicon glyphicon-thumbs-up"></span> Like</button>
-        <button id="like" type="button" onclick="gotoCompleted()" class="btn btn-success"><span class="glyphicon glyphicon-flag"></span> Completed</button>
-        <button id="uploadImage" type="button" onclick="gotoUpload()" class="btn btn-primary"><span class="glyphicon glyphicon-picture"></span> Upload Image</button>
-        <button id="uploadImage" type="button" onclick="gotoReview()" class="btn btn-primary"><span class="glyphicon glyphicon-pencil"></span> Create Review</button>
-      </div>
-    </div>
-    <div class="col-sm-6 col-md-4">
-      {% for review in trail.review_set.all %}
-      <p>{{ review.review_text }}</p>
-      {% endfor %}
-    </div>
-	</center>
-  </div>
-</div>
-</div>
+          </div>
+          <div class="caption-full">
+                        <h4><a href="#">{{ trail.name }}</a>
+                        <p class="pull-right"><a href="/trail/{{ trail.id }}/upload/" class="btn btn-success"><span class="glyphicon glyphicon-picture"></span> Add Image</a></p>
+                        </h4>
+                        <p>{{ trail.description }}</p>
+                    </div>
+                    <div class="ratings">
+                        <p class="pull-right">{{ trail.review_set.count }} {% if trail.review_set.count > 1 %}reviews{% else %}review{% endif %}</p>
+                        <p><b>Location:</b> <a href="{% url 'trail_location' id %}">{{ trail.location }}</a></p>
+        <p><b>Length:</b> {{ length }} miles</p>
+        <p><b>Difficulty:</b> {{ difficulty }}</p>
+        <p><b>Likes:</b> {{ trail.likes }}</p>
+        <p><b>Users completed:</b> {{ trail.completed.count }}</p>
+        <div class="row" style="padding-left: 10px; padding-bottom: 10px;">
+        <a href="/trail/{{ trail.id }}/like" class="btn btn-primary"><span class="glyphicon glyphicon-thumbs-up"></span> Like</a>
+        <a href="/trail/{{ trail.id }}/completed" class="btn btn-primary"><span class="ionicons ion-android-walk"></span> Completed</a>
+        </div>
+                    </div>
+                </div>
 
-<script>
-	function gotoLike() {
-		window.location.href = "/trail/{{ trail.id}}/like";
-	}
-	
-	function gotoCompleted() {
-		window.location.href = "/trail/{{ trail.id}}/completed";
-	}
-    
-    function gotoUpload() {
-        window.location.href = "/trail/{{ trail.id }}/upload/"
-    }
-    
-    function gotoReview() {
-        window.location.href = "/trail/{{ trail.id }}/review/"
-    }
-</script>
+                <div class="well">
+
+                    <div class="text-right">
+                        <a href="/trail/{{ trail.id }}/review/" class="btn btn-success"><span class="glyphicon glyphicon-pencil"></span> Leave a Review</a>
+                    </div>
+
+                    <hr>
+                    
+                    {% for review in trail.review_set.all %}
+                    <div class="row">
+                        <div class="col-md-12">
+                            <b>{{ review.user.username }}</b>
+                            <br><br>
+                            <span class="pull-right">{{ review.submission_time.date }}<br></span>
+                            <p>{{ review.review_text }}</p>
+                        </div>
+                    </div>
+
+                    {% if trail.review_set.count > 1 %}<hr>{% endif %}
+                    {% endfor %}
+
+                </div>
+
+            </div>
+
+        </div>
+</div>
