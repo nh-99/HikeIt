@@ -48,6 +48,7 @@ INSTALLED_APPS = (
     'static_pages',
     'images',
     'users',
+    'planner',
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = (
