@@ -168,3 +168,26 @@ def create_review(request, trail_id):
                 return HttpResponseRedirect('/trail/%s' % str(trail_id))
                 
     return render(request, 'trails/create_review.html', {'trail_id':trail_id, 'form':form})
+    
+def savedtrail(request, trail_id):
+    trail = get_object_or_404(Trail, pk=trail_id)
+    user = request.user
+    
+    if request.user.is_authenticated():
+        try:
+            user.profile.saved_trails.get(pk=trail_id)
+        except trail.DoesNotExist:
+            # Add the trail to the user model, in a many to many state
+            user.profile.saved_trails.add(trail)
+            user.save()
+            messages.add_message(request, messages.SUCCESS, 'You have saved the trail ' + trail.name)
+            
+    else:
+        messages.add_message(request, messages.WARNING, 'You need to be signed in to save trails!')
+        return HttpResponseRedirect('/trail/%s' % str(trail_id))
+        
+    try:
+        return HttpResponseRedirect('/trail/%s' % str(trail_id))
+    except:
+        pass
+    return HttpResponse("Completed")
