@@ -1,0 +1,6 @@
+[webservers]
+45.55.50.185
+
+[dbservers]
+
+[haproxies]
