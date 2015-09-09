@@ -23,6 +23,7 @@ urlpatterns = [
     url(r'^planner/', include('planner.urls')),
     url(r'^trail/', include('trails.urls')),
     url(r'^image/', include('images.urls')),
+    url(r'^reviews/', include('reviews.urls')),
     url(r'^user/', include('users.urls')),
     url(r'^search/', include('search.urls')),
     url(r'^admin/', include(admin.site.urls)),

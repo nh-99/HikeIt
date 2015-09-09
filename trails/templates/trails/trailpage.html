@@ -64,7 +64,7 @@
                     <a href="/trail/{{ trail.id }}/review/" class="btn btn-success"><span class="glyphicon glyphicon-pencil"></span> Leave a Review</a>
                 </div>
                 <hr>
-                {% for review in trail.review_set.all %}
+                {% for review in reviews.all %}
                 <div class="row">
                     <div class="col-md-12">
                         <b>{{ review.user.username }}</b>
@@ -73,7 +73,7 @@
                         <p>{{ review.review_text }}</p>
                     </div>
                 </div>
-                {% if trail.review_set.count > 1 %}
+                {% if reviews.count > 1 %}
                 <hr>
                 {% endif %}
                 {% endfor %}
