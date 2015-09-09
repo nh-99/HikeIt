@@ -22,7 +22,7 @@
       regexp: "^github\\.com"
 
   - name: Pull sources from the repository.
-    git: repo="{{project_repo}}" dest="/home/{{deployment_name}}/{{ mode }}" version="{{branch}}" accept_hostkey=yes
+    git: repo="{{project_repo}}" dest="/home/{{deployment_name}}/{{ mode }}" version="{{branch}}" accept_hostkey=yes force=yes
     sudo_user: "{{deployment_name}}"
     register: git
     when: mode != 'local'
