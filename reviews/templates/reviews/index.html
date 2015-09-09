@@ -16,6 +16,7 @@
       <div class="thumbnail">
         <p>
           <p><b>Submitter: </b>{{ review.user.username }}</p>
+          <p><b>Trail: </b>{{ review.trail.name }}</p>
           <p><b>Review Content: <br></b>{{ review.review_text }}</p>
         <center>
           <a href="/reviews/approve/{{ review.pk }}/" class="btn btn-success" role="button">Approve</a>
