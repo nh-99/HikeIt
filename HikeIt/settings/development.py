@@ -11,3 +11,5 @@ DATABASES = {
         'PASSWORD': os.environ.get("HIKEIT_DB_PASSWORD", ''),
     }
 }
+
+STATIC_ROOT = "/home/HikeIt/static"
