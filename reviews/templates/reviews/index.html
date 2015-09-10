@@ -1,0 +1,30 @@
+{% include 'static_pages/navbar.html' %}
+<br><br><br><br>
+{% include 'static_pages/message.html' %}
+<head>
+  <title>HikeIt: Review Approval</title>
+</head>
+<table>
+  <center>
+    <h3>Reviews:</h3>
+  </center>
+  <br><br>
+  <div class="row">
+    <div class="col-sm-6 col-md-4"></div>
+    <div class="col-sm-6 col-md-4">
+      {% for review in reviews %}
+      <div class="thumbnail">
+        <p>
+          <p><b>Submitter: </b>{{ review.user.username }}</p>
+          <p><b>Trail: </b>{{ review.trail.name }}</p>
+          <p><b>Review Content: <br></b>{{ review.review_text }}</p>
+        <center>
+          <a href="/reviews/approve/{{ review.pk }}/" class="btn btn-success" role="button">Approve</a>
+          <a href="#" class="btn btn-danger" role="button">Destroy</a>
+        </center>
+        </p>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</table>

@@ -71,13 +71,15 @@ def trailpage(request, trail_id):
     difficulty = str(trail.difficulty)
     
     images = trail.trailimage_set.filter(approved=True)
+    reviews = trail.review_set.filter(approved=True)
     
     args = {'trail': trail,
             'length': length,
             'difficulty': difficulty,
             'id': trail_id,
             'searchtype': request.session['searchtype'],
-            'images': images
+            'images': images,
+            'reviews': reviews
            }
     
     return render(request, 'trails/trailpage.html', args)
@@ -163,6 +165,7 @@ def create_review(request, trail_id):
                 review.review_text = form.cleaned_data['review_text']
                 review.user = request.user
                 review.trail = get_object_or_404(Trail, pk=trail_id)
+                review.approved = False
                 review.save()
                 messages.add_message(request, messages.SUCCESS, 'Review added successfully')
                 return HttpResponseRedirect('/trail/%s' % str(trail_id))
