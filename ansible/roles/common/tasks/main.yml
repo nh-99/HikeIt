@@ -66,3 +66,6 @@
 
   - name: Copy the SSL cert
     copy: content="{{ssl_key}}" dest="/etc/ssl/certs/{{ deployment_name }}.crt" mode=0666
+
+  - name: Copy the SSL cert key
+    copy: content="{{ssl_key_cert}}" dest="/etc/ssl/private/{{ deployment_name }}.key" mode=0666

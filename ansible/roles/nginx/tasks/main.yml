@@ -10,7 +10,7 @@
   register: nginx_default_off
 
 - name: Install NGINX site config file
-  template: src=site.conf.j2 dest=/etc/nginx/sites-enabled/{{deployment_name}}
+  template: src={{mode}}.conf.j2 dest=/etc/nginx/sites-enabled/{{deployment_name}}
   register: nginx_site
 
 - name: Restart NGINX

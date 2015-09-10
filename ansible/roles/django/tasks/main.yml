@@ -33,10 +33,6 @@
   - name: Add config file
     copy: content="{{config_py}}" dest="/home/{{deployment_name}}/{{mode}}/HikeIt/settings/config.py"
 
-  - name: Create the virtualenv
-    sudo_user: "{{ deployment_name }}"
-    command: virtualenv /home/{{ deployment_name }}/{{ mode }}/env --no-site-packages
-
   - name: Upgrade the Virtualenv.
     pip: requirements="/home/{{deployment_name}}/{{ mode }}/requirements.txt" virtualenv=/home/{{deployment_name}}/{{ mode }}/env/
     sudo_user: "{{deployment_name}}"
