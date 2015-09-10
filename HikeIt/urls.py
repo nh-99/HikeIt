@@ -30,6 +30,7 @@ urlpatterns = [
     url(r'^user/', include('users.urls')),
     url(r'^search/', include('search.urls')),
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^password/', include('password_reset.urls')),
     url('', include('social.apps.django_app.urls', namespace='social')),
     
     # Auth
