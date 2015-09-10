@@ -10,3 +10,4 @@ django-widget-tweaks
 django-registration-redux
 gunicorn
 validation
+django-password-reset
