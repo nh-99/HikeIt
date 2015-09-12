@@ -33,6 +33,13 @@ def profile(request):
         messages.add_message(request, messages.WARNING, 'You need to be signed in to see your profile')
         return HttpResponseRedirect('/')
         
+def profile_settings(request):
+    if request.user.is_authenticated():
+        return render(request, 'users/profile_settings.html')
+    else:
+        messages.add_message(request, messages.WARNING, 'You need to be signed in to see your profile')
+        return HttpResponseRedirect('/')
+        
 def registeruser(request):
     username = request.POST['username']
     email = request.POST['email']
@@ -64,3 +71,29 @@ def confirmuser(request):
         messages.add_message(request, messages.WARNING, 'You are already signed in')
         return HttpResponseRedirect('/')
     
+def update_profile(request):
+	user = request.user
+	email = request.POST.get('email', default=user.email)
+	password = request.POST.get('password')
+	first_name = request.POST.get('firstname', default=user.first_name)
+	last_name = request.POST.get('lastname', default=user.last_name)
+	
+	if user.is_authenticated():
+		if password is not None:
+			user.set_password(password)
+			user.email = email
+			user.first_name = first_name
+			user.last_name = last_name
+			user.save()
+			messages.add_message(request, messages.SUCCESS, 'Profile updated successfully')
+			return HttpResponseRedirect('/user/profile/')
+		else:
+			user.email = email
+			user.first_name = first_name
+			user.last_name = last_name
+			user.save()
+			messages.add_message(request, messages.SUCCESS, 'Profile updated successfully')
+			return HttpResponseRedirect('/user/profile/')
+	else:
+		messages.add_message(request, messages.SUCCESS, 'You need to be logged in to update your profile!')
+		return HttpResponseRedirect('/login/')

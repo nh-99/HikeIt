@@ -135,13 +135,13 @@ body {
 				<!-- SIDEBAR MENU -->
 				<div class="profile-usermenu">
 					<ul class="nav">
-						<li class="active">
-							<a href="#">
+						<li>
+							<a href="/user/profile/">
 							<i class="glyphicon glyphicon-home"></i>
 							Overview </a>
 						</li>
-						<li>
-							<a href="/user/profile/settings/">
+						<li class="active">
+							<a href="#">
 							<i class="glyphicon glyphicon-user"></i>
 							Account Settings </a>
 						</li>
@@ -172,17 +172,7 @@ body {
 		</div>
 		<div class="col-md-9">
             <div class="profile-content">
-            	<center><h3>Liked Trails</h3></center>
-            	{% if user.liked_trails.length <= 0 %}
-            	<center><p style="color:gray">You have not liked any trails yet<br>Try using the search function at the top to find trails that you like</p></center>
-            	{% else %}
-            	<br>
-            	<div class="col-md-3"></div>
-            	<div class="list-group col-md-6">
-                {% for trail in user.liked_trails %}
-			   <li class="list-group-item"><a href="/trail/{{ trail.pk }}">{{ trail.name }}</a></li>
-			   {% endfor %}
-               {% endif %}
+				<p>Settings go here</p>
 		</div>
             </div>
 		</div>
