@@ -73,26 +73,26 @@ def confirmuser(request):
     
 def update_profile(request):
 	user = request.user
-	email = request.POST.get('email', default=user.email)
-	password = request.POST.get('password')
-	first_name = request.POST.get('firstname', default=user.first_name)
-	last_name = request.POST.get('lastname', default=user.last_name)
+	new_email = request.POST.get('email', default=user.email)
+	new_password = request.POST.get('password')
+	new_first_name = request.POST.get('firstname', default=user.first_name)
+	new_last_name = request.POST.get('lastname', default=user.last_name)
 	
 	if user.is_authenticated():
-		if password is not None:
-			user.set_password(password)
-			user.email = email
-			user.first_name = first_name
-			user.last_name = last_name
+		if new_password is not None:
+			user.set_password(new_password)
+			user.email = new_email
+			user.first_name = new_first_name
+			user.last_name = new_last_name
 			user.save()
 			messages.add_message(request, messages.SUCCESS, 'Profile updated successfully')
 			return HttpResponseRedirect('/user/profile/')
 		else:
-			user.email = email
-			user.first_name = first_name
-			user.last_name = last_name
+			user.email = new_email
+			user.first_name = new_first_name
+			user.last_name = new_last_name
 			user.save()
-			messages.add_message(request, messages.SUCCESS, 'Profile updated successfully')
+			messages.add_message(request, messages.SUCCESS, new_first_name)
 			return HttpResponseRedirect('/user/profile/')
 	else:
 		messages.add_message(request, messages.SUCCESS, 'You need to be logged in to update your profile!')

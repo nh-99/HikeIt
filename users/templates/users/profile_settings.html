@@ -172,7 +172,49 @@ body {
 		</div>
 		<div class="col-md-9">
             <div class="profile-content">
-				<p>Settings go here</p>
+				<form class="form-horizontal" role="form" action="/user/edit/" method="POST">
+					{% csrf_token %}
+          <div class="form-group">
+            <label class="col-lg-3 control-label">First name:</label>
+            <div class="col-lg-8">
+              <input name="firstname" class="form-control" type="text" placeholder="{% if user.first_name != None %}{{ user.first_name }}{% else %}You haven't added a first name {% endif %}">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-lg-3 control-label">Last name:</label>
+            <div class="col-lg-8">
+              <input name="lastname" type="text" class="form-control" placeholder="{% if user.last_name != None %}{{ user.last_name }}{% else %}You haven't added a last name {% endif %}">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-lg-3 control-label">Email:</label>
+            <div class="col-lg-8">
+              <input name="email" class="form-control" type="text" placeholder="{{ user.email }}">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-md-3 control-label">Password:</label>
+            <div class="col-md-8">
+              <input name="password" class="form-control" type="password" placeholder="Make it a good one!">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-md-3 control-label">Confirm password:</label>
+            <div class="col-md-8">
+              <input class="form-control" type="password" placeholder="You can do it! Just one more time!">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-md-3 control-label"></label>
+            <div class="col-md-8">
+              <input type="submit" class="btn btn-primary" value="Save Changes">
+              <span></span>
+              <input type="reset" class="btn btn-default" value="Cancel">
+            </div>
+          </div>
+        </form>
+        <br>
+        <center><p><i>Leave fields blank for no changes.</i></p></center>
 		</div>
             </div>
 		</div>
