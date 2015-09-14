@@ -163,7 +163,6 @@ def create_review(request, trail_id):
 			review.user = request.user
 			review.trail = get_object_or_404(Trail, pk=trail_id)
 			review.save()
-			messages.add_message(request, messages.SUCCESS, 'Review added successfully')
 			return HttpResponseRedirect('/trail/%s' % str(trail_id))
                 
     return render(request, 'trails/create_review.html', {'trail_id':trail_id, 'form':form})
