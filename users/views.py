@@ -71,6 +71,16 @@ def confirmuser(request):
         messages.add_message(request, messages.WARNING, 'You are already signed in')
         return HttpResponseRedirect('/')
     
+    
+def do_update(user, **kwargs):
+	for name, field in kwargs.items():
+		if field != '':
+			if name != 'password':
+				exec("global user; user.{0} = '{1}'".format(name, field), {'user':user})
+			else:
+				exec("global user; user.set_password('{0}')".format(field), {'user':user})
+	user.save()
+			
 def update_profile(request):
 	user = request.user
 	new_email = request.POST.get('email', default=user.email)
@@ -79,21 +89,9 @@ def update_profile(request):
 	new_last_name = request.POST.get('lastname', default=user.last_name)
 	
 	if user.is_authenticated():
-		if new_password is not None:
-			user.set_password(new_password)
-			user.email = new_email
-			user.first_name = new_first_name
-			user.last_name = new_last_name
-			user.save()
-			messages.add_message(request, messages.SUCCESS, 'Profile updated successfully')
-			return HttpResponseRedirect('/user/profile/')
-		else:
-			user.email = new_email
-			user.first_name = new_first_name
-			user.last_name = new_last_name
-			user.save()
-			messages.add_message(request, messages.SUCCESS, new_first_name)
-			return HttpResponseRedirect('/user/profile/')
+		do_update(user, email = new_email, password = new_password, first_name = new_first_name, last_name = new_last_name)
+		messages.add_message(request, messages.SUCCESS, 'Profile updated successfully')
+		return HttpResponseRedirect('/user/profile/')
 	else:
 		messages.add_message(request, messages.SUCCESS, 'You need to be logged in to update your profile!')
 		return HttpResponseRedirect('/login/')
