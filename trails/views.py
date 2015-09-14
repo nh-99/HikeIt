@@ -71,7 +71,7 @@ def trailpage(request, trail_id):
     difficulty = str(trail.difficulty)
     
     images = trail.trailimage_set.filter(approved=True)
-    reviews = trail.review_set.filter(approved=True)
+    reviews = trail.review_set.all
     
     args = {'trail': trail,
             'length': length,
@@ -143,7 +143,7 @@ def upload_trail_image(request, trail_id):
     form = TrailImageForm()
     if request.method == 'POST':
         form = TrailImageForm(request.POST, request.FILES)
-        if request.user:
+        if request.user.is_authenticated():
             if form.is_valid():
                 image = TrailImage()
                 image.image = form.cleaned_data['image']
@@ -156,19 +156,15 @@ def upload_trail_image(request, trail_id):
     return render(request, 'trails/trail_image_form.html', {'trail_id':trail_id, 'form':form})
     
 def create_review(request, trail_id):
-    form = TrailReviewForm()
     if request.method == 'POST':
-        form = TrailReviewForm(request.POST)
-        if request.user:
-            if form.is_valid():
-                review = Review()
-                review.review_text = form.cleaned_data['review_text']
-                review.user = request.user
-                review.trail = get_object_or_404(Trail, pk=trail_id)
-                review.approved = False
-                review.save()
-                messages.add_message(request, messages.SUCCESS, 'Review added successfully')
-                return HttpResponseRedirect('/trail/%s' % str(trail_id))
+        if request.user.is_authenticated():
+			review = Review()
+			review.review_text = request.POST.get('review_text')
+			review.user = request.user
+			review.trail = get_object_or_404(Trail, pk=trail_id)
+			review.save()
+			messages.add_message(request, messages.SUCCESS, 'Review added successfully')
+			return HttpResponseRedirect('/trail/%s' % str(trail_id))
                 
     return render(request, 'trails/create_review.html', {'trail_id':trail_id, 'form':form})
     

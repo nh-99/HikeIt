@@ -30,8 +30,13 @@
       - deploy
       - clone
 
-  - name: Add config file
-    copy: content="{{config_py}}" dest="/home/{{deployment_name}}/{{mode}}/HikeIt/settings/config.py"
+  - name: Add prod config file
+    copy: content="{{config_prod}}" dest="/home/{{deployment_name}}/{{mode}}/HikeIt/settings/config.py"
+    when: mode == "production"
+
+  - name: Add dev config file
+    copy: content="{{config_dev}}" dest="/home/{{deployment_name}}/{{mode}}/HikeIt/settings/config.py"
+    when: mode == "development"
 
   - name: Upgrade the Virtualenv.
     pip: requirements="/home/{{deployment_name}}/{{ mode }}/requirements.txt" virtualenv=/home/{{deployment_name}}/{{ mode }}/env/
