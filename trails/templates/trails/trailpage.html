@@ -69,6 +69,12 @@
                         <br><br>
                         <span class="pull-right">{{ review.submission_time.date }}<br></span>
                         <p>{{ review.review_text }}</p>
+                        
+		    {% if user.is_staff %}
+		    <div class="form-group">
+		        <a href="/reviews/delete/{{ review.pk }}/" class="btn btn-danger"><span class="glyphicon glyphicon-delete"></span> Delete comment</a>
+		    </div>
+		    {% endif %}
                     </div>
                 </div>
                 <hr>
