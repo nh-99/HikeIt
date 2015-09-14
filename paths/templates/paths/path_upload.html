@@ -1,0 +1,7 @@
+{% block content %}
+<form action="{% url "path_upload" trail_id %}" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="submit" />
+</form>
+{% endblock %}

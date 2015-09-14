@@ -44,6 +44,7 @@ INSTALLED_APPS = (
     'widget_tweaks',
     'password_reset',
     'trails',
+    'paths',
     'reviews',
     'search',
     'static_pages',
