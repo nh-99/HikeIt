@@ -86,22 +86,14 @@ def trailpage(request, trail_id):
     
 def traillocation(request, trail_id):
     trail = get_object_or_404(Trail, pk=trail_id)
-    
-    args = {'trail': trail,
-            'id': trail_id
-           }
-    
-    return render(request, 'trails/trail_location.html', args)
-    
-def trailpaths(request, trail_id):
-    trail = get_object_or_404(Trail, pk=trail_id)
     paths = trail.path_set.all()
     
     args = {'trail': trail,
+            'id': trail_id,
             'paths': paths
            }
     
-    return render(request, 'trails/trail_paths.html', args)
+    return render(request, 'trails/trail_location.html', args)
 
 def liketrail(request, trail_id):
     trail = get_object_or_404(Trail, pk=trail_id)
