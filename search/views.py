@@ -6,7 +6,7 @@ from trails.models import Trail
 def location(request, location):
 	request.session['searchtype'] = 'location'
 	
-	trail_list = Trail.objects.filter(location__contains=location, approved=True)[:50]
+	trail_list = Trail.objects.filter(location__icontains=location, approved=True)[:50]
         paginator = Paginator(trail_list, 10)
         
         total = trail_list.count()
@@ -28,7 +28,7 @@ def location(request, location):
 def name(request, name):
 	request.session['searchtype'] = 'name'
 	
-	trail_list = Trail.objects.filter(name__contains=name, approved=True)[:50]
+	trail_list = Trail.objects.filter(name__icontains=name, approved=True)[:50]
         paginator = Paginator(trail_list, 10)
         
         total = trail_list.count()
