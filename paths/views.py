@@ -13,8 +13,7 @@ def upload_trail_path(request, trail_id):
         form = PathForm(request.POST, request.FILES)
         if request.user.is_authenticated():
             if form.is_valid():
-                path = Path()
-                path.path_file = form.cleaned_data['path_file']
+                path = Path(path_file=request.FILES['path_file'])
                 path.user = request.user
                 path.trail = get_object_or_404(Trail, pk=trail_id)
                 path.save()
