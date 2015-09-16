@@ -19,7 +19,7 @@ var kml = {
     {% for path in paths %}
     {{ forloop.counter0 }}: {
         name: "{{ path.user.username }}'s Trail Path",
-        url: "http://staging.hikeit.me{{ path.path_file.url }}"
+        url: "{{domain}}{{ path.path_file.url }}"
     }{% if paths.count > 1 %},{% endif %}
     {% endfor %}
 };

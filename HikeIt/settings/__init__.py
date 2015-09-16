@@ -82,6 +82,8 @@ TEMPLATES = [
     },
 ]
 
+HOSTNAME = os.environ.get('HIKEIT_HOSTNAME')
+
 WSGI_APPLICATION = 'HikeIt.wsgi.application'
 
 # Internationalization

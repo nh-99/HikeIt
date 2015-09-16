@@ -1,6 +1,7 @@
 from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib import messages
+from django.conf import settings
 
 from .models import Trail
 from .forms import TrailImageForm, TrailReviewForm
@@ -90,7 +91,8 @@ def traillocation(request, trail_id):
     
     args = {'trail': trail,
             'id': trail_id,
-            'paths': paths
+            'paths': paths,
+            'domain': settings.HOSTNAME
            }
     
     return render(request, 'trails/trail_location.html', args)

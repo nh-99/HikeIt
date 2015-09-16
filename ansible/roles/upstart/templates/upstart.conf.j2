@@ -11,5 +11,6 @@ env DJANGO_CONFIGURATION="{{mode}}"
 
 env HIKEIT_DB_USER="{{ db_user }}"
 env HIKEIT_DB_PASSWORD="{{ db_password }}"
+env HIKEIT_HOSTNAME="{{ hikeit_hostname }}"
 
 exec /home/{{deployment_name}}/{{mode}}/env/bin/gunicorn {{deployment_name}}.wsgi:application
