@@ -46,6 +46,7 @@ INSTALLED_APPS = (
     'trails',
     'paths',
     'reviews',
+    'issues',
     'search',
     'static_pages',
     'images',

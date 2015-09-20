@@ -28,6 +28,7 @@ urlpatterns = [
     url(r'^image/', include('images.urls')),
     url(r'^paths/', include('paths.urls')),
     url(r'^reviews/', include('reviews.urls')),
+    url(r'^issues/', include('issues.urls')),
     url(r'^user/', include('users.urls')),
     url(r'^search/', include('search.urls')),
     url(r'^admin/', include(admin.site.urls)),

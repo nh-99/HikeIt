@@ -27,7 +27,7 @@ var kml = {
 // initialize our goo
 function initializeMap() {
     var options = {
-        center: new google.maps.LatLng(44.9812, -93.2687),
+        center: new google.maps.LatLng({{ trail.lat }}, {{ trail.long }}),
         zoom: 13,
         mapTypeId: google.maps.MapTypeId.ROADMAP
     }
@@ -106,5 +106,6 @@ highlight(checkit, 'selector1');
 {% include 'static_pages/navbar.html' %}
 <br><br><br><br>
 {% include 'static_pages/message.html' %}
+<a href="/paths/{{ id }}/upload" class="btn btn-info">Upload a Path</a>
 <div id="map_canvas" style="width: 80%; margin: 0px auto;"></div>
 <div id="toggle_box" style="position: absolute; top: 100px; right: 20px; padding: 10px; background: #fff; z-index: 5; "></div>

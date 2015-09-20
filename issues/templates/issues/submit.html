@@ -2,4 +2,17 @@
 <br><br><br><br>
 {% include 'static_pages/message.html' %}
 <title>HikeIt</title>
-<p>A form should be here, but it isn't there yet. That's very neat.</p>
+<center>
+	<h3>Trail corrections for {{ trail.name }}</h3><br>
+	<form action="/issues/{{ trail_id }}/" method="POST">
+		{% csrf_token %}
+		<div class="form-horizontal" style="width: 50%; display:inline-block;">
+			<div class="form-group">
+				<div class="col-md-6" style="width: 100%">
+					<textarea class="form-control" name="issue_text" rows="4" placeholder="Please let us know what is wrong with {{ trail.name }}! This could be something like 'the image is inaccurate' with an explanation of why you think so. The more information that is included, the more likely the trail will be fixed." required></textarea>
+				</div>
+			</div>
+			<button type="submit" class="btn btn-info">Submit</button>
+		</div>
+	</form>
+</center>

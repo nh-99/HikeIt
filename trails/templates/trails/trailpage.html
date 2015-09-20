@@ -45,7 +45,7 @@
                     <p>{{ trail.description }}</p>
                 </div>
                 <div class="ratings">
-                    <p class="pull-right">{{ trail.review_set.count }} {% if trail.review_set.count > 1 %}reviews{% else %}review{% endif %}</p>
+                    <p class="pull-right">{{ trail.review_set.count }} {% if trail.review_set.count < 2 and trail.review_set.count > 0 %}comment{% else %}comments{% endif %}</p>
                     <p><b>Location:</b> <a href="{% url 'trail_location' id %}">{{ trail.location }}</a></p>
                     <p><b>Length:</b> {{ length }} miles</p>
                     <p><b>Difficulty:</b> {{ difficulty }}</p>
@@ -97,6 +97,9 @@
 		    </div>
 		</form>
             </div>
+	    <center>
+		<a href="/issues/{{ trail.id }}/" class="btn btn-danger"><span class="ionicons ion-alert"></span> Report an Issue</a>
+	    </center>
         </div>
     </div>
 </div>
