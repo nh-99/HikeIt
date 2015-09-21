@@ -6,7 +6,7 @@
         width: 80%;
         margin: 0px;
         padding: 0px;
-        margin-left: 100px;
+        margin-left: 78px;
       }
     </style>
     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true"></script>
@@ -26,14 +26,20 @@ var kml = {
 
 // initialize our goo
 function initializeMap() {
+    trail_loc = new google.maps.LatLng({{ trail.lat }}, {{ trail.long }});
     var options = {
-        center: new google.maps.LatLng({{ trail.lat }}, {{ trail.long }}),
+        center: trail_loc,
         zoom: 13,
         mapTypeId: google.maps.MapTypeId.ROADMAP
     }
     map = new google.maps.Map(document.getElementById("map_canvas"), options);
 
     createTogglers();
+    var marker = new google.maps.Marker({
+      position: trail_loc,
+      map: map,
+      title: '{{ trail.name }}'
+  });
 };
 
 google.maps.event.addDomListener(window, 'load', initializeMap);
@@ -61,14 +67,14 @@ function toggleKML(checked, id) {
 // create the controls dynamically because it's easier, really
 function createTogglers() {
 
-    var html = "<form><ul>";
+    var html = "<form><ul><h4>Path Viewer<\/h4>";
     for (var prop in kml) {
         html += "<li id=\"selector-" + prop + "\"><input type='checkbox' id='" + prop + "'" +
         " onclick='highlight(this,\"selector-" + prop + "\"); toggleKML(this.checked, this.id)' \/>" +
         kml[prop].name + "<\/li>";
     }
     html += "<li class='control'><a href='#' onclick='removeAll();return false;'>" +
-    "Remove all layers<\/a><\/li>" + 
+    "Remove all layers<\/a><\/li><li><a href='/paths/{{ id }}/upload/'>Upload a Path<\/a><\/li>" + 
     "<\/ul><\/form>";
 
     document.getElementById("toggle_box").innerHTML = html;
@@ -106,6 +112,5 @@ highlight(checkit, 'selector1');
 {% include 'static_pages/navbar.html' %}
 <br><br><br><br>
 {% include 'static_pages/message.html' %}
-<a href="/paths/{{ id }}/upload" class="btn btn-info">Upload a Path</a>
-<div id="map_canvas" style="width: 80%; margin: 0px auto;"></div>
+<div id="map_canvas"></div>
 <div id="toggle_box" style="position: absolute; top: 100px; right: 20px; padding: 10px; background: #fff; z-index: 5; "></div>

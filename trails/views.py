@@ -162,12 +162,16 @@ def upload_trail_image(request, trail_id):
 def create_review(request, trail_id):
     if request.method == 'POST':
         if request.user.is_authenticated():
-			review = Review()
-			review.review_text = request.POST.get('review_text')
-			review.user = request.user
-			review.trail = get_object_or_404(Trail, pk=trail_id)
-			review.save()
-			return HttpResponseRedirect('/trail/%s' % str(trail_id))
+            if request.POST.get('review_text') != '':
+                review = Review()
+                review.review_text = request.POST.get('review_text')
+                review.user = request.user
+                review.trail = get_object_or_404(Trail, pk=trail_id)
+                review.save()
+                return HttpResponseRedirect('/trail/%s' % str(trail_id))
+            else:
+                messages.add_message(request, messages.WARNING, 'No comment text was provided')
+                return HttpResponseRedirect('/trail/%s/' % str(trail_id))
                 
     return render(request, 'trails/create_review.html', {'trail_id':trail_id, 'form':form})
     
