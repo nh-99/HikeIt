@@ -2,189 +2,214 @@
 {% include 'static_pages/navbar.html' %}
 <br><br><br><br>
 {% include 'static_pages/message.html' %}
-
 <head>
-    <title>HikeIt</title>
-    <style>
+  <title>HikeIt</title>
+  <style>
     /***
-User Profile Sidebar by @keenthemes
-A component of Metronic Theme - #1 Selling Bootstrap 3 Admin Theme in Themeforest: http://j.mp/metronictheme
-Licensed under MIT
-***/
-
-body {
-  background: #F1F3FA;
-}
-
-/* Profile container */
-.profile {
-  margin: 20px 0;
-}
-
-/* Profile sidebar */
-.profile-sidebar {
-  padding: 20px 0 10px 0;
-  background: #fff;
-}
-
-.profile-userpic img {
-  float: none;
-  margin: 0 auto;
-  width: 50%;
-  height: 50%;
-  -webkit-border-radius: 50% !important;
-  -moz-border-radius: 50% !important;
-  border-radius: 50% !important;
-}
-
-.profile-usertitle {
-  text-align: center;
-  margin-top: 20px;
-}
-
-.profile-usertitle-name {
-  color: #5a7391;
-  font-size: 16px;
-  font-weight: 600;
-  margin-bottom: 7px;
-}
-
-.profile-usertitle-job {
-  text-transform: uppercase;
-  color: #5b9bd1;
-  font-size: 12px;
-  font-weight: 600;
-  margin-bottom: 15px;
-}
-
-.profile-userbuttons {
-  text-align: center;
-  margin-top: 10px;
-}
-
-.profile-userbuttons .btn {
-  text-transform: uppercase;
-  font-size: 11px;
-  font-weight: 600;
-  padding: 6px 15px;
-  margin-right: 5px;
-}
-
-.profile-userbuttons .btn:last-child {
-  margin-right: 0px;
-}
-    
-.profile-usermenu {
-  margin-top: 30px;
-}
-
-.profile-usermenu ul li {
-  border-bottom: 1px solid #f0f4f7;
-}
-
-.profile-usermenu ul li:last-child {
-  border-bottom: none;
-}
-
-.profile-usermenu ul li a {
-  color: #93a3b5;
-  font-size: 14px;
-  font-weight: 400;
-}
-
-.profile-usermenu ul li a i {
-  margin-right: 8px;
-  font-size: 14px;
-}
-
-.profile-usermenu ul li a:hover {
-  background-color: #fafcfd;
-  color: #5b9bd1;
-}
-
-.profile-usermenu ul li.active {
-  border-bottom: none;
-}
-
-.profile-usermenu ul li.active a {
-  color: #5b9bd1;
-  background-color: #f6f9fb;
-  border-left: 2px solid #5b9bd1;
-  margin-left: -2px;
-}
-
-/* Profile Content */
-.profile-content {
-  padding: 20px;
-  background: #fff;
-  min-height: 460px;
-}</style>
+    User Profile Sidebar by @keenthemes
+    A component of Metronic Theme - #1 Selling Bootstrap 3 Admin Theme in Themeforest: http://j.mp/metronictheme
+    Licensed under MIT
+    ***/
+    body {
+    background: #F1F3FA;
+    }
+    /* Profile container */
+    .profile {
+    margin: 20px 0;
+    }
+    /* Profile sidebar */
+    .profile-sidebar {
+    padding: 20px 0 10px 0;
+    background: #fff;
+    }
+    .profile-userpic img {
+    float: none;
+    margin: 0 auto;
+    width: 50%;
+    height: 50%;
+    -webkit-border-radius: 50% !important;
+    -moz-border-radius: 50% !important;
+    border-radius: 50% !important;
+    }
+    .profile-usertitle {
+    text-align: center;
+    margin-top: 20px;
+    }
+    .profile-usertitle-name {
+    color: #5a7391;
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 7px;
+    }
+    .profile-usertitle-job {
+    text-transform: uppercase;
+    color: #5b9bd1;
+    font-size: 12px;
+    font-weight: 600;
+    margin-bottom: 15px;
+    }
+    .profile-userbuttons {
+    text-align: center;
+    margin-top: 10px;
+    }
+    .profile-userbuttons .btn {
+    text-transform: uppercase;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 6px 15px;
+    margin-right: 5px;
+    }
+    .profile-userbuttons .btn:last-child {
+    margin-right: 0px;
+    }
+    .profile-usermenu {
+    margin-top: 30px;
+    }
+    .profile-usermenu ul li {
+    border-bottom: 1px solid #f0f4f7;
+    }
+    .profile-usermenu ul li:last-child {
+    border-bottom: none;
+    }
+    .profile-usermenu ul li a {
+    color: #93a3b5;
+    font-size: 14px;
+    font-weight: 400;
+    }
+    .profile-usermenu ul li a i {
+    margin-right: 8px;
+    font-size: 14px;
+    }
+    .profile-usermenu ul li a:hover {
+    background-color: #fafcfd;
+    color: #5b9bd1;
+    }
+    .profile-usermenu ul li.active {
+    border-bottom: none;
+    }
+    .profile-usermenu ul li.active a {
+    color: #5b9bd1;
+    background-color: #f6f9fb;
+    border-left: 2px solid #5b9bd1;
+    margin-left: -2px;
+    }
+    /* Profile Content */
+    #profile-content .profile-content {
+    padding: 20px;
+    background: #fff;
+    height: 100%;
+    overflow: hidden;
+    }
+  </style>
 </head>
-
 <div class="container">
-    <div class="row profile">
-		<div class="col-md-3">
-			<div class="profile-sidebar">
-				<!-- SIDEBAR USER TITLE -->
-				<div class="profile-usertitle">
-					<div class="profile-usertitle-name">
-						{{ user.username }}
-					</div>
-				</div>
-				<!-- END SIDEBAR USER TITLE -->
-				<!-- SIDEBAR MENU -->
-				<div class="profile-usermenu">
-					<ul class="nav">
-						<li class="active">
-							<a href="#">
-							<i class="glyphicon glyphicon-home"></i>
-							Overview </a>
-						</li>
-						<li>
-							<a href="/user/profile/settings/">
-							<i class="glyphicon glyphicon-user"></i>
-							Account Settings </a>
-						</li>
-						{% if user.is_staff %}
-						<li>
-							<center><h4>Administrative</h4></center>
-						</li>
-						<li>
-							<a href="/image/">
-							<i class="glyphicon glyphicon-picture"></i>
-							Image Approval </a>
-						</li>
-						<li>
-							<a href="/trail/trails/">
-							<i class="glyphicon glyphicon-map-marker"></i>
-							Trail Approval </a>
-						</li>
-						<li>
-							<a href="/reviews/">
-							<i class="glyphicon glyphicon-pencil"></i>
-							Review Approval </a>
-						</li>
-						{% endif %}
-					</ul>
-				</div>
-				<!-- END MENU -->
-			</div>
-		</div>
-		<div class="col-md-9">
-            <div class="profile-content">
-            	<center><h3>Liked Trails</h3></center>
-            	{% if user.liked_trails.length <= 0 %}
-            	<center><p style="color:gray">You have not liked any trails yet<br>Try using the search function at the top to find trails that you like</p></center>
-            	{% else %}
-            	<br>
-            	<div class="col-md-3"></div>
-            	<div class="list-group col-md-6">
-                {% for trail in user.liked_trails %}
-			   <li class="list-group-item"><a href="/trail/{{ trail.pk }}">{{ trail.name }}</a></li>
-			   {% endfor %}
-               {% endif %}
-		</div>
-            </div>
-		</div>
-	</div>
+  <div class="row profile">
+    <div class="col-md-3">
+      <div class="profile-sidebar">
+        <!-- SIDEBAR USER TITLE -->
+        <div class="profile-usertitle">
+          <div class="profile-usertitle-name">
+            {{ user.username }}
+          </div>
+        </div>
+        <!-- END SIDEBAR USER TITLE -->
+        <!-- SIDEBAR MENU -->
+        <div class="profile-usermenu">
+          <ul class="nav">
+            <li class="active">
+              <a href="#">
+              <i class="glyphicon glyphicon-home"></i>
+              Overview </a>
+            </li>
+            <li>
+              <a href="/user/profile/settings/">
+              <i class="glyphicon glyphicon-user"></i>
+              Account Settings </a>
+            </li>
+            {% if user.is_staff %}
+            <li>
+              <center>
+                <h4>Administrative</h4>
+              </center>
+            </li>
+            <li>
+              <a href="/image/">
+              <i class="glyphicon glyphicon-picture"></i>
+              Image Approval </a>
+            </li>
+            <li>
+              <a href="/trail/trails/">
+              <i class="glyphicon glyphicon-map-marker"></i>
+              Trail Approval </a>
+            </li>
+            <li>
+              <a href="/reviews/">
+              <i class="glyphicon glyphicon-pencil"></i>
+              Review Approval </a>
+            </li>
+            {% endif %}
+          </ul>
+        </div>
+        <!-- END MENU -->
+      </div>
+    </div>
+    <div id="profile-content" class="col-md-9">
+      <div class="profile-content">
+        <center>
+          <h3>Liked Trails</h3>
+        </center>
+        {% if user.profile.liked_trails.count <= 0 %}
+        <center>
+          <p style="color:gray">You have not liked any trails yet<br>Try using the search function at the top to find trails that you like</p>
+        </center>
+        {% else %}
+        <br>
+        <div class="col-md-3"></div>
+        <div class="list-group col-md-6">
+          {% for trail in user.profile.liked_trails.all %}
+          <li class="list-group-item"><a href="/trail/{{ trail.pk }}">{{ trail.name }}</a></li>
+          {% endfor %}
+	  </div>
+          {% endif %}
+        <br><br><br>
+        <hr>
+        <br>
+        <center>
+          <h3>Completed Trails</h3>
+        </center>
+        {% if user.profile.completed_trails.count <= 0 %}
+        <center>
+          <p style="color:gray">You have not marked any trails as completed yet<br>Try using the search function at the top to find trails that you have done before</p>
+        </center>
+        {% else %}
+        <div class="col-md-3"></div>
+        <div class="list-group col-md-6">
+          {% for trail in user.profile.completed_trails.all %}
+          <li class="list-group-item"><a href="/trail/{{ trail.pk }}">{{ trail.name }}</a></li>
+          {% endfor %}
+	  </div>
+          {% endif %}
+	  <br><br><br>
+        <hr>
+        <br>
+        <center>
+          <h3>Saved Trails</h3>
+        </center>
+        {% if user.profile.saved_trails.count <= 0 %}
+        <center>
+          <p style="color:gray">You have not saved any trails yet<br>Try using the search function at the top to find trails that you would like to hike</p>
+        </center>
+        {% else %}
+        <div class="col-md-3"></div>
+        <div class="list-group col-md-6">
+          {% for trail in user.profile.saved_trails.all %}
+          <li class="list-group-item"><a href="/trail/{{ trail.pk }}">{{ trail.name }}</a></li>
+          {% endfor %}
+	  </div>
+          {% endif %}
+        </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
