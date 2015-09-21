@@ -9,7 +9,7 @@ from django.contrib import messages
 from .models import TrailImage
 
 # Method to send an email once an image is approved
-def send_approval_email(user):
+def send_approval_email(user, approved):
     subject = "HikeIt: Image Approval"
     to = [user.email]
     from_email = 'image-approval@hikeit.me'
@@ -18,7 +18,10 @@ def send_approval_email(user):
         'user': user
     }
 
-    message = get_template('images/email/approved.html').render(Context(ctx))
+    if approved:
+        message = get_template('images/email/approved.html').render(Context(ctx))
+    else:
+        message = get_template('images/email/denied.html').render(Context(ctx))
     msg = EmailMessage(subject, message, to=to, from_email=from_email)
     msg.content_subtype = 'html'
     msg.send()
@@ -36,8 +39,19 @@ def approve(request, image_id):
         image = TrailImage.objects.get(pk=image_id)
         image.approved = True
         image.save()
-        send_approval_email(image.user)
+        send_approval_email(image.user, True)
         messages.add_message(request, messages.SUCCESS, 'Image has been approved successfully')
+        return HttpResponseRedirect('/image/')
+    else:
+        messages.add_message(request, messages.WARNING, 'You do not have significant access to perform this function')
+        return HttpResponseRedirect('/login/')
+
+def destroy(request, image_id):
+    if request.user.is_authenticated and request.user.is_staff:
+        image = TrailImage.objects.get(pk=image_id)
+        image.delete()
+        send_approval_email(image.user, False)
+        messages.add_message(request, messages.SUCCESS, 'Image has been destroyed successfully')
         return HttpResponseRedirect('/image/')
     else:
         messages.add_message(request, messages.WARNING, 'You do not have significant access to perform this function')
