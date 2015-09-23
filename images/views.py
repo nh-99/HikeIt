@@ -9,13 +9,14 @@ from django.contrib import messages
 from .models import TrailImage
 
 # Method to send an email once an image is approved
-def send_approval_email(user, approved):
+def send_approval_email(user, approved, image):
     subject = "HikeIt: Image Approval"
     to = [user.email]
     from_email = 'image-approval@hikeit.me'
 
     ctx = {
-        'user': user
+        'user': user,
+        'image': image
     }
 
     if approved:
@@ -39,7 +40,7 @@ def approve(request, image_id):
         image = TrailImage.objects.get(pk=image_id)
         image.approved = True
         image.save()
-        send_approval_email(image.user, True)
+        send_approval_email(image.user, True, image)
         messages.add_message(request, messages.SUCCESS, 'Image has been approved successfully')
         return HttpResponseRedirect('/image/')
     else:
@@ -50,7 +51,7 @@ def destroy(request, image_id):
     if request.user.is_authenticated and request.user.is_staff:
         image = TrailImage.objects.get(pk=image_id)
         image.delete()
-        send_approval_email(image.user, False)
+        send_approval_email(image.user, False, image)
         messages.add_message(request, messages.SUCCESS, 'Image has been destroyed successfully')
         return HttpResponseRedirect('/image/')
     else:
