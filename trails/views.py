@@ -6,20 +6,28 @@ from django.conf import settings
 from .models import Trail
 from .forms import TrailImageForm, TrailReviewForm
 
+from django.template.loader import render_to_string, get_template
+from django.template import Context
+from django.core.mail import EmailMessage
+
 from images.models import TrailImage
 from reviews.models import Review
 
 # Method to send an email once a trail is approved
-def send_approval_email(user):
+def send_approval_email(user, approved, trail):
     subject = "HikeIt: Trail Approval"
     to = [user.email]
     from_email = 'trail-approval@hikeit.me'
 
     ctx = {
-        'user': user
+        'user': user,
+        'trail': trail
     }
 
-    message = get_template('trails/email/approved.html').render(Context(ctx))
+    if approved:
+        message = get_template('trails/email/approved.html').render(Context(ctx))
+    else:
+        message = get_template('trails/email/denied.html').render(Context(ctx))
     msg = EmailMessage(subject, message, to=to, from_email=from_email)
     msg.content_subtype = 'html'
     msg.send()
