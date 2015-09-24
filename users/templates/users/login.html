@@ -23,6 +23,8 @@
 
             <input type="submit" class="form-control input-group-lg reg_name" type="submit" name="submit" value="Login" />
             <input type="hidden" name="next" value="{{ next }}" />
+            <br>
+            <center><p><a href="{% url 'password_reset_recover' %}">Lost password?</a></p></center>
         </div>
     </form>
     <form id="registration_form" action="/user/new/" method="post">

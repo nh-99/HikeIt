@@ -22,6 +22,7 @@ from django.views.generic.base import RedirectView
 
 urlpatterns = [
     url(r'^favicon\.ico$', RedirectView.as_view(url='/static/favicon.ico')),
+    url(r'^password/reset/done/$', RedirectView.as_view(url='/login/')),
     url(r'^$', include('static_pages.urls')),
     url(r'^planner/', include('planner.urls')),
     url(r'^trail/', include('trails.urls')),
@@ -36,7 +37,8 @@ urlpatterns = [
     url('', include('social.apps.django_app.urls', namespace='social')),
     
     # Auth
-    url('^', include('django.contrib.auth.urls'), {'template_name': 'users/login.html'}),
-    url(r'^logout/$', 'django.contrib.auth.views.logout', {'next_page': '/'}),
+    url(r'^login/$', 'django.contrib.auth.views.login', {'template_name': 'users/login.html'}, name='login'),
+    url(r'^logout/$', 'django.contrib.auth.views.logout', {'next_page': '/'}, name='logout'),
+    url(r'^password_reset/done/$', RedirectView.as_view(url='/login/')),
     
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
