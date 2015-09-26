@@ -1,0 +1,12 @@
+---
+  - name: Install postfix and dovecot
+    apt:npkg={{item}} state=installed update-cache=yes
+    with_items:
+    - dovecot-imap
+    - postfix
+
+  - name: Copy postfix filea
+    copy: src=postfix/ dest=/etc/postfix
+
+  - name: Copy dovecot files
+    copy: src=dovecot/ dest=/etc/dovecot
