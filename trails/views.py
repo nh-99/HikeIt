@@ -46,7 +46,7 @@ def approve_trail(request):
         trail = Trail.objects.get(pk=trail_id)
         trail.approved = True
         trail.save()
-        send_approval_email(trail.submitter)
+        send_approval_email(trail.submitter, True, trail)
         messages.add_message(request, messages.SUCCESS, 'The trail has been approved successfully')
         return HttpResponseRedirect('/trail/trails/')
     else:
