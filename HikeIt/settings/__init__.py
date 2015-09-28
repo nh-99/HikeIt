@@ -21,7 +21,7 @@ SECRET_KEY = os.environ.get('HIKEIT_SECRET_KEY', 'jaksdjfkasjdfkljJoi2uroijlkF98
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/
 
-ALLOWED_HOSTS = []
+
 
 
 # Application definition

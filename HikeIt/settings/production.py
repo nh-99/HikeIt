@@ -15,3 +15,4 @@ DATABASES = {
 STATIC_ROOT = "/home/HikeIt/static"
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTOCOL', 'https')
 DEBUG = False
+ALLOWED_HOSTS = ['.hikeit.me']
