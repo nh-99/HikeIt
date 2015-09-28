@@ -46,9 +46,9 @@ def approve_trail(request):
         trail = Trail.objects.get(pk=trail_id)
         trail.approved = True
         trail.save()
-        #send_approval_email(trail.submitter)
+        send_approval_email(trail.submitter)
         messages.add_message(request, messages.SUCCESS, 'The trail has been approved successfully')
-        return HttpResponseRedirect('/trail/approve/')
+        return HttpResponseRedirect('/trail/trails/')
     else:
         messages.add_message(request, messages.WARNING, 'You do not have significant access to perform this function')
         return HttpResponseRedirect('/')
