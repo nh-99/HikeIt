@@ -21,12 +21,6 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '@+-b2b5nur^ygz*ve7kj*b=r1&46wx8+xy%+klt0^al!lkpu4c'
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
 ALLOWED_HOSTS = []
 
 
@@ -125,9 +119,9 @@ SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
 AUTH_PROFILE_MODULE = 'users.UserTrails'
 LOGIN_REDIRECT_URL = '/'
 
-EMAIL_USE_TLS = True
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_HOST_USER = ''
-EMAIL_HOST_PASSWORD = ''
+EMAIL_USE_SSL = True
+EMAIL_HOST = 'hikeit.me'
+EMAIL_PORT = 465
+EMAIL_HOST_USER = os.environ.get('HIKEIT_EMAIL_USER')
+EMAIL_HOST_PASSWORD = os.environ.get('HIKEIT_EMAIL_PASS')
 
