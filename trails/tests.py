@@ -15,6 +15,11 @@ def create_trail():
     trail = Trail.objects.create(name="abcd", lat=12.123, long=12.1234, difficulty="hard", distance=1.354, location="Maine")
     trail.save()
     return trail
+    
+def add_message_middleware(request):
+    setattr(request, 'session', 'session')
+    messages = FallbackStorage(request)
+    setattr(request, '_messages', messages)
 
 class TrailTestCase(TestCase):
     def setUp(self):
@@ -40,13 +45,14 @@ class TrailTestCase(TestCase):
     def test_trail_like(self):
         my_admin = User.objects.create_superuser('myuser', 'myemail@test.com', 'test')
         trail = create_trail()
-        self.client.login(username=my_admin.username, password='test')
+        self.client.post('/login/', {'username': my_admin.username, 'password': 'test'})
         session = self.client.session
         session['searchtype'] = 'location'
         session.save()
         response = self.client.get('/trail/{0}/like'.format(str(trail.id)))
         response = self.client.get('/trail/{0}/'.format(str(trail.id)))
-        self.assertEqual("Likes: 1" in response.content, True)
+        add_message_middleware(response)
+        self.assertEqual("<b>Likes:</b> 1" in response.content, True)
     
     def test_trail_like_fail(self):
         response = self.client.get('trail/2384792384/like')
@@ -55,22 +61,24 @@ class TrailTestCase(TestCase):
     def test_trail_completed(self):
         my_admin = User.objects.create_superuser('myuser', 'myemail@test.com', 'test')
         trail = create_trail()
-        self.client.login(username=my_admin.username, password='test')
+        self.client.post('/login/', {'username': my_admin.username, 'password': 'test'})
         session = self.client.session
         session['searchtype'] = 'location'
         session.save()
         response = self.client.get('/trail/{0}/completed'.format(str(trail.id)))
         response = self.client.get('/trail/{0}/'.format(str(trail.id)))
-        self.assertEqual("Users completed: 1" in response.content, True)
+        add_message_middleware(response)
+        self.assertEqual("<b>Users completed:</b> 1" in response.content, True)
         
     def test_trail_review(self):
         my_admin = User.objects.create_superuser('myuser', 'myemail@test.com', 'test')
         trail = create_trail()
-        self.client.login(username=my_admin.username, password='test')
+        self.client.post('/login/', {'username': my_admin.username, 'password': 'test'})
         session = self.client.session
         session['searchtype'] = 'location'
         session.save()
         response = self.client.post('/trail/{0}/review/'.format(str(trail.id)), {'review_text' : 'test'})
         response = self.client.get('/trail/{0}/'.format(str(trail.id)))
+        add_message_middleware(response)
         self.assertEqual("test" in response.content, True)
         

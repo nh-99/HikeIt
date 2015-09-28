@@ -13,3 +13,6 @@ DATABASES = {
 }
 
 STATIC_ROOT = "/home/HikeIt/static"
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTOCOL', 'https')
+SECRET_KEY = os.environ.get('SECRET_KEY')
+DEBUG = False

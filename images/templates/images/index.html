@@ -14,7 +14,8 @@
         <a href="#" title="Image" class="thumbnail"><img src="{{ image.image.url }}" alt="Image" /></a>
         <p>
         <center>
-          <a href="#" class="btn btn-default" role="button">Destroy</a>
+          <a href="/image/{{ image.pk }}/approve/" class="btn btn-success" role="button">Approve</a>
+          <a href="/image/{{ image.pk }}/destroy/" class="btn btn-danger" role="button">Destroy</a>
         </center>
         </p>
       </div>

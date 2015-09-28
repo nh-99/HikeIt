@@ -8,7 +8,6 @@ class Review(models.Model):
     submission_time = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(User)
     trail = models.ForeignKey(Trail)
-    approved = models.BooleanField()
     
     def __str__(self):
         return 'User: ' + self.user.username + ' Trail: ' + self.trail.name

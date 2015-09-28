@@ -47,9 +47,9 @@ hgroup h2.lead { font: normal normal 1.125em "Roboto",Arial,Verdana,sans-serif; 
 		<article class="search-result row">
 			<div class="col-xs-12 col-sm-12 col-md-3">
                                 {% if trail.trailimage_set.count > 0 %}
-				<a class="thumbnail"><img src="{{ trail.trailimage_set.first.image.url }}" alt="Trail image: {{ trail.name }}" /></a>
+				<a class="thumbnail"><img style="max-height: 150px" src="{{ trail.trailimage_set.first.image.url }}" alt="Trail image: {{ trail.name }}" /></a>
                                 {% else %}
-				<a class="thumbnail"><img src="http://charlestonharborproperties.com/images/no_image_available.png" alt="Trail image: {{ trail.name }}" /></a>
+				<a class="thumbnail"><img style="max-height: 150px" src="http://charlestonharborproperties.com/images/no_image_available.png" alt="Trail image: {{ trail.name }}" /></a>
                                 {% endif %}
 			</div>
 			<div class="col-xs-12 col-sm-12 col-md-2">

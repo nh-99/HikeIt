@@ -6,6 +6,7 @@
 <link href="{% static "static_pages/css/bootstrap.min.css" %}" rel="stylesheet">
 <link href="{% static "static_pages/css/shop-item.css" %}" rel="stylesheet">
 <link href="{% static "static_pages/css/ionicons.css" %}" rel="stylesheet">
+<link href="{% static "static_pages/css/dropzone.css" %}" rel="stylesheet">
 <div class="container">
     <div class="row">
         <div class="col-md-3"></div>
@@ -22,8 +23,8 @@
                     <!-- Wrapper for slides -->
                     <div class="carousel-inner" role="listbox">
                         {% for image in images.all %}
-                        <div class="item{% if forloop.first %} active{% endif %}" style="width:800px;height:300px;background-image: url('{{ image.image.url }}');background-size: cover;background-repeat: no-repeat;background-position: 50% 50%;">
-                        </div>
+                        <a href="#" data-toggle="modal" data-title="Submitted By: {{ image.user.username }}" data-image="{{ image.image.url }}" data-target="#image-gallery" class="item{% if forloop.first %} active{% endif %}" style="width:800px;height:300px;background-image: url('{{ image.image.url }}');background-size: cover;background-repeat: no-repeat;background-position: 50% 50%;">
+                        </a>
                         {% endfor %}
                     </div>
                     <!-- Left and right controls -->
@@ -36,16 +37,49 @@
                     <span class="sr-only">Next</span>
                     </a>
                 </div>
+		<div class="modal fade" id="image-gallery" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="image-gallery-title"></h4>
+            </div>
+            <div class="modal-body">
+                <img id="image-gallery-image" class="img-responsive" src="">
+            </div>
+        </div>
+    </div>
+</div>
                     {% endif %}
                 <div class="caption-full">
                     <h4>
                         <a href="#">{{ trail.name }}</a>
-                        <p class="pull-right"><a href="/trail/{{ trail.id }}/upload/" class="btn btn-success"><span class="glyphicon glyphicon-picture"></span> Add Image</a></p>
+                        <p class="pull-right"><button class="btn btn-success" data-toggle="modal" data-target="#image-upload"><span class="glyphicon glyphicon-picture"></span> Add Image</button></p>
                     </h4>
+		    <!-- Modal -->
+<div id="image-upload" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Image Upload</h4>
+      </div>
+      <div class="modal-body">
+        <form action="{% url "trail_image_upload" id %}" method="post" enctype="multipart/form-data" class="dropzone" id="imageDropzone">{% csrf_token %}</form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
                     <p>{{ trail.description }}</p>
                 </div>
                 <div class="ratings">
-                    <p class="pull-right">{{ trail.review_set.count }} {% if trail.review_set.count > 1 %}reviews{% else %}review{% endif %}</p>
+                    <p class="pull-right">{{ trail.review_set.count }} {% if trail.review_set.count < 2 and trail.review_set.count > 0 %}comment{% else %}comments{% endif %}</p>
                     <p><b>Location:</b> <a href="{% url 'trail_location' id %}">{{ trail.location }}</a></p>
                     <p><b>Length:</b> {{ length }} miles</p>
                     <p><b>Difficulty:</b> {{ difficulty }}</p>
@@ -60,10 +94,8 @@
                 </div>
             </div>
             <div class="well">
-                <div class="text-right">
-                    <a href="/trail/{{ trail.id }}/review/" class="btn btn-success"><span class="glyphicon glyphicon-pencil"></span> Leave a Review</a>
-                </div>
                 <hr>
+		{% if reviews.count > 0 %}
                 {% for review in reviews.all %}
                 <div class="row">
                     <div class="col-md-12">
@@ -71,13 +103,80 @@
                         <br><br>
                         <span class="pull-right">{{ review.submission_time.date }}<br></span>
                         <p>{{ review.review_text }}</p>
+                        
+		    {% if user.is_staff %}
+		    <div class="form-group">
+		        <a href="/reviews/delete/{{ review.pk }}/" class="btn btn-danger"><span class="glyphicon glyphicon-delete"></span> Delete comment</a>
+		    </div>
+		    {% endif %}
                     </div>
                 </div>
-                {% if reviews.count > 1 %}
                 <hr>
-                {% endif %}
                 {% endfor %}
+		{% else %}
+		<div class="row">
+		    <div class="col-md-12">
+			<p>No comments found for {{ trail.name }}</p>
+		</div>
+		</div>
+		{% endif %}
+		
+			<form class="form-inline" role="form" action="/trail/{{ trail.pk }}/review/" method="POST">
+				{% csrf_token %}
+		    <div class="form-group" style="width: 78%">
+		        <input name="review_text" class="form-control" type="text" placeholder="Your comments" style="width: 100%" />
+		    </div>
+		    <div class="form-group">
+		        <button class="btn btn-success"><span class="glyphicon glyphicon-comment"></span> Comment</button>
+		    </div>
+		</form>
             </div>
+	    <center>
+		<a href="/issues/{{ trail.id }}/" class="btn btn-danger"><span class="ionicons ion-alert"></span> Report an Issue</a>
+	    </center>
         </div>
     </div>
 </div>
+<script src="{% static "static_pages/js/dropzone.js" %}"></script>
+<script>
+Dropzone.options.imageDropzone = {
+  paramName: "image", // The name that will be used to transfer the file
+  maxFilesize: 10 // MB
+}
+</script>
+<script>
+    $(document).ready(function(){
+
+    loadGallery(true, 'a.item');
+
+    /**
+     *
+     * @param setIDs        Sets IDs when DOM is loaded. If using a PHP counter, set to false.
+     * @param setClickAttr  Sets the attribute for the click handler.
+     */
+
+    function loadGallery(setIDs, setClickAttr){
+        var current_image,
+            selector,
+            counter = 0;
+
+        function updateGallery(selector) {
+            var $sel = selector;
+            current_image = $sel.data('image-id');
+            $('#image-gallery-title').text($sel.data('title'));
+            $('#image-gallery-image').attr('src', $sel.data('image'));
+            disableButtons(counter, $sel.data('image-id'));
+        }
+
+        if(setIDs == true){
+            $('[data-image-id]').each(function(){
+                counter++;
+                $(this).attr('data-image-id',counter);
+            });
+        }
+        $(setClickAttr).on('click',function(){
+            updateGallery($(this));
+        });
+    }
+});
+</script>

@@ -21,12 +21,6 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '@+-b2b5nur^ygz*ve7kj*b=r1&46wx8+xy%+klt0^al!lkpu4c'
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
 ALLOWED_HOSTS = []
 
 
@@ -34,7 +28,6 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = (
     'django.contrib.admin',
-    'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
@@ -42,25 +35,17 @@ INSTALLED_APPS = (
     'social.apps.django_app.default',
     'django_jenkins',
     'widget_tweaks',
+    'password_reset',
     'trails',
+    'paths',
     'reviews',
+    'issues',
     'search',
     'static_pages',
     'images',
     'users',
     'planner',
-)
-
-TEMPLATE_CONTEXT_PROCESSORS = (
-    'django.contrib.auth.context_processors.auth',
-    'django.core.context_processors.debug',
-    'django.core.context_processors.i18n',
-    'django.core.context_processors.media',
-    'django.core.context_processors.static',
-    'django.core.context_processors.tz',
-    'django.contrib.messages.context_processors.messages',
-    'social.apps.django_app.context_processors.backends',
-    'social.apps.django_app.context_processors.login_redirect',
+    'django.contrib.auth',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -91,6 +76,8 @@ TEMPLATES = [
         },
     },
 ]
+
+HOSTNAME = os.environ.get('HIKEIT_HOSTNAME')
 
 WSGI_APPLICATION = 'HikeIt.wsgi.application'
 
@@ -132,9 +119,9 @@ SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
 AUTH_PROFILE_MODULE = 'users.UserTrails'
 LOGIN_REDIRECT_URL = '/'
 
-EMAIL_USE_TLS = True
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_HOST_USER = ''
-EMAIL_HOST_PASSWORD = ''
+EMAIL_USE_SSL = True
+EMAIL_HOST = 'hikeit.me'
+EMAIL_PORT = 465
+EMAIL_HOST_USER = os.environ.get('HIKEIT_EMAIL_USER')
+EMAIL_HOST_PASSWORD = os.environ.get('HIKEIT_EMAIL_PASS')
 

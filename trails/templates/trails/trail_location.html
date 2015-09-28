@@ -1,37 +1,144 @@
+{% load staticfiles %}
 <head>
     <title>HikeIt</title>
     <style>
-      #map-canvas {
+      #map_canvas {
         height: 90%;
-        width: 80%;
+        width: 90%;
         margin: 0px;
         padding: 0px;
-        margin-left: 100px;
+        margin-left: 78px;
       }
     </style>
     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true"></script>
-    <script>
-function initialize() {
-  console.log("init");
-  var myLatlng = new google.maps.LatLng({{ trail.lat }},{{ trail.long }});
-  var mapOptions = {
-    zoom: 13,
-    center: myLatlng
-  }
-  var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+    <link href="{% static "static_pages/css/dropzone.css" %}" rel="stylesheet">
+<script type="text/javascript">
 
-  var marker = new google.maps.Marker({
-      position: myLatlng,
+var map;
+
+// lets define some vars to make things easier later
+var kml = {
+    {% for path in paths %}
+    {{ forloop.counter0 }}: {
+        name: "{{ path.user.username }}'s Trail Path",
+        url: "{{domain}}{{ path.path_file.url }}"
+    }{% if paths.count > 1 %},{% endif %}
+    {% endfor %}
+};
+
+// initialize our goo
+function initializeMap() {
+    trail_loc = new google.maps.LatLng({{ trail.lat }}, {{ trail.long }});
+    var options = {
+        center: trail_loc,
+        zoom: 13,
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+    }
+    map = new google.maps.Map(document.getElementById("map_canvas"), options);
+
+    createTogglers();
+    var marker = new google.maps.Marker({
+      position: trail_loc,
       map: map,
       title: '{{ trail.name }}'
   });
-}
+};
 
-google.maps.event.addDomListener(window, 'load', initialize);
+google.maps.event.addDomListener(window, 'load', initializeMap);
 
-    </script>
+// the important function... kml[id].xxxxx refers back to the top 
+function toggleKML(checked, id) {
+
+    if (checked) {
+
+        var layer = new google.maps.KmlLayer(kml[id].url, {
+            preserveViewport: true,
+            suppressInfoWindows: true 
+        });
+        // store kml as obj
+        kml[id].obj = layer;
+        kml[id].obj.setMap(map);
+    }
+    else {
+        kml[id].obj.setMap(null);
+        delete kml[id].obj;
+    }
+
+};
+
+// create the controls dynamically because it's easier, really
+function createTogglers() {
+
+    var html = "<form><ul><h4>Path Viewer<\/h4>";
+    for (var prop in kml) {
+        html += "<li id=\"selector-" + prop + "\"><input type='checkbox' id='" + prop + "'" +
+        " onclick='highlight(this,\"selector-" + prop + "\"); toggleKML(this.checked, this.id)' \/>" +
+        kml[prop].name + "<\/li>";
+    }
+    html += "<li class='control'><a href='#' onclick='removeAll();return false;'>" +
+    "Remove all layers<\/a><\/li><li><a href='#' data-toggle='modal' data-target='#path-upload'>Upload a Path<\/a><\/li>" + 
+    "<\/ul><\/form>";
+
+    document.getElementById("toggle_box").innerHTML = html;
+};
+
+// easy way to remove all objects
+function removeAll() {
+    for (var prop in kml) {
+        if (kml[prop].obj) {
+            kml[prop].obj.setMap(null);
+            delete kml[prop].obj;
+        }
+
+    }
+};
+
+
+// Append Class on Select
+function highlight(box, listitem) {
+    var selected = 'selected';
+    var normal = 'normal';
+    document.getElementById(listitem).className = (box.checked ? selected: normal);
+};
+
+function startup() { 
+// for example, this toggles kml b on load and updates the menu selector
+var checkit = document.getElementById('b');
+checkit.checked = true;
+toggleKML(checkit, 'b');
+highlight(checkit, 'selector1');
+ }
+
+</script>
 </head>
 {% include 'static_pages/navbar.html' %}
 <br><br><br><br>
 {% include 'static_pages/message.html' %}
-<div id="map-canvas" style="width: 80%; margin: 0px auto;"></div>
+<div id="map_canvas"></div>
+<div id="toggle_box" style="position: absolute; top: 70px; right: 50px; padding: 10px; background: #fff; z-index: 5; "></div>
+<div id="path-upload" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Trail Path Upload</h4>
+      </div>
+      <div class="modal-body">
+        <form action="/paths/{{ trail.pk }}/upload/" method="post" enctype="multipart/form-data" class="dropzone" id="pathDropzone">{% csrf_token %}</form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+<script src="{% static "static_pages/js/dropzone.js" %}"></script>
+<script>
+Dropzone.options.pathDropzone = {
+  paramName: "path_file", // The name that will be used to transfer the file
+  maxFilesize: 10 // MB
+}
+</script>

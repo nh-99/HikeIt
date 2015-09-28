@@ -11,7 +11,7 @@
     action: shell ufw allow https
 
   - name: Enable UFW
-    action: shell echo 'y' | ufw enable
+    action: shell echo 'y' | ufw disable
 
   - name: Set locale
     command: /usr/sbin/update-locale LANG={{locale}} LC_ALL={{locale}}
@@ -56,7 +56,7 @@
     group: name=ssl state=present
 
   - name: Create user.
-    user: home=/home/{{deployment_name}} name={{deployment_name}} shell=/bin/bash state=present groups=ssl
+    user: home=/home/{{deployment_name}} name={{deployment_name}} shell=/bin/bash password="pebbleuser" state=present groups=ssl
 
   - name: Create the project logs directory.
     file: state=directory path=/home/{{deployment_name}}/logs/

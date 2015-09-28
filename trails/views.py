@@ -1,24 +1,33 @@
 from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib import messages
+from django.conf import settings
 
 from .models import Trail
 from .forms import TrailImageForm, TrailReviewForm
+
+from django.template.loader import render_to_string, get_template
+from django.template import Context
+from django.core.mail import EmailMessage
 
 from images.models import TrailImage
 from reviews.models import Review
 
 # Method to send an email once a trail is approved
-def send_approval_email(user):
+def send_approval_email(user, approved, trail):
     subject = "HikeIt: Trail Approval"
     to = [user.email]
     from_email = 'trail-approval@hikeit.me'
 
     ctx = {
-        'user': user
+        'user': user,
+        'trail': trail
     }
 
-    message = get_template('trails/email/approved.html').render(Context(ctx))
+    if approved:
+        message = get_template('trails/email/approved.html').render(Context(ctx))
+    else:
+        message = get_template('trails/email/denied.html').render(Context(ctx))
     msg = EmailMessage(subject, message, to=to, from_email=from_email)
     msg.content_subtype = 'html'
     msg.send()
@@ -37,9 +46,9 @@ def approve_trail(request):
         trail = Trail.objects.get(pk=trail_id)
         trail.approved = True
         trail.save()
-        #send_approval_email(trail.submitter)
+        send_approval_email(trail.submitter, True, trail)
         messages.add_message(request, messages.SUCCESS, 'The trail has been approved successfully')
-        return HttpResponseRedirect('/trail/approve/')
+        return HttpResponseRedirect('/trail/trails/')
     else:
         messages.add_message(request, messages.WARNING, 'You do not have significant access to perform this function')
         return HttpResponseRedirect('/')
@@ -71,7 +80,7 @@ def trailpage(request, trail_id):
     difficulty = str(trail.difficulty)
     
     images = trail.trailimage_set.filter(approved=True)
-    reviews = trail.review_set.filter(approved=True)
+    reviews = trail.review_set.all
     
     args = {'trail': trail,
             'length': length,
@@ -86,9 +95,12 @@ def trailpage(request, trail_id):
     
 def traillocation(request, trail_id):
     trail = get_object_or_404(Trail, pk=trail_id)
+    paths = trail.path_set.all()
     
     args = {'trail': trail,
-            'id': trail_id
+            'id': trail_id,
+            'paths': paths,
+            'domain': settings.HOSTNAME
            }
     
     return render(request, 'trails/trail_location.html', args)
@@ -143,7 +155,7 @@ def upload_trail_image(request, trail_id):
     form = TrailImageForm()
     if request.method == 'POST':
         form = TrailImageForm(request.POST, request.FILES)
-        if request.user:
+        if request.user.is_authenticated():
             if form.is_valid():
                 image = TrailImage()
                 image.image = form.cleaned_data['image']
@@ -156,19 +168,18 @@ def upload_trail_image(request, trail_id):
     return render(request, 'trails/trail_image_form.html', {'trail_id':trail_id, 'form':form})
     
 def create_review(request, trail_id):
-    form = TrailReviewForm()
     if request.method == 'POST':
-        form = TrailReviewForm(request.POST)
-        if request.user:
-            if form.is_valid():
+        if request.user.is_authenticated():
+            if request.POST.get('review_text') != '':
                 review = Review()
-                review.review_text = form.cleaned_data['review_text']
+                review.review_text = request.POST.get('review_text')
                 review.user = request.user
                 review.trail = get_object_or_404(Trail, pk=trail_id)
-                review.approved = False
                 review.save()
-                messages.add_message(request, messages.SUCCESS, 'Review added successfully')
                 return HttpResponseRedirect('/trail/%s' % str(trail_id))
+            else:
+                messages.add_message(request, messages.WARNING, 'No comment text was provided')
+                return HttpResponseRedirect('/trail/%s/' % str(trail_id))
                 
     return render(request, 'trails/create_review.html', {'trail_id':trail_id, 'form':form})
     

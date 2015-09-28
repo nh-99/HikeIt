@@ -6,6 +6,7 @@
     <title>HikeIt</title>
     <link href="{% static "static_pages/css/socialicons.css" %}" rel="stylesheet">
     <link href="{% static "static_pages/css/font-awesome.min.css" %}" rel="stylesheet">
+    <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.12.0/jquery.validate.js"></script>
 </head>
 <br><br><br><br>
 {% include 'static_pages/message.html' %}
@@ -22,9 +23,11 @@
 
             <input type="submit" class="form-control input-group-lg reg_name" type="submit" name="submit" value="Login" />
             <input type="hidden" name="next" value="{{ next }}" />
+            <br>
+            <center><p><a href="{% url 'password_reset_recover' %}">Lost password?</a></p></center>
         </div>
     </form>
-    <form action="/user/new/" method="post">
+    <form id="registration_form" action="/user/new/" method="post">
         {% csrf_token %}
             <div class="form-group col-md-3" style="margin-top: -15px">
                 <input id="name" class="form-control input-group-lg reg_name" type="text" name="name" placeholder="Name">
@@ -32,7 +35,7 @@
                 <input id="email" class="form-control input-group-lg reg_name" type="text" name="email" placeholder="Email">
                 <input id="password" class="form-control input-group-lg reg_name" type="password" name="password" placeholder="Password">
                 <input id="password_confirm" class="form-control input-group-lg reg_name" type="password" name="password_confirm" placeholder="Confirm">
-                <input id="submit" class="form-control input-group-lg reg_name" type="submit" name="submit" value="Login">
+                <input id="submit" class="form-control input-group-lg reg_name" type="submit" name="submit" value="Register">
                 <br><br><br><br>
             </div>
     </form>
@@ -40,5 +43,32 @@
             <center>
                 <a class="btn btn-social btn-facebook" href="/login/facebook"><i class="fa fa-facebook"></i> Login with Facebook</a>
             </center>
+            <script>
+                 $("#registration_form").validate({
+           rules: {
+               password: { 
+                 required: true,
+                    minlength: 6,
+                    maxlength: 10,
+
+               } , 
+
+                   password_confirm: { 
+                    equalTo: "#password",
+                     minlength: 6,
+                     maxlength: 10
+               }
+
+
+           },
+     messages:{
+         password: { 
+                 required:"the password is required"
+
+               }
+     }
+
+       });
+            </script>
   {% endif %} 
 </div>
