@@ -13,5 +13,4 @@ DATABASES = {
 }
 
 STATIC_ROOT = "/home/HikeIt/static"
-SECRET_KEY = '@+-b2b5nur^ygz*ve7kj*b=r1&46wx8+xy%+klt0^al!lkpu4c'
 DEBUG = True
