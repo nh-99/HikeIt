@@ -14,14 +14,15 @@ class Command(BaseCommand):
                 parsedSon = json.loads(f.read())
                 
                 for trail in parsedSon:
-                    trailModel = Trail()
-                    trailModel.name = trail['title']["#text"]
-                    trailModel.lat = float(trail['lat']["#text"])
-                    trailModel.long = float(trail['lon']["#text"])
-                    trailModel.difficulty = trail['difficulty']["#text"]
-                    trailModel.distance = round(float(trail['distance']["#text"]) * 0.000621371,2)
-                    trailModel.location = trail['location']["#text"]
-                    trailModel.approved = True
-                    trailModel.save()
+                    if "United States" not in trail['location']["#text"]
+                        trailModel = Trail()
+                        trailModel.name = trail['title']["#text"]
+                        trailModel.lat = float(trail['lat']["#text"])
+                        trailModel.long = float(trail['lon']["#text"])
+                        trailModel.difficulty = trail['difficulty']["#text"]
+                        trailModel.distance = round(float(trail['distance']["#text"]) * 0.000621371,2)
+                        trailModel.location = trail['location']["#text"]
+                        trailModel.approved = True
+                        trailModel.save()
 
         self.stdout.write('The database has been populated.')
