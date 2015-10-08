@@ -14,7 +14,7 @@ class Command(BaseCommand):
                 parsedSon = json.loads(f.read())
                 
                 for trail in parsedSon:
-                    if "United States" not in trail['location']["#text"]
+                    if "United States" not in trail['location']["#text"]:
                         trailModel = Trail()
                         trailModel.name = trail['title']["#text"]
                         trailModel.lat = float(trail['lat']["#text"])
