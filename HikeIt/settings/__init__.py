@@ -99,7 +99,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
 STATIC_URL = '/static/'
-MEDIA_ROOT = os.path.dirname(os.path.realpath('media'))
+MEDIA_ROOT = os.environ.get('HIKEIT_MEDIA_ROOT')
 MEDIA_URL = '/images/'
 
 MESSAGE_TAGS = {
