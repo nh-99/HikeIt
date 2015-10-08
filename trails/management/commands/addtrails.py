@@ -20,6 +20,7 @@ class Command(BaseCommand):
                         trailModel.lat = float(trail['lat']["#text"])
                         trailModel.long = float(trail['lon']["#text"])
                         trailModel.difficulty = trail['difficulty']["#text"]
+                        trailModel.description = trail['subtitle']["#text"]
                         trailModel.distance = round(float(trail['distance']["#text"]) * 0.000621371,2)
                         trailModel.location = trail['location']["#text"]
                         trailModel.approved = True
