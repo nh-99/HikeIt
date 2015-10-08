@@ -15,5 +15,6 @@ env HIKEIT_HOSTNAME="{{ hikeit_hostname }}"
 env HIKEIT_EMAIL_USER="{{ email_user }}"
 env HIKEIT_EMAIL_PASS="{{ email_password }}"
 env HIKEIT_SECRET_KEY="{{ secret_key }}"
+env HIKEIT_MEDIA_ROOT="/home/{{deployment_name}}/{{mode}}/media"
 
 exec /home/{{deployment_name}}/{{mode}}/env/bin/gunicorn {{deployment_name}}.wsgi:application
