@@ -11,3 +11,4 @@ django-registration-redux
 gunicorn
 validation
 django-password-reset
+djangorestframework

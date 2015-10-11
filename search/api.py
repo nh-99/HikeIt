@@ -1,26 +1,29 @@
 from rest_framework import status
-from rest_framework.decorators import api_view
+from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework import permissions
 
 from trails.models import Trail
+from trails.serializers import TrailSearchSerializer
 
-@api_view(['GET', 'POST'])
-def name(request, name):
-    """
-    Find all trails by a given name
-    """
-    if request.method == 'GET':
-		if len(name) > 2:
-			# TODO: Run query
-		else:
-			return Response('', status=status.HTTP_400_BAD_REQUEST)
-        snippets = Snippet.objects.all()
-        serializer = SnippetSerializer(snippets, many=True)
-        return Response(serializer.data)
+class SearchName(APIView):
+    permission_classes = (permissions.IsAuthenticated,)
+    
+    def get(self, request, name, format=None):
+        if len(name) > 2:
+            trail_list = Trail.objects.filter(name__icontains=name, approved=True)[:50]
+            serialized_trails = TrailSearchSerializer(trail_list, many=True)
+            return Response(serialized_trails.data)
+        else:
+            return Response('', status=status.HTTP_400_BAD_REQUEST)
 
-    elif request.method == 'POST':
-        serializer = SnippetSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+class SearchLocation(APIView):
+    permission_classes = (permissions.IsAuthenticated,)
+    
+    def get(self, request, location, format=None):
+        if len(location) > 2:
+            trail_list = Trail.objects.filter(location__icontains=name, approved=True)[:50]
+            serialized_trails = TrailSearchSerializer(trail_list, many=True)
+            return Response(serialized_trails.data)
+        else:
+            return Response('', status=status.HTTP_400_BAD_REQUEST)
