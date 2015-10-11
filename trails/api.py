@@ -12,7 +12,7 @@ class TrailInfo(APIView):
     """
     permission_classes = (permissions.IsAuthenticated,)
     
-    def get(self, request, name, format=None):
+    def get(self, request, pk, format=None):
         trail = Trail.objects.get(pk=pk)
         serialized_trail = TrailSerializer(trail)
         return Response(serialized_trail.data)
