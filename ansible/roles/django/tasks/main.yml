@@ -68,16 +68,6 @@
       - deploy
       - migrate
 
-  - name: Seed trail data
-    django_manage: command=addtrails app_path=/home/{{ deployment_name }}/{{mode}}/ settings={{ deployment_name }}.settings.{{mode}}  virtualenv=/home/{{deployment_name}}/{{ mode }}/env/
-    sudo_user: "{{deployment_name}}"
-    environment:
-        HIKEIT_DB_USER: "{{db_user}}"
-        HIKEIT_DB_PASSWORD: "{{db_password}}"
-    tags:
-      - deploy
-      - addtrails
-
   - name: Generate Django media.
     django_manage: command=collectstatic app_path=/home/{{ deployment_name }}/{{mode}}/ settings={{ deployment_name}}.settings.{{mode}} virtualenv=/home/{{deployment_name}}/{{mode}}/env/
     sudo_user: "{{deployment_name}}"
