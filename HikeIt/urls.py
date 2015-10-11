@@ -24,6 +24,7 @@ urlpatterns = [
     url(r'^favicon\.ico$', RedirectView.as_view(url='/static/favicon.ico')),
     url(r'^password/reset/done/$', RedirectView.as_view(url='/login/')),
     url(r'^$', include('static_pages.urls')),
+    url(r'', include('static_pages.urls')),
     url(r'^planner/', include('planner.urls')),
     url(r'^trail/', include('trails.urls')),
     url(r'^image/', include('images.urls')),
