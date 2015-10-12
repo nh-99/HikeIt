@@ -9,3 +9,8 @@ urlpatterns = [
     url(r'^profile/settings/$', views.profile_settings, name='profile_settings'),
     url(r'^edit/$', views.update_profile, name='update_profile'),
 ]
+
+from rest_framework.authtoken import views
+urlpatterns += [
+    url(r'^token/', views.obtain_auth_token)
+]

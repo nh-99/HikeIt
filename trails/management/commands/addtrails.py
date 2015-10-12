@@ -4,6 +4,8 @@ from trails.models import Trail
 import os
 import json
 
+trailids = []
+
 class Command(BaseCommand):
     help = "Populate the database with trails"
 
@@ -14,7 +16,8 @@ class Command(BaseCommand):
                 parsedSon = json.loads(f.read())
                 
                 for trail in parsedSon:
-                    if "United States" in trail['location']["#text"]:
+                    if "United States" in trail['location']["#text"] and not trail["@id"] in trailids:
+                        trailids.append(trail["@id"])
                         trailModel = Trail()
                         trailModel.name = trail['title']["#text"]
                         trailModel.lat = float(trail['lat']["#text"])

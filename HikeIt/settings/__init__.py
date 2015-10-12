@@ -43,7 +43,8 @@ INSTALLED_APPS = (
     'users',
     'planner',
     'django.contrib.auth',
-    'rest_framework'
+    'rest_framework',
+    'rest_framework.authtoken'
 )
 
 MIDDLEWARE_CLASSES = (
