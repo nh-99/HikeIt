@@ -179,7 +179,7 @@
       })
       .autocomplete( "instance" )._renderItem = function( ul, item ) {
       return $( "<li>" )
-        .append(item.value)
+        .append('<a style="color: #000000">' + item.value + '</a>')
         .appendTo( ul );
     };
   });
