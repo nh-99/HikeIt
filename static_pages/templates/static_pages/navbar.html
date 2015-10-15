@@ -221,7 +221,10 @@
               return false;
           },
           appendTo: "#bs-example-navbar-collapse-1",
-          minLength: 3
+          minLength: 3,
+          response: function( event, ui ) {
+              console.log(event);
+              }
       });
   });
 </script>
