@@ -86,7 +86,6 @@ def trailpage(request, trail_id):
             'length': length,
             'difficulty': difficulty,
             'id': trail_id,
-            'searchtype': request.session['searchtype'],
             'images': images,
             'reviews': reviews
            }

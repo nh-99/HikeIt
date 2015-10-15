@@ -210,9 +210,12 @@
   $(function () {
       $("#search-input").autocomplete({
           source: function (term, callback) {
-              $.getJSON("search/" + $("#dropdown-btn").text().toLowerCase().replace(/^\s+|\s+$/g, '') + "/" + term.term + ".json", function(data){
+              $.getJSON("/search/" + $("#dropdown-btn").text().toLowerCase().replace(/^\s+|\s+$/g, '') + "/" + term.term + ".json", function(data){
                     callback(data.map(function(result){
-                            return result.name;
+							var toReturn = {};
+							toReturn["id"] = result.pk;
+							toReturn["value"] = result.name;
+                            return toReturn;
                         }));
                   });
           },
@@ -222,9 +225,10 @@
           },
           appendTo: "#bs-example-navbar-collapse-1",
           minLength: 3,
-          response: function( event, ui ) {
-              console.log(event);
-              }
+          select: function (event, ui) {
+            event.preventDefault();
+            location.href = "/trail/" + ui.item.id + "/";
+        }
       });
   });
 </script>
