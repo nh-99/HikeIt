@@ -22,7 +22,7 @@ class SearchLocation(APIView):
     
     def get(self, request, location, format=None):
         if len(location) > 2:
-            trail_list = Trail.objects.filter(location__icontains=name, approved=True)[:50]
+            trail_list = Trail.objects.filter(location__icontains=location, approved=True)[:50]
             serialized_trails = TrailSearchSerializer(trail_list, many=True)
             return Response(serialized_trails.data)
         else:

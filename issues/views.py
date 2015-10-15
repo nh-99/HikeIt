@@ -3,6 +3,8 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib import messages
 from django.db import IntegrityError
 
+from django.template.loader import get_template
+
 from .models import Issue
 from trails.models import Trail
 

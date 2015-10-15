@@ -2,28 +2,79 @@
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <!-- Piwik -->
-<script type="text/javascript">
-  var _paq = _paq || [];
-  _paq.push(['trackPageView']);
-  _paq.push(['enableLinkTracking']);
-  (function() {
-    var u="//nohowdezign.com/piwik/";
-    _paq.push(['setTrackerUrl', u+'piwik.php']);
-    _paq.push(['setSiteId', 1]);
-    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
-    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
-  })();
-</script>
-<noscript><p><img src="//nohowdezign.com/piwik/piwik.php?idsite=1" style="border:0;" alt="" /></p></noscript>
-<!-- End Piwik Code -->
+  <script type="text/javascript">
+    var _paq = _paq || [];
+    _paq.push(['trackPageView']);
+    _paq.push(['enableLinkTracking']);
+    (function() {
+      var u="//nohowdezign.com/piwik/";
+      _paq.push(['setTrackerUrl', u+'piwik.php']);
+      _paq.push(['setSiteId', 1]);
+      var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+      g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+    })();
+  </script>
+  <noscript>
+    <p><img src="//nohowdezign.com/piwik/piwik.php?idsite=1" style="border:0;" alt="" /></p>
+  </noscript>
+  <!-- End Piwik Code -->
+  <style>
+      .ui-autocomplete {
+  position: absolute;
+    overflow-y: auto;   /* prevent horizontal scrollbar */
+    overflow-x: hidden; /* add padding to account for vertical scrollbar */
+    z-index:2000 !important;
+  top: 100%;
+  left: 0;
+  z-index: 1000;
+  float: left;
+  display: none;
+  min-width: 160px;
+  _width: 160px;
+  padding: 4px 4px;
+  margin: 2px 0 0 0;
+  list-style: none;
+  background-color: #ffffff;
+  border-color: #ccc;
+  border-color: rgba(0, 0, 0, 0.2);
+  border-style: solid;
+  border-width: 1px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+  -moz-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+  -webkit-background-clip: padding-box;
+  -moz-background-clip: padding;
+  background-clip: padding-box;
+  *border-right-width: 2px;
+  *border-bottom-width: 2px;
+}
+.ui-autocomplete .ui-menu-item > a.ui-corner-all {
+  display: block;
+  padding: 3px 15px;
+  clear: both;
+  font-weight: normal;
+  line-height: 18px;
+  color: #555555;
+  white-space: nowrap;
+}
+.ui-autocomplete .ui-menu-item > a.ui-corner-all.ui-state-hover, .ui-autocomplete .ui-menu-item > a.ui-corner-all.ui-state-active {
+  color: #ffffff;
+  text-decoration: none;
+  background-color: #0088cc;
+  border-radius: 0px;
+  -webkit-border-radius: 0px;
+  -moz-border-radius: 0px;
+  background-image: none;
+}</style>
 </head>
-
 <style>
   .nav a:hover {
   text-decoration: none;
   background:rgba(0,0,0,0);
   }
-  
   a:hover {
   text-decoration: none;
   background:rgba(255, 255, 255, 1);
@@ -48,114 +99,129 @@
     <div class="navbar-collapse collapse" id="bs-example-navbar-collapse-1">
       <!-- Search bar -->
       <ul class="nav navbar-nav navbar-right">
-      <li>
+        <li>
           <div class="btn-group">
-          {% if request.session.searchtype != None %}
-          {% if request.session.searchtype == 'location' %}
-          <button id="dropdown-btn" type="button" style="margin-top:8px" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Location <span class="caret"></span></button>
-          <ul id="dropdown" class="dropdown-menu" role="menu">
-          <li id="dropdown-option"><a onclick="changeSearchType()">Name</a></li>
-          </ul>
-          {% else %}
-          <button id="dropdown-btn" type="button" style="margin-top:8px" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Name <span class="caret"></span></button>
-          <ul id="dropdown" class="dropdown-menu" role="menu">
-          <li id="dropdown-option"><a onclick="changeSearchType()">Location</a></li>
-          </ul>
-          {% endif %}
-          {% else %}
-          <button id="dropdown-btn" type="button" style="margin-top:8px" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Location <span class="caret"></span></button>
-          <ul id="dropdown" class="dropdown-menu" role="menu">
-          <li id="dropdown-option"><a onclick="changeSearchType()">Name</a></li>
-          </ul>
-          {% endif %}
+            {% if request.session.searchtype != None %}
+            {% if request.session.searchtype == 'location' %}
+            <button id="dropdown-btn" type="button" style="margin-top:8px" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Location <span class="caret"></span></button>
+            <ul id="dropdown" class="dropdown-menu" role="menu">
+              <li id="dropdown-option"><a onclick="changeSearchType()">Name</a></li>
+            </ul>
+            {% else %}
+            <button id="dropdown-btn" type="button" style="margin-top:8px" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Name <span class="caret"></span></button>
+            <ul id="dropdown" class="dropdown-menu" role="menu">
+              <li id="dropdown-option"><a onclick="changeSearchType()">Location</a></li>
+            </ul>
+            {% endif %}
+            {% else %}
+            <button id="dropdown-btn" type="button" style="margin-top:8px" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Location <span class="caret"></span></button>
+            <ul id="dropdown" class="dropdown-menu" role="menu">
+              <li id="dropdown-option"><a onclick="changeSearchType()">Name</a></li>
+            </ul>
+            {% endif %}
           </div>
-       </li>
-      <li>
-        <div id="search-div" class="navbar-form navbar-right" style="max-height: 40px">
-          <form id="search">
-            <div class="form-group">
-              {% if request.session.searchtype != None %}
-              {% if request.session.searchtype == 'location' %}
-              <input id="search-input" type="text" class="form-control" placeholder="Trail location">
-              {% else %}
-              <input id="search-input" type="text" class="form-control" placeholder="Trail name">
-              {% endif %}
-              {% else %}
-              <input id="search-input" type="text" class="form-control" placeholder="Trail location">
-              {% endif %}
-            </div>
-            <input id="searchbtn" onclick="searchBtn()" type="button" class="btn btn-default" value="Search">
-          </form>
-        </div>
-      </li>
-      <li>
-        {% if request.user.is_authenticated %}
-        <p class="navbar-text pull-right"><a href="/user/profile"><i class="glyphicon glyphicon-user"></i> {{ request.user.username }}</a> | <a href="{% url 'logout' %}?next=/"><i class="glyphicon glyphicon-log-out"></i> Logout</a></p>
-        {% else %}
-        <p class="navbar-text pull-right"><a href="{% url 'login' %}">Login</a></p>
-        {% endif %}
-      </li>
+        </li>
+        <li>
+          <div id="search-div" class="navbar-form navbar-right" style="max-height: 40px">
+            <form id="search">
+              <div id="search-bar" class="form-group">
+                {% if request.session.searchtype != None %}
+                {% if request.session.searchtype == 'location' %}
+                <input id="search-input" type="text" class="form-control" placeholder="Trail location">
+                {% else %}
+                <input id="search-input" type="text" class="form-control" placeholder="Trail name">
+                {% endif %}
+                {% else %}
+                <input id="search-input" type="text" class="form-control" placeholder="Trail location">
+                {% endif %}
+              </div>
+              <input id="searchbtn" onclick="searchBtn()" type="button" class="btn btn-default" value="Search">
+            </form>
+          </div>
+        </li>
+        <li>
+          {% if request.user.is_authenticated %}
+          <p class="navbar-text pull-right"><a href="/user/profile"><i class="glyphicon glyphicon-user"></i> {{ request.user.username }}</a> | <a href="{% url 'logout' %}?next=/"><i class="glyphicon glyphicon-log-out"></i> Logout</a></p>
+          {% else %}
+          <p class="navbar-text pull-right"><a href="{% url 'login' %}">Login</a></p>
+          {% endif %}
+        </li>
       </ul>
     </div>
     <!-- /.navbar-collapse -->
   </div>
   <!-- /.container -->
 </nav>
-
 <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
 <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
 <script src='{% static "static_pages/js/bootstrap.min.js" %}'></script>
-
 <script>
-  $("#search").submit(function( event ) {
-    if($("#dropdown-btn").text() == "Location ") {
-      console.log('search');
-      event.preventDefault();
-      console.log('prevent');
-      var form = document.getElementById("search");
-      console.log('getInfo');
-      window.location.href = '/search/location/' + form.elements[0].value;
-      console.log('redirect');
+  $("#search").submit(function (event) {
+      if ($("#dropdown-btn").text() == "Location ") {
+          console.log('search');
+          event.preventDefault();
+          console.log('prevent');
+          var form = document.getElementById("search");
+          console.log('getInfo');
+          window.location.href = '/search/location/' + form.elements[0].value;
+          console.log('redirect');
       } else {
-      console.log('search');
-      event.preventDefault();
-      console.log('prevent');
-      var form = document.getElementById("search");
-      console.log('getInfo');
-      window.location.href = '/search/name/' + form.elements[0].value;
-      console.log('redirect');
+          console.log('search');
+          event.preventDefault();
+          console.log('prevent');
+          var form = document.getElementById("search");
+          console.log('getInfo');
+          window.location.href = '/search/name/' + form.elements[0].value;
+          console.log('redirect');
       }
-    });
-    
-    function searchBtn() {
-      if($("#dropdown-btn").text() == "Location ") {
-      console.log('search');
-      event.preventDefault();
-      console.log('prevent');
-      var form = document.getElementById("search");
-      console.log('getInfo');
-      window.location.href = '/search/location/' + form.elements[0].value;
-      console.log('redirect');
+  });
+
+  function searchBtn() {
+      if ($("#dropdown-btn").text() == "Location ") {
+          console.log('search');
+          event.preventDefault();
+          console.log('prevent');
+          var form = document.getElementById("search");
+          console.log('getInfo');
+          window.location.href = '/search/location/' + form.elements[0].value;
+          console.log('redirect');
       } else {
-      console.log('search');
-      event.preventDefault();
-      console.log('prevent');
-      var form = document.getElementById("search");
-      console.log('getInfo');
-      window.location.href = '/search/name/' + form.elements[0].value;
-      console.log('redirect');
+          console.log('search');
+          event.preventDefault();
+          console.log('prevent');
+          var form = document.getElementById("search");
+          console.log('getInfo');
+          window.location.href = '/search/name/' + form.elements[0].value;
+          console.log('redirect');
       }
-    }
-    
-    function changeSearchType() {
-      if($("#dropdown-btn").text() == "Location ") {
-      $("#dropdown-btn").replaceWith('<button id="dropdown-btn" type="button" style="margin-top:8px" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Name <span class="caret"></span></button>');
-      $("#dropdown-option").replaceWith('<li id="dropdown-option"><a onclick="changeSearchType()">Location</a></li>');
-      $("#search-input").attr("placeholder", "Trail Name").val("").focus().blur();
+  }
+
+  function changeSearchType() {
+      if ($("#dropdown-btn").text() == "Location ") {
+          $("#dropdown-btn").replaceWith('<button id="dropdown-btn" type="button" style="margin-top:8px" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Name <span class="caret"></span></button>');
+          $("#dropdown-option").replaceWith('<li id="dropdown-option"><a onclick="changeSearchType()">Location</a></li>');
+          $("#search-input").attr("placeholder", "Trail Name").val("").focus().blur();
       } else {
-      $("#dropdown-btn").replaceWith('<button id="dropdown-btn" type="button" style="margin-top:8px" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Location <span class="caret"></span></button>');
-      $("#dropdown-option").replaceWith('<li id="dropdown-option"><a onclick="changeSearchType()">Name</a></li>');
-      $("#search-input").attr("placeholder", "Trail Location").val("").focus().blur();
+          $("#dropdown-btn").replaceWith('<button id="dropdown-btn" type="button" style="margin-top:8px" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Location <span class="caret"></span></button>');
+          $("#dropdown-option").replaceWith('<li id="dropdown-option"><a onclick="changeSearchType()">Name</a></li>');
+          $("#search-input").attr("placeholder", "Trail Location").val("").focus().blur();
       }
-    }
+  }
+  $(function () {
+      $("#search-input").autocomplete({
+          source: function (term, callback) {
+              $.getJSON("search/" + $("#dropdown-btn").text().toLowerCase().replace(/^\s+|\s+$/g, '') + "/" + term.term + ".json", function(data){
+                    callback(data.map(function(result){
+                            return result.name;
+                        }));
+                  });
+          },
+          focus: function (event, ui) {
+              $("#search-input").val(ui.item.value);
+              return false;
+          },
+          appendTo: "#bs-example-navbar-collapse-1",
+          minLength: 3
+      });
+  });
 </script>
