@@ -100,42 +100,10 @@
       <!-- Search bar -->
       <ul class="nav navbar-nav navbar-right">
         <li>
-          <div class="btn-group">
-            {% if request.session.searchtype != None %}
-            {% if request.session.searchtype == 'location' %}
-            <button id="dropdown-btn" type="button" style="margin-top:8px" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Location <span class="caret"></span></button>
-            <ul id="dropdown" class="dropdown-menu" role="menu">
-              <li id="dropdown-option"><a onclick="changeSearchType()">Name</a></li>
-            </ul>
-            {% else %}
-            <button id="dropdown-btn" type="button" style="margin-top:8px" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Name <span class="caret"></span></button>
-            <ul id="dropdown" class="dropdown-menu" role="menu">
-              <li id="dropdown-option"><a onclick="changeSearchType()">Location</a></li>
-            </ul>
-            {% endif %}
-            {% else %}
-            <button id="dropdown-btn" type="button" style="margin-top:8px" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Location <span class="caret"></span></button>
-            <ul id="dropdown" class="dropdown-menu" role="menu">
-              <li id="dropdown-option"><a onclick="changeSearchType()">Name</a></li>
-            </ul>
-            {% endif %}
-          </div>
-        </li>
-        <li>
           <div id="search-div" class="navbar-form navbar-right" style="max-height: 40px">
             <form id="search">
-              <div id="search-bar" class="form-group">
-                {% if request.session.searchtype != None %}
-                {% if request.session.searchtype == 'location' %}
-                <input id="search-input" type="text" class="form-control" placeholder="Trail location">
-                {% else %}
-                <input id="search-input" type="text" class="form-control" placeholder="Trail name">
-                {% endif %}
-                {% else %}
-                <input id="search-input" type="text" class="form-control" placeholder="Trail location">
-                {% endif %}
-              </div>
-              <input id="searchbtn" onclick="searchBtn()" type="button" class="btn btn-default" value="Search">
+				<input id="search-input" type="text" class="form-control" placeholder="Type a name or location...">
+				<input id="searchbtn" onclick="searchBtn()" type="button" class="btn btn-default" value="Search">
             </form>
           </div>
         </li>
@@ -157,60 +125,30 @@
 <script src='{% static "static_pages/js/bootstrap.min.js" %}'></script>
 <script>
   $("#search").submit(function (event) {
-      if ($("#dropdown-btn").text() == "Location ") {
-          console.log('search');
           event.preventDefault();
-          console.log('prevent');
           var form = document.getElementById("search");
-          console.log('getInfo');
-          window.location.href = '/search/location/' + form.elements[0].value;
-          console.log('redirect');
-      } else {
-          console.log('search');
-          event.preventDefault();
-          console.log('prevent');
-          var form = document.getElementById("search");
-          console.log('getInfo');
           window.location.href = '/search/name/' + form.elements[0].value;
-          console.log('redirect');
-      }
   });
 
   function searchBtn() {
-      if ($("#dropdown-btn").text() == "Location ") {
-          console.log('search');
           event.preventDefault();
-          console.log('prevent');
           var form = document.getElementById("search");
-          console.log('getInfo');
-          window.location.href = '/search/location/' + form.elements[0].value;
-          console.log('redirect');
-      } else {
-          console.log('search');
-          event.preventDefault();
-          console.log('prevent');
-          var form = document.getElementById("search");
-          console.log('getInfo');
           window.location.href = '/search/name/' + form.elements[0].value;
-          console.log('redirect');
-      }
   }
-
-  function changeSearchType() {
-      if ($("#dropdown-btn").text() == "Location ") {
-          $("#dropdown-btn").replaceWith('<button id="dropdown-btn" type="button" style="margin-top:8px" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Name <span class="caret"></span></button>');
-          $("#dropdown-option").replaceWith('<li id="dropdown-option"><a onclick="changeSearchType()">Location</a></li>');
-          $("#search-input").attr("placeholder", "Trail Name").val("").focus().blur();
-      } else {
-          $("#dropdown-btn").replaceWith('<button id="dropdown-btn" type="button" style="margin-top:8px" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Location <span class="caret"></span></button>');
-          $("#dropdown-option").replaceWith('<li id="dropdown-option"><a onclick="changeSearchType()">Name</a></li>');
-          $("#search-input").attr("placeholder", "Trail Location").val("").focus().blur();
-      }
-  }
+  if (typeof String.prototype.startsWith != 'function') {
+  // see below for better implementation!
+  String.prototype.startsWith = function (str){
+    return this.indexOf(str) === 0;
+  };
+}
   $(function () {
+	  var searchTerm = "";
       $("#search-input").autocomplete({
           source: function (term, callback) {
-              $.getJSON("/search/" + $("#dropdown-btn").text().toLowerCase().replace(/^\s+|\s+$/g, '') + "/" + term.term + ".json", function(data){
+			  searchTerm = term.term;
+              $.getJSON("/search/name/" + searchTerm + ".json", function(data){
+				    data.push({name:'<i class="glyphicon glyphicon-map-marker"></i> <b>Search as location</b>'});
+				    data.push({name:'<i class="glyphicon glyphicon-font"></i> <b>Search as name</b>'});
                     callback(data.map(function(result){
 							var toReturn = {};
 							toReturn["id"] = result.pk;
@@ -218,17 +156,32 @@
                             return toReturn;
                         }));
                   });
+                  
           },
           focus: function (event, ui) {
-              $("#search-input").val(ui.item.value);
+              if(!ui.item.value.startsWith("<")){
+				$("#search-input").val(ui.item.value);
+			  }
               return false;
           },
           appendTo: "#bs-example-navbar-collapse-1",
           minLength: 3,
           select: function (event, ui) {
             event.preventDefault();
-            location.href = "/trail/" + ui.item.id + "/";
+            if(ui.item.id != null) {
+				location.href = "/trail/" + ui.item.id + "/";
+			} else if(ui.item.value.indexOf("location") > -1) {
+				location.href = "/search/location/" + searchTerm + "/";
+			} else {
+				location.href = "/search/name/" + searchTerm + "/";
+			}
         }
-      });
+      })
+      .autocomplete( "instance" )._renderItem = function( ul, item ) {
+      return $( "<li>" )
+        .append(item.value)
+        .appendTo( ul );
+    };
   });
+  
 </script>
