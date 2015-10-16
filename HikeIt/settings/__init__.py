@@ -124,3 +124,13 @@ EMAIL_PORT = 465
 EMAIL_HOST_USER = os.environ.get('HIKEIT_EMAIL_USER')
 EMAIL_HOST_PASSWORD = os.environ.get('HIKEIT_EMAIL_PASS')
 
+REST_FRAMEWORK = {
+    'DEFAULT_THROTTLE_CLASSES': (
+        'rest_framework.throttling.AnonRateThrottle',
+        'rest_framework.throttling.UserRateThrottle'
+    ),
+    'DEFAULT_THROTTLE_RATES': {
+        'anon': '2000/day',
+        'user': '5000/day'
+    }
+}

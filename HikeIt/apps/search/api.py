@@ -7,7 +7,7 @@ from trails.models import Trail
 from trails.serializers import TrailSearchSerializer
 
 class SearchName(APIView):
-    permission_classes = (permissions.IsAuthenticated,)
+    #permission_classes = (permissions.IsAuthenticated,)
     
     def get(self, request, name, format=None):
         if len(name) > 2:
@@ -18,7 +18,7 @@ class SearchName(APIView):
             return Response('', status=status.HTTP_400_BAD_REQUEST)
 
 class SearchLocation(APIView):
-    permission_classes = (permissions.IsAuthenticated,)
+    #permission_classes = (permissions.IsAuthenticated,)
     
     def get(self, request, location, format=None):
         if len(location) > 2:
