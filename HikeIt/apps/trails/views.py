@@ -82,12 +82,36 @@ def trailpage(request, trail_id):
     images = trail.trailimage_set.filter(approved=True)
     reviews = trail.review_set.all
     
+    liked = False
+    completed = False
+    saved = False
+    
+    if request.user.is_authenticated():
+        try:
+            liked = request.user.profile.liked_trails.get(pk=trail.pk)
+        except trail.DoesNotExist:
+            liked = False
+            
+        try:
+            completed = request.user.profile.completed_trails.get(pk=trail.pk)
+        except trail.DoesNotExist:
+            completed = False
+            
+        try:
+            saved = request.user.profile.saved_trails.get(pk=trail.pk)
+        except trail.DoesNotExist:
+            saved = False
+            
+    
     args = {'trail': trail,
             'length': length,
             'difficulty': difficulty,
             'id': trail_id,
             'images': images,
-            'reviews': reviews
+            'reviews': reviews,
+            'liked': liked,
+            'completed': completed,
+            'saved': saved
            }
     
     return render(request, 'trails/trailpage.html', args)
@@ -128,6 +152,33 @@ def liketrail(request, trail_id):
         pass
     return HttpResponse("Like")
     
+def unliketrail(request, trail_id):
+    trail = get_object_or_404(Trail, pk=trail_id)
+    user = request.user
+    
+    if request.user.is_authenticated():
+        try:
+            user.profile.liked_trails.get(pk=trail_id)
+        except trail.DoesNotExist:
+            messages.add_message(request, messages.WARNING, 'You have not liked this trail yet')
+            return HttpResponseRedirect('/trail/%s' % str(trail_id))
+        else:
+            # Add the trail to the user model, in a many to many state
+            user.profile.liked_trails.remove(trail)
+            user.save()
+            
+            trail.likes = trail.likes - 1
+            trail.save()
+    else:
+        messages.add_message(request, messages.WARNING, 'You need to be signed in to un-like trails!')
+        return HttpResponseRedirect('/trail/%s' % str(trail_id))
+        
+    try:
+        return HttpResponseRedirect('/trail/%s' % str(trail_id))
+    except:
+        pass
+    return HttpResponse("Like")
+    
 def completedtrail(request, trail_id):
     trail = get_object_or_404(Trail, pk=trail_id)
     user = request.user
@@ -142,6 +193,31 @@ def completedtrail(request, trail_id):
             
     else:
         messages.add_message(request, messages.WARNING, 'You need to be signed in to mark trails as completed!')
+        return HttpResponseRedirect('/trail/%s' % str(trail_id))
+        
+    try:
+        return HttpResponseRedirect('/trail/%s' % str(trail_id))
+    except:
+        pass
+    return HttpResponse("Completed")
+    
+def uncompletetrail(request, trail_id):
+    trail = get_object_or_404(Trail, pk=trail_id)
+    user = request.user
+    
+    if request.user.is_authenticated():
+        try:
+            user.profile.completed_trails.get(pk=trail_id)
+        except trail.DoesNotExist:
+            messages.add_message(request, messages.WARNING, 'You have not yet marked this trail as completed')
+            return HttpResponseRedirect('/trail/%s' % str(trail_id))
+        else:
+            # Add the trail to the user model, in a many to many state
+            user.profile.completed_trails.remove(trail)
+            user.save()
+            
+    else:
+        messages.add_message(request, messages.WARNING, 'You need to be signed in to unmark trails as completed!')
         return HttpResponseRedirect('/trail/%s' % str(trail_id))
         
     try:
@@ -194,6 +270,32 @@ def savedtrail(request, trail_id):
             user.profile.saved_trails.add(trail)
             user.save()
             messages.add_message(request, messages.SUCCESS, 'You have saved the trail ' + trail.name)
+            
+    else:
+        messages.add_message(request, messages.WARNING, 'You need to be signed in to save trails!')
+        return HttpResponseRedirect('/trail/%s' % str(trail_id))
+        
+    try:
+        return HttpResponseRedirect('/trail/%s' % str(trail_id))
+    except:
+        pass
+    return HttpResponse("Completed")
+    
+def unsavetrail(request, trail_id):
+    trail = get_object_or_404(Trail, pk=trail_id)
+    user = request.user
+    
+    if request.user.is_authenticated():
+        try:
+            user.profile.saved_trails.get(pk=trail_id)
+        except trail.DoesNotExist:
+            messages.add_message(request, messages.WARNING, 'You have not yet saved this trail')
+            return HttpResponseRedirect('/trail/%s' % str(trail_id))
+        else:
+            # Add the trail to the user model, in a many to many state
+            user.profile.saved_trails.remove(trail)
+            user.save()
+            messages.add_message(request, messages.SUCCESS, 'You have un-saved the trail ' + trail.name)
             
     else:
         messages.add_message(request, messages.WARNING, 'You need to be signed in to save trails!')

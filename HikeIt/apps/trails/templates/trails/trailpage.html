@@ -86,10 +86,10 @@
                     <p><b>Likes:</b> {{ trail.likes }}</p>
                     <p><b>Users completed:</b> {{ trail.completed.count }}</p>
                     <div class="row" style="padding-left: 10px; padding-bottom: 10px;">
-                        <a href="/trail/{{ trail.id }}/like" class="btn btn-primary"><span class="glyphicon glyphicon-thumbs-up"></span> Like</a>
-                        <a href="/trail/{{ trail.id }}/completed" class="btn btn-primary"><span class="ionicons ion-android-walk"></span> Completed</a>
+                        <a href="/trail/{{ trail.id }}/{% if liked %}unlike{% else %}like{% endif %}" class="btn btn-primary"><span class="glyphicon glyphicon-thumbs-up"></span> {% if liked %}Unlike{% else %}Like{% endif %}</a>
+                        <a href="/trail/{{ trail.id }}/{% if completed %}uncomplete{% else %}completed{% endif %}" class="btn btn-primary"><span class="ionicons ion-android-walk"></span> {% if completed %}Uncomplete{% else %}Complete{% endif %}</a>
                         
-                        <p class="pull-right" style="padding-right: 15px"><a href="/trail/{{ trail.id }}/save" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> Save</a></p>
+                        <p class="pull-right" style="padding-right: 15px"><a href="/trail/{{ trail.id }}/{% if saved %}unsave{% else %}save{% endif %}" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> {% if saved %}Unsave{% else %}Save{% endif %}</a></p>
                     </div>
                 </div>
             </div>
