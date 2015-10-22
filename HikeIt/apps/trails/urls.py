@@ -24,6 +24,7 @@ urlpatterns = [
 
 apipatterns = [
     url(r'^(?P<pk>[0-9]+)/$', api.TrailInfo.as_view()),
+    url(r'^(?P<pk>[0-9]+)/like/$', api.LikeTrail.as_view()),
 ]
 
 urlpatterns = urlpatterns + format_suffix_patterns(apipatterns)
