@@ -42,6 +42,8 @@ urlpatterns = [
     url(r'^logout/$', 'django.contrib.auth.views.logout', {'next_page': '/'}, name='logout'),
     url(r'^password_reset/done/$', RedirectView.as_view(url='/login/')),
     
+    url(r'^auth/', include('rest_framework.urls', namespace='rest_framework')),
+    
     url(r'^images/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT}),
     
 ]
