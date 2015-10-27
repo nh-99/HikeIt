@@ -30,7 +30,7 @@ class Register(APIView):
 	"""
 	Register a user
 	"""
-    #permission_classes = (permissions.AllowAny,)
+	permission_classes = (permissions.AllowAny,)
 	parser_classes = (JSONParser,)
 	
 	def post(self, request, format=None):
