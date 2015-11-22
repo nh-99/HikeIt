@@ -13,6 +13,7 @@ urlpatterns = [
 apipatterns = [
     url(r'^location/(?P<location>[\w ]+)/$', api.SearchLocation.as_view()),
     url(r'^name/(?P<name>[\w ]+)/$', api.SearchName.as_view()),
+    url(r'^latlon/(?P<lat_string>-?\d+(?:\.\d+)?)/(?P<lng_string>-?\d+(?:\.\d+)?)/$', api.SearchLatLng.as_view()),
 ]
 
 urlpatterns = urlpatterns + format_suffix_patterns(apipatterns)

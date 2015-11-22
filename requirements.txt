@@ -5,6 +5,7 @@ python-image-resize
 django-jenkins
 coverage
 python-social-auth
+django-social-auth
 oauthlib
 django-widget-tweaks
 django-registration-redux
