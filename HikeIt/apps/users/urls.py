@@ -6,6 +6,7 @@ urlpatterns = [
     url(r'^new/$', views.registeruser, name='register_new_user'),
     url(r'^approve/$', views.confirmuser, name='approve_new_user'),
     url(r'^profile/$', views.profile, name='profile'),
+    url(r'^profile/trails/$', views.profile_trails, name='profile_trails'),
     url(r'^profile/settings/$', views.profile_settings, name='profile_settings'),
     url(r'^edit/$', views.update_profile, name='update_profile'),
 ]

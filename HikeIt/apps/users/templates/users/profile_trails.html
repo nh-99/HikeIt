@@ -117,12 +117,12 @@
         <!-- SIDEBAR MENU -->
         <div class="profile-usermenu">
           <ul class="nav">
-            <li class="active">
-              <a href="#">
+            <li>
+              <a href="/user/profile">
               <i class="glyphicon glyphicon-home"></i>
               Overview </a>
             </li>
-            <li>
+            <li class="active">
               <a href="/user/profile/trails/">
               <i class="ionicons ion-android-walk"></i>
               Trails </a>
@@ -162,20 +162,59 @@
     <div id="profile-content" class="col-md-9">
       <div class="profile-content">
         <center>
-            <h3>Profile</h3>
+          <h3>Liked Trails</h3>
         </center>
-        <br><br>
+        {% if user.profile.liked_trails.count <= 0 %}
+        <center>
+          <p style="color:gray">You have not liked any trails yet<br>Try using the search function at the top to find trails that you like</p>
+        </center>
+        {% else %}
+        <br>
         <div class="col-md-3"></div>
-            <div class="list-group col-md-6">
-                <li class="list-group-item">
-                    <center>
-                <h4><i>Profile Info:</i></h4>
-                </center>
-                <p><b>Email: </b>{{ user.email }}</p>
-                <p><b>First Name: </b>{{ user.first_name }}</p>
-                <p><b>Last Name: </b>{{ user.last_name }}</p>
-                </li>
-            </div>
+        <div class="list-group col-md-6">
+          {% for trail in user.profile.liked_trails.all %}
+          <li class="list-group-item"><a href="/trail/{{ trail.pk }}">{{ trail.name }}</a></li>
+          {% endfor %}
+	  </div>
+          {% endif %}
+        <br><br><br>
+        <hr>
+        <br>
+        <center>
+          <h3>Completed Trails</h3>
+        </center>
+        {% if user.profile.completed_trails.count <= 0 %}
+        <center>
+          <p style="color:gray">You have not marked any trails as completed yet<br>Try using the search function at the top to find trails that you have done before</p>
+        </center>
+        {% else %}
+        <div class="col-md-3"></div>
+        <div class="list-group col-md-6">
+          {% for trail in user.profile.completed_trails.all %}
+          <li class="list-group-item"><a href="/trail/{{ trail.pk }}">{{ trail.name }}</a></li>
+          {% endfor %}
+	  </div>
+          {% endif %}
+	  <br><br><br>
+        <hr>
+        <br>
+        <center>
+          <h3>Saved Trails</h3>
+        </center>
+        {% if user.profile.saved_trails.count <= 0 %}
+        <center>
+          <p style="color:gray">You have not saved any trails yet<br>Try using the search function at the top to find trails that you would like to hike</p>
+        </center>
+        {% else %}
+        <div class="col-md-3"></div>
+        <div class="list-group col-md-6">
+          {% for trail in user.profile.saved_trails.all %}
+          <li class="list-group-item"><a href="/trail/{{ trail.pk }}">{{ trail.name }}</a></li>
+          {% endfor %}
+	  </div>
+          {% endif %}
+        </div>
+        </div>
       </div>
     </div>
   </div>

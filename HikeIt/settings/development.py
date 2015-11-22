@@ -12,5 +12,5 @@ DATABASES = {
     }
 }
 
-STATIC_ROOT = "/home/HikeIt/static"
+STATIC_ROOT = "static"
 DEBUG = True

@@ -33,6 +33,13 @@ def profile(request):
         messages.add_message(request, messages.WARNING, 'You need to be signed in to see your profile')
         return HttpResponseRedirect('/')
         
+def profile_trails(request):
+    if request.user.is_authenticated():
+        return render(request, 'users/profile_trails.html')
+    else:
+        messages.add_message(request, messages.WARNING, 'You need to be signed in to see your profile')
+        return HttpResponseRedirect('/')
+	
 def profile_settings(request):
     if request.user.is_authenticated():
         return render(request, 'users/profile_settings.html')
