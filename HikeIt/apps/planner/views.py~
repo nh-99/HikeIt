@@ -1,0 +1,24 @@
+from django.shortcuts import render
+from django.contrib import messages
+from django.http import HttpResponse, HttpResponseRedirect
+
+from .models import Planner
+
+def index(request):
+    if request.user.is_authenticated():
+        try:
+            planner = Planner.objects.get(user=request.user)
+        except Planner.DoesNotExist:
+            planner = None
+        return render(request, 'planner/index.html', { "planner": planner })
+    else:
+        messages.add_message(request, messages.WARNING, 'You must sign in to use the trail planning tools')
+        return HttpResponseRedirect('/')
+
+def planner(request, trail_id):
+    if request.user.is_authenticated():
+        trail = get_object_or_404(Trail, pk=trail_id)
+        return render(request, 'planner/plan.html', {"trail": trail})
+    else:
+        messages.add_message(request, messages.WARNING, 'You must sign in to use the trail planning tools')
+        return HttpResponseRedirect('/')

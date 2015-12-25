@@ -10,9 +10,9 @@ class Command(BaseCommand):
     help = "Populate the database with trails"
 
     def handle(self, *args, **options):
-        for trailFile in os.listdir(os.getcwd() + "/trails/management/commands/trails/"):
+        for trailFile in os.listdir(os.getcwd() + "/HikeIt/apps/trails/management/commands/trails/"):
             if ".json" in trailFile:
-                f = open(os.getcwd() + "/trails/management/commands/trails/" + trailFile,"r")
+                f = open(os.getcwd() + "/HikeIt/apps/trails/management/commands/trails/" + trailFile,"r")
                 parsedSon = json.loads(f.read())
                 
                 for trail in parsedSon:

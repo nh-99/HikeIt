@@ -3,12 +3,14 @@ from django.db.models.signals import post_save
 from django.contrib.auth.models import User
 
 from trails.models import Trail
+from planner.models import Planner
 
 class UserTrails(models.Model):
     user = models.OneToOneField(User, related_name='profile')
     liked_trails = models.ManyToManyField(Trail, related_name='liked')
     completed_trails = models.ManyToManyField(Trail, related_name='completed')
     saved_trails = models.ManyToManyField(Trail, related_name='saved')
+    planned_hikes = models.ManyToManyField(Planner, related_name='planned_hikes')
     token = models.CharField(max_length=100, default=None, null=True)
 
 def create_user_profile(sender, instance, created, **kwargs):  
