@@ -5,13 +5,19 @@ from django.template import Context
 from django.core.mail import EmailMessage
 
 from django.contrib.auth.models import User
+from .models import Planner
+
+from celery.utils.log import get_task_logger
+
+logger = get_task_logger(__name__)
 
 # Handles the notification's sent to users for schedules hikes
 
 @task
 def notify_email(pk_user, pk_planner):
+    logger.debug("called")
     user = User.objects.get(pk=pk_user)
-    planner = user.profile.planned_hikes.get(pk=pk_planner)
+    planner = Planner.objects.get(pk=pk_planner)
     subject = "HikeIt: Hiking Reminder!"
     to = [user.email]
     from_email = 'reminder@hikeit.me'
