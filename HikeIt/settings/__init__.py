@@ -12,8 +12,11 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+import djcelery
 from django.contrib.messages import constants as messages
 from .config import *
+
+djcelery.setup_uploader()
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -44,7 +47,8 @@ INSTALLED_APPS = (
     'planner',
     'django.contrib.auth',
     'rest_framework',
-    'rest_framework.authtoken'
+    'rest_framework.authtoken',
+    'djcelery'
 )
 
 MIDDLEWARE_CLASSES = (
@@ -139,3 +143,5 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.TokenAuthentication',
     )
 }
+
+BROKER_URL = 'amqp://guest:guest@localhost:5672//'

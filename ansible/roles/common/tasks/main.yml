@@ -49,6 +49,7 @@
       - libxslt1-dev
       - libjpeg-dev
       - python-dev
+      - rabbitmq-server
       - redis-server
       - python-mysqldb
 
