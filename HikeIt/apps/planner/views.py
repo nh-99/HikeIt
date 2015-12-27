@@ -2,11 +2,11 @@ from django.shortcuts import get_object_or_404, render
 from django.contrib import messages
 from django.http import HttpResponse, HttpResponseRedirect
 
-from datetime import datetime
-
+from datetime import datetime, timedelta
 import time
 
 from .models import Planner
+from .tasks import notify_email
 from trails.models import Trail
 
 def index(request):
@@ -27,9 +27,13 @@ def planner(request, trail_id):
 def plan(request):
     if request.user.is_authenticated():
         date = request.POST["date"]
+        hiking_time = datetime.fromtimestamp(time.mktime(time.strptime(date, "%m/%d/%Y")))
+        test = datetime.now() + timedelta(0,10)
+        notification_send_date = hiking_time - timedelta(days=1)
         trail = get_object_or_404(Trail, pk=int(request.POST.get("trail_id")))
-        planner = Planner.objects.create(trail=trail, hiking_time=datetime.fromtimestamp(time.mktime(time.strptime(date, "%m/%d/%Y"))))
+        planner = Planner.objects.create(trail=trail, hiking_time=hiking_time)
         planner.save()
+        notify_email.apply_async(eta=test, kwargs={'pk_user': request.user.pk, 'pk_planner': planner.pk})
         messages.add_message(request, messages.SUCCESS, 'Hike scheduled')
         return HttpResponseRedirect('/planner/')
     else:

@@ -16,7 +16,7 @@ import djcelery
 from django.contrib.messages import constants as messages
 from .config import *
 
-djcelery.setup_uploader()
+djcelery.setup_loader()
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -144,4 +144,4 @@ REST_FRAMEWORK = {
     )
 }
 
-BROKER_URL = 'amqp://guest:guest@localhost:5672//'
+BROKER_URL = 'amqp://guest:guest@localhost:5672/'
