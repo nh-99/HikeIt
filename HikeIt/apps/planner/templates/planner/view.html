@@ -1,0 +1,24 @@
+{% load staticfiles %}
+{% load planner_time_libs %}
+{% include 'static_pages/navbar.html' %}
+<br><br><br><br>
+{% include 'static_pages/message.html' %}
+<title>HikeIt</title>
+<link href="{% static "static_pages/css/ionicons.css" %}" rel="stylesheet">
+<div class="col-md-3"></div>
+<div class="col-md-6">
+    <div class="list-group">
+        <li class="list-group-item">
+            <center>
+                <h2>Hiking Plan</h2><br>
+                <p><b>Trail Name: </b>{{ planner.trail.name }}</p>
+                <p><b>Hike Date: </b>{% format_time_view planner.hiking_time %}</p>
+                <p><b>Reminder time: </b>{% format_time_view planner.notification_date %}</p>
+                <br>
+            </center>
+            <a href="/trail/{{ planner.trail.pk }}" class="btn btn-primary"><i class="ionicons ion-eye"></i> View Trail</a>
+            <p class="pull-right" style="padding-right: 15px"><a href="/planner/{{ planner.pk }}/delete/" class="btn btn-danger"><i class="glyphicon glyphicon-remove"></i> Remove Plan</a></p>
+        </li>
+    </div>
+</div>
+</div>

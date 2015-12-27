@@ -54,7 +54,14 @@
                 <div class="caption-full">
                     <h4>
                         <a href="#">{{ trail.name }}</a>
-                        <p class="pull-right"><button class="btn btn-success" data-toggle="modal" data-target="#image-upload"><span class="glyphicon glyphicon-picture"></span> Add Image</button></p>
+                        <table class="pull-right">
+                            <tr>
+                                <th><p class="pull-right"><a href="/planner/{{ trail.pk }}/" class="btn btn-success"><i class="glyphicon glyphicon-time"></i> Plan</a></p></th>
+                            </tr>
+                            <tr>
+                                <th><button class="btn btn-success" data-toggle="modal" data-target="#image-upload"><span class="glyphicon glyphicon-picture"></span> Add Image</button></th>
+                            </tr>
+                        </table>
                     </h4>
 		    <!-- Modal -->
 <div id="image-upload" class="modal fade" role="dialog">
@@ -79,7 +86,6 @@
                     <p>{{ trail.description }}</p>
                 </div>
                 <div class="ratings">
-                    <p class="pull-right">{{ trail.review_set.count }} {% if trail.review_set.count < 2 and trail.review_set.count > 0 %}comment{% else %}comments{% endif %}</p>
                     <p><b>Location:</b> <a href="{% url 'trail_location' id %}">{{ trail.location }}</a></p>
                     <p><b>Length:</b> {{ length }} miles</p>
                     <p><b>Difficulty:</b> {{ difficulty }}</p>

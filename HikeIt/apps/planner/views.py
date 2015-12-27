@@ -27,13 +27,35 @@ def planner(request, trail_id):
 def plan(request):
     if request.user.is_authenticated():
         date = request.POST["date"]
+        if request.POST["delay"] != None:
+            notification_delay = request.POST["delay"]
+        else:
+            notification_delay = 1
         hiking_time = datetime.fromtimestamp(time.mktime(time.strptime(date, "%m/%d/%Y")))
         notification_send_date = hiking_time - timedelta(days=1)
         trail = get_object_or_404(Trail, pk=int(request.POST.get("trail_id")))
-        planner = Planner.objects.create(trail=trail, hiking_time=hiking_time)
-        planner.save()
+        planner = Planner.objects.create(trail=trail, hiking_time=hiking_time, notification_date=notification_send_date)
+        request.user.profile.planned_hikes.add(planner)
+        request.user.save()
         notify_email.apply_async(eta=notification_send_date, kwargs={'pk_user': request.user.pk, 'pk_planner': planner.pk})
         messages.add_message(request, messages.SUCCESS, 'Hike scheduled')
+        return HttpResponseRedirect('/planner/')
+    else:
+        messages.add_message(request, messages.WARNING, 'You must sign in to use the trail planning tools')
+        return HttpResponseRedirect('/')
+        
+def view_plan(request, planner_id):
+    if request.user.is_authenticated():
+        planner = Planner.objects.get(pk=planner_id)
+        return render(request, 'planner/view.html', {'planner': planner})
+    else:
+        messages.add_message(request, messages.WARNING, 'You must sign in to use the trail planning tools')
+        return HttpResponseRedirect('/')
+        
+def delete_plan(request, planner_id):
+    if request.user.is_authenticated():
+        Planner.objects.get(pk=planner_id).delete()
+        messages.add_message(request, messages.SUCCESS, 'Hike plan deleted successfully')
         return HttpResponseRedirect('/planner/')
     else:
         messages.add_message(request, messages.WARNING, 'You must sign in to use the trail planning tools')

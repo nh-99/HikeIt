@@ -18,9 +18,11 @@
         <input type="hidden" name="trail_id" value="{{ trail.pk }}">
             <div class="list-group">
                 <li class="list-group-item">
+                    <center><h2>Plan a Hike</h2></center>
 </p><b>Trail Name: </b>{{ trail.name }}</p>
 </p><b>Day of Hike: </b><input type="text" name="date" id="date"></p>
- <button type="submit" class="btn btn-default">Save</button>
+<p><i>I'd like to be reminded <input type="text" name="delay" placeholder="1" onkeypress='return event.charCode >= 48 && event.charCode <= 57'> day(s) before my hike.</i></p>
+ <center><button type="submit" class="btn btn-primary">Save</button></center>
 </form>
 </li>
 </div>

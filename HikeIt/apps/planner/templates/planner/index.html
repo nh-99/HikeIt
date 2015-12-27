@@ -1,23 +1,46 @@
 {% load staticfiles %}
+{% load planner_time_libs %}
 {% include 'static_pages/navbar.html' %}
 <br><br><br><br>
 {% include 'static_pages/message.html' %}
+<link href="{% static "static_pages/css/responsive-calendar.css" %}" rel="stylesheet">
 <title>HikeIt</title>
-
-  
-  <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
-  <script>
-  $(function() {
-    $( "#datepicker" ).datepicker();
-  });
-  </script>
-<div class="col-md-3"></div>
-<div class="col-md-6">
-            <div class="list-group">
-                <li class="list-group-item">
-</p><b>Trail Name: </b>{{ trail.name }}</p>
-</p><b>Day of Hike: </b><input type="text" id="datepicker"></p>
-<button>Save</button>
-</li>
-</div>
-</div>
+    <div class="container">
+      <!-- Responsive calendar - START -->
+    	<div class="responsive-calendar">
+        <div class="controls">
+            <a class="pull-left" data-go="prev"><div class="btn btn-primary">Prev</div></a>
+            <h4><span data-head-year></span> <span data-head-month></span></h4>
+            <a class="pull-right" data-go="next"><div class="btn btn-primary">Next</div></a>
+        </div><hr/>
+        <div class="day-headers">
+          <div class="day header">Mon</div>
+          <div class="day header">Tue</div>
+          <div class="day header">Wed</div>
+          <div class="day header">Thu</div>
+          <div class="day header">Fri</div>
+          <div class="day header">Sat</div>
+          <div class="day header">Sun</div>
+        </div>
+        <div class="days" data-group="days">
+          
+        </div>{{user.profile.planned_hikes.count}}</div>
+        <p
+      </div>
+      <!-- Responsive calendar - END -->
+    </div>
+    <script src='{% static "static_pages/js/responsive-calendar.js" %}'></script>
+    <script type="text/javascript">
+        var d = new Date();
+        var currentMonth = d.getFullYear() + '-' + (parseInt(d.getMonth()) + 1);
+      $(document).ready(function () {
+        $(".responsive-calendar").responsiveCalendar({
+          time: currentMonth,
+          events: {
+              {% for planner in user.profile.planned_hikes.all %}
+              "{% format_time_cal planner.hiking_time %}": {"url": "/planner/{{ planner.pk }}/view/"},
+              {% endfor %}
+          }
+        });
+      });
+    </script>
