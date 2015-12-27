@@ -28,12 +28,11 @@ def plan(request):
     if request.user.is_authenticated():
         date = request.POST["date"]
         hiking_time = datetime.fromtimestamp(time.mktime(time.strptime(date, "%m/%d/%Y")))
-        test = datetime.now() + timedelta(0,10)
         notification_send_date = hiking_time - timedelta(days=1)
         trail = get_object_or_404(Trail, pk=int(request.POST.get("trail_id")))
         planner = Planner.objects.create(trail=trail, hiking_time=hiking_time)
         planner.save()
-        notify_email.apply_async(eta=test, kwargs={'pk_user': request.user.pk, 'pk_planner': planner.pk})
+        notify_email.apply_async(eta=notification_send_date, kwargs={'pk_user': request.user.pk, 'pk_planner': planner.pk})
         messages.add_message(request, messages.SUCCESS, 'Hike scheduled')
         return HttpResponseRedirect('/planner/')
     else:

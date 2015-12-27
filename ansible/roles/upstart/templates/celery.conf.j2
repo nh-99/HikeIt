@@ -18,3 +18,4 @@ env HIKEIT_SECRET_KEY="{{ secret_key }}"
 env HIKEIT_MEDIA_ROOT="/home/{{deployment_name}}/{{mode}}/media"
 
 exec python manage.py celeryd
+exec sudo su - {{ deployment_name }} -c "python /home/{{ deployment_name }}/{{ mode }}/manage.py celeryd"
