@@ -5,3 +5,4 @@ HikeIt/settings/config.py
 setup.sh
 env/
 .vagrant/
+*~
