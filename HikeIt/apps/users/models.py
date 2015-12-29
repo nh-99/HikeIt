@@ -12,13 +12,13 @@ class UserTrails(models.Model):
     saved_trails = models.ManyToManyField(Trail, related_name='saved')
     planned_hikes = models.ManyToManyField(Planner, related_name='planned_hikes')
     token = models.CharField(max_length=100, default=None, null=True)
-    timeline_token = models.CharField(max_length=150, default=None, null=True) # The pebble timeline token, if the user has it
+    timeline_token = models.CharField(max_length=100, default=None, null=True) # The pebble timeline token, if the user has it
 
 def create_user_profile(sender, instance, created, **kwargs):  
     if created:
        profile, created = UserTrails.objects.get_or_create(user=instance)  
 
-post_save.connect(create_user_profile, sender=User) 
+post_save.connect(create_user_profile, sender=User)
 
 from django.conf import settings
 from django.dispatch import receiver

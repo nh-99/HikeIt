@@ -71,7 +71,7 @@ class TimelineToken(APIView):
             user = request.user
             token = request.data.get("token")
             user.profile.timeline_token = token
-            user.save()
-            return Response(json.dumps({"result":token}))
+            user.profile.save()
+            return Response(json.dumps({"result":"success"}))
         else:
             return Response(json.dumps({"result":"Not authenticated"}))
