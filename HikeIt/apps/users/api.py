@@ -52,3 +52,27 @@ class Register(APIView):
 			return Response(json.dumps({"result":"Confirmation email sent"}))
 		else:
 			return Response(json.dumps({"result":"Already signed in"}))
+
+class TimelineToken(APIView):
+    """
+    GET or POST the Pebble timeline token of a user
+    """
+    permission_classes = (permissions.IsAuthenticated,)
+	parser_classes = (JSONParser,)
+    
+    def post(self, request, format=None):
+		if request.user.is_authenticated():
+			user = request.user
+			if user.profile.timeline_token != None:
+				return Response(json.dumps({"result": "Token already exists"})
+			else:
+				user.profile.timeline_token = request.post.get("token")
+				return Response(json.dumps({"result": "success"})
+		else:
+			return Response(json.dumps({"result":"Not authenticated"}))
+			
+	def get(self, request, format=None):
+		if request.user.is_authenticated():
+			return Response(json.dumps({"token": request.user.profile.timeline_token})
+		else:
+			return Response(json.dumps({"result":"Not authenticated"}))

@@ -23,6 +23,7 @@ urlpatterns += [
 apipatterns = [
     url(r'^profile/$', api.UserInfo.as_view()),
     url(r'^register/$', api.Register.as_view()),
+    url(r'^timeline/$', api.TimelineToken.as_view()),
 ]
 
 urlpatterns = urlpatterns + format_suffix_patterns(apipatterns)
