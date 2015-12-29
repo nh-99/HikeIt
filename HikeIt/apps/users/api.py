@@ -63,7 +63,7 @@ class TimelineToken(APIView):
     def post(self, request, format=None):
         if request.user.is_authenticated():
             user = request.user
-            if user.profile.timeline_token != None:
+            if user.profile.timeline_token == None:
                 return Response(json.dumps({"result": "Token already exists"})
             else:
                 user.profile.timeline_token = request.post.get("token")
