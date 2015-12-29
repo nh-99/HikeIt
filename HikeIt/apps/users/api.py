@@ -67,11 +67,11 @@ class TimelineToken(APIView):
             return Response(json.dumps({"result":"Not authenticated"}))
             
     def post(self, request, format=None):
-		if request.user.is_authenticated():
-			user = request.user
-			token = request.data.get("token")
-			user.profile.timeline_token = token
-			user.save()
-			return Response(json.dumps({"result":token}))
-		else:
-			return Response(json.dumps({"result":"Not authenticated"}))
+        if request.user.is_authenticated():
+            user = request.user
+            token = request.data.get("token")
+            user.profile.timeline_token = token
+            user.save()
+            return Response(json.dumps({"result":token}))
+        else:
+            return Response(json.dumps({"result":"Not authenticated"}))
