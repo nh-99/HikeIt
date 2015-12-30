@@ -80,7 +80,7 @@ function loginPebble(callback) {
     dataType: 'json',
     success: function(res) {
         console.log(res);
-        callback({token: res.token});
+        callback(res);
     },
     error: function(res) {
         console.log(res);
