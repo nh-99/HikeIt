@@ -58,6 +58,27 @@
     </div>
   </div>
 
+  <script>
+	  function submitHandler() {
+		  var $submitButton = $('#submitButton');
+		  {% if request.session.redirect_pebble %}
+		  if(window.location.hash) {
+			var return_to = getQueryParam('return_to', 'pebblejs://close#');
+			loginPebble(function(options) {
+				  document.location = return_to + encodeURIComponent(JSON.stringify(options));
+				});
+		  }
+		  {% endif %}
+
+		  $submitButton.on('click', function() {
+			console.log('Submit');
+			var return_to = getQueryParam('return_to', 'pebblejs://close#');
+			getAndStoreConfigData(function(options) {
+				  document.location = return_to + encodeURIComponent(JSON.stringify(options));
+				});
+		  });
+		}
+  </script>
   <script src='{% static "static_pages/js/slate.min.js" %}'></script>
   <script src='{% static "static_pages/js/pebble-config-main.js" %}'></script>
 </body>

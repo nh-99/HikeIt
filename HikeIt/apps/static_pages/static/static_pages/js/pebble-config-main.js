@@ -2,24 +2,6 @@
   submitHandler();
 })();
 
-function submitHandler() {
-  var $submitButton = $('#submitButton');
-  if(window.location.hash) {
-    var return_to = getQueryParam('return_to', 'pebblejs://close#');
-    loginPebble(function(options) {
-          document.location = return_to + encodeURIComponent(JSON.stringify(options));
-        });
-  }
-
-  $submitButton.on('click', function() {
-    console.log('Submit');
-    var return_to = getQueryParam('return_to', 'pebblejs://close#');
-    getAndStoreConfigData(function(options) {
-          document.location = return_to + encodeURIComponent(JSON.stringify(options));
-        });
-  });
-}
-
 function getAndStoreConfigData(callback) {
   var username = $('#username').val();
   var password = $('#password').val();
