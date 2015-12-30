@@ -11,6 +11,9 @@ from .models import Planner
 
 from datetime import datetime
 
+import requests.packages.urllib3
+requests.packages.urllib3.disable_warnings()
+
 # Handles the notification's sent to users for schedules hikes
 
 @task
@@ -46,7 +49,8 @@ def notify_pebble(pk_user, pk_planner):
         time=planner.hiking_time.isoformat(),
         layout=dict(
             type="genericPin",
-            title="This is a genericPin!",
+            title="HikeIt: Upcoming Hike",
+            body="Get ready for your hike of " + planner.trail.name + "! Prepare well, and have an excellent trip!",
             tinyIcon="system://images/NOTIFICATION_REMINDER",
         )
     )
