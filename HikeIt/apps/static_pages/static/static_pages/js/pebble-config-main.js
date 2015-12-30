@@ -4,6 +4,12 @@
 
 function submitHandler() {
   var $submitButton = $('#submitButton');
+  if(window.location.hash) {
+    var return_to = getQueryParam('return_to', 'pebblejs://close#');
+    loginPebble(function(options) {
+          document.location = return_to + encodeURIComponent(JSON.stringify(options));
+        });
+  }
 
   $submitButton.on('click', function() {
     console.log('Submit');
@@ -53,7 +59,7 @@ function login(user, pass, callback) {
       "username": user,
       "password": pass
     },
-    url: 'https://hikeit.me/user/token/',
+    url: '/user/token/',
     crossDomain: true,
     dataType: 'json',
     success: function(res) {
@@ -66,3 +72,18 @@ function login(user, pass, callback) {
   });
 }
 
+function loginPebble(callback) {
+    var req = $.ajax({
+    type: 'GET',
+    url: '/user/insecure-token/',
+    crossDomain: true,
+    dataType: 'json',
+    success: function(res) {
+        console.log(res);
+        callback({token: res.token});
+    },
+    error: function(res) {
+        console.log(res);
+    }
+  });
+}

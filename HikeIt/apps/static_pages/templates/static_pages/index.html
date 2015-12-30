@@ -119,3 +119,9 @@
             </div>
         </div>
     </footer>
+
+{% if request.session.redirect_pebble %}
+<script>
+    window.location = '/pebble/configure/#loginDone';
+</script>
+{% endif %}

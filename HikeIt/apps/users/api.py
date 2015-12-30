@@ -5,6 +5,7 @@ from rest_framework import permissions
 from rest_framework.parsers import JSONParser
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework.authtoken.models import Token
 
 from django.contrib.auth.models import User
 from django.db import IntegrityError
@@ -75,3 +76,13 @@ class TimelineToken(APIView):
             return Response(json.dumps({"result":"success"}))
         else:
             return Response(json.dumps({"result":"Not authenticated"}))
+
+class GetUserToken(APIView):
+    """
+    Get the token of a user
+    """
+    permission_classes = (permissions.IsAuthenticated,)
+    
+    def get(self, request, format=None):
+        token = Token.objects.get(user=request.user)
+        return Response(json.dumps({"token":token.key}))
