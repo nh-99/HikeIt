@@ -26,12 +26,13 @@ def planner(request, trail_id):
 
 def plan(request):
     if request.user.is_authenticated():
-        date = request.POST["date"]
+        date = request.POST.get("date") + ' ' + request.POST.get("time")
+        print date
         if request.POST["delay"] != '':
             notification_delay = request.POST["delay"]
         else:
             notification_delay = 1
-        hiking_time = datetime.fromtimestamp(time.mktime(time.strptime(date, "%m/%d/%Y")))
+        hiking_time = datetime.fromtimestamp(time.mktime(time.strptime(date, "%m/%d/%Y %I:%M%p")))
         notification_send_date = hiking_time - timedelta(days=notification_delay)
         trail = get_object_or_404(Trail, pk=int(request.POST.get("trail_id")))
         planner = Planner.objects.create(trail=trail, hiking_time=hiking_time, notification_date=notification_send_date)
@@ -49,7 +50,7 @@ def plan(request):
 def view_plan(request, planner_id):
     planner = get_object_or_404(Planner, pk=planner_id)
     # If user is authenticated and the planner is in their list of planners continue
-    if request.user.is_authenticated() and request.user.planned_hikes.objects.get(pk=planner.pk):
+    if request.user.is_authenticated() and request.user.profile.planned_hikes.get(pk=planner.pk):
         return render(request, 'planner/view.html', {'planner': planner})
     else:
         messages.add_message(request, messages.WARNING, 'You must sign in to use the trail planning tools')

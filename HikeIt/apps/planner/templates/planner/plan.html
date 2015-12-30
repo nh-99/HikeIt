@@ -6,11 +6,7 @@
 
   
   <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
-  <script>
-  $(function() {
-    $( "#date" ).datepicker();
-  });
-  </script>
+  <link rel="stylesheet" href="{% static "static_pages/css/jquery.timepicker.css" %}">
 <div class="col-md-3"></div>
 <div class="col-md-6">
     <form role="form" action="/planner/plan/" method="post">
@@ -21,9 +17,18 @@
                     <center><h2>Plan a Hike</h2></center>
 </p><b>Trail Name: </b>{{ trail.name }}</p>
 </p><b>Day of Hike: </b><input type="text" name="date" id="date"></p>
+</p><b>Time of Hike: </b><input type="text" name="time" id="time"></p>
 <p><i>I'd like to be reminded <input type="text" name="delay" placeholder="1" onkeypress='return event.charCode >= 48 && event.charCode <= 57'> day(s) before my hike.</i></p>
  <center><button type="submit" class="btn btn-primary">Save</button></center>
 </form>
 </li>
 </div>
 </div>
+    <script src='{% static "static_pages/js/jquery.timepicker.min.js" %}'></script>
+
+  <script>
+  $(function() {
+    $( "#date" ).datepicker();
+  });
+  $('#time').timepicker();
+  </script>
