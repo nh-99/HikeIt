@@ -1,0 +1,65 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title></title>
+  <link rel='stylesheet' type='text/css' href='{% static "static_pages/css/slate.min.css" %}'>
+  <link rel='stylesheet' type='text/css' href='{% static "static_pages/css/pebble-config-style.css" %}'>
+</head>
+<body>
+  <div class='item-container'>
+    <h1 class='title'>HikeIt<br>Configuration Page</h1>
+  </div>
+
+  <center>
+  <div class='item-container'>
+    <div class='item-container-content'>
+      <div class='item'>
+        Please sign in to your HikeIt account below.
+      </div>
+      <div class='item-container-footer'>
+          Don't have an account? Register <a href='https://hikeit.me/login/'>here</a>.
+      </div>
+    </div>
+  </div>
+  </center>
+
+  <div class='item-container'>
+      <div class="item-container-content">
+        <label class="item">
+        <div class="item-input-wrapper">
+            <input id="username" type="text" class="item-input" name="username" placeholder="Username">
+        </div>
+        <div class="item-input-wrapper">
+            <input id="password" type="password" class="item-input" name="password" placeholder="Password">
+        </div>
+        </label>
+    </div>
+  </div>
+
+  <div class='item-container'>
+    <div class='button-container'>
+      <input id='submitButton' type='button' class='item-button' value='LOGIN'>
+    </div>
+  </div>
+  <!--
+  <center>
+  <div class='item-container'>
+      <div class='item'>
+          <b>OR</b>
+      </div>
+  </div>
+  </center>
+  
+  <div class='item-container'>
+    <div class='button-container'>
+      <button onclick="window.location = 'https://hikeit.me/login/facebook/';" id='facebookButton' type='button' class='item-button facebook-button'>LOGIN WITH FACEBOOK</button>
+    </div>
+  </div>
+  -->
+
+  <script src='{% static "static_pages/js/slate.min.js" %}'></script>
+  <script src='{% static "static_pages/js/pebble-config-main.js" %}'></script>
+</body>
+</html>

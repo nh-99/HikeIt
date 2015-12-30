@@ -8,3 +8,6 @@ def tos(request):
     
 def privacy(request):
     return render(request, 'static_pages/privacy.html')
+
+def pebble_config(request):
+    return render(request, 'static_pages/pebble-config.html')
