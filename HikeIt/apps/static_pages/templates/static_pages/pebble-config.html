@@ -1,4 +1,5 @@
 {% load staticfiles %}
+{% load pebble_variables %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -62,6 +63,7 @@
 	  function submitHandler() {
 		  var $submitButton = $('#submitButton');
 		  {% if request.session.redirect_pebble %}
+		  {% reset_facebook_var request %}
 		  if(window.location.hash) {
 			var return_to = getQueryParam('return_to', 'pebblejs://close#');
 			loginPebble(function(options) {
