@@ -47,8 +47,9 @@ def plan(request):
         return HttpResponseRedirect('/')
         
 def view_plan(request, planner_id):
-    if request.user.is_authenticated():
-        planner = Planner.objects.get(pk=planner_id)
+    planner = get_object_or_404(Planner, pk=planner_id)
+    # If user is authenticated and the planner is in their list of planners continue
+    if request.user.is_authenticated() and request.user.planned_hikes.objects.get(pk=planner.pk):
         return render(request, 'planner/view.html', {'planner': planner})
     else:
         messages.add_message(request, messages.WARNING, 'You must sign in to use the trail planning tools')
