@@ -3,6 +3,7 @@ import json, uuid
 from rest_framework import status
 from rest_framework import permissions
 from rest_framework.parsers import JSONParser
+from rest_framework.renderers import JSONRenderer
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.authtoken.models import Token
@@ -10,7 +11,7 @@ from rest_framework.authtoken.models import Token
 from django.contrib.auth.models import User
 from django.db import IntegrityError
 
-from .serializers import UserSerializer
+from .serializers import UserSerializer, TokenSerializer
 from . import views as views
 
 class UserInfo(APIView):
@@ -82,7 +83,8 @@ class GetUserToken(APIView):
     Get the token of a user
     """
     permission_classes = (permissions.IsAuthenticated,)
-    
+        
     def get(self, request, format=None):
         token = Token.objects.get(user=request.user)
-        return Response(json.dumps({"token":token.key}))
+        json = JSONRenderer().render({"token":token.key})
+        return Response({"token":token.key})
