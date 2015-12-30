@@ -174,6 +174,10 @@
                 <p><b>Email: </b>{{ user.email }}</p>
                 <p><b>First Name: </b>{{ user.first_name }}</p>
                 <p><b>Last Name: </b>{{ user.last_name }}</p>
+                {% if user.profile.timeline_token %}
+                <br>
+                <p><i>Pebble Timeline connected</i></p>
+                {% endif %}
                 </li>
             </div>
       </div>
