@@ -14,3 +14,4 @@ validation
 django-password-reset
 djangorestframework
 django-celery
+pypebbleapi

@@ -6,7 +6,7 @@ from datetime import datetime, timedelta
 import time
 
 from .models import Planner
-from .tasks import notify_email
+from .tasks import notify_email, notify_pebble
 from trails.models import Trail
 
 def index(request):
@@ -27,17 +27,19 @@ def planner(request, trail_id):
 def plan(request):
     if request.user.is_authenticated():
         date = request.POST["date"]
-        if request.POST["delay"] != None:
+        if request.POST["delay"] != '':
             notification_delay = request.POST["delay"]
         else:
             notification_delay = 1
         hiking_time = datetime.fromtimestamp(time.mktime(time.strptime(date, "%m/%d/%Y")))
-        notification_send_date = hiking_time - timedelta(days=1)
+        notification_send_date = hiking_time - timedelta(days=notification_delay)
         trail = get_object_or_404(Trail, pk=int(request.POST.get("trail_id")))
         planner = Planner.objects.create(trail=trail, hiking_time=hiking_time, notification_date=notification_send_date)
         request.user.profile.planned_hikes.add(planner)
         request.user.save()
         notify_email.apply_async(eta=notification_send_date, kwargs={'pk_user': request.user.pk, 'pk_planner': planner.pk})
+        if request.user.profile.timeline_token is not None:
+            notify_pebble.apply_async(eta=hiking_time - timedelta(days=1), kwargs={'pk_user': request.user.pk, 'pk_planner': planner.pk})
         messages.add_message(request, messages.SUCCESS, 'Hike scheduled')
         return HttpResponseRedirect('/planner/')
     else:
