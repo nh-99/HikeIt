@@ -6,13 +6,11 @@ from . import views
 from . import api
 
 urlpatterns = [
-    url(r'^location/(?P<location>[\w ]+)/$', views.location, name='location'),
-    url(r'^name/(?P<name>[\w ]+)/$', views.name, name='name'),
+    url(r'^(?P<query>[\w ]+)/$', views.search, name='search'),
 ]
 
 apipatterns = [
-    url(r'^location/(?P<location>[\w ]+)/$', api.SearchLocation.as_view()),
-    url(r'^name/(?P<name>[\w ]+)/$', api.SearchName.as_view()),
+    url(r'^(?P<query>[\w ]+)/$', api.Search.as_view()),
     url(r'^latlon/(?P<lat_string>-?\d+(?:\.\d+)?)/(?P<lng_string>-?\d+(?:\.\d+)?)/$', api.SearchLatLng.as_view()),
 ]
 
