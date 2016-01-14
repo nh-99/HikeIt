@@ -1,5 +1,5 @@
 from django.contrib import admin
 
-from .models import Trail
+from .models import Issue
 
-admin.site.register(Trail)
+admin.site.register(Issue)
