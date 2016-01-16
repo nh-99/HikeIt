@@ -27,6 +27,7 @@ SECRET_KEY = os.environ.get('HIKEIT_SECRET_KEY', 'jaksdjfkasjdfkljJoi2uroijlkF98
 # Application definition
 
 INSTALLED_APPS = (
+    'bootstrap_admin',
     'django.contrib.admin',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -145,3 +146,4 @@ REST_FRAMEWORK = {
 }
 
 BROKER_URL = 'amqp://guest:guest@localhost:5672/'
+BOOTSTRAP_ADMIN_SIDEBAR_MENU = True

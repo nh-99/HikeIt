@@ -11,3 +11,4 @@ django-password-reset
 djangorestframework
 django-celery
 pypebbleapi
+bootstrap-admin
