@@ -37,7 +37,7 @@ def approve_trail_list(request):
         trails = Trail.objects.filter(approved=False)
         return render(request, 'trails/approval_list.html', { 'trails': trails })
     else:
-        messages.add_message(request, messages.WARNING, 'You do not have significant access to perform this function')
+        messages.add_message(request, messages.WARNING, 'You do not have sufficient access to perform this function')
         return HttpResponseRedirect('/')
 
 def approve_trail(request):
@@ -50,7 +50,7 @@ def approve_trail(request):
         messages.add_message(request, messages.SUCCESS, 'The trail has been approved successfully')
         return HttpResponseRedirect('/trail/trails/')
     else:
-        messages.add_message(request, messages.WARNING, 'You do not have significant access to perform this function')
+        messages.add_message(request, messages.WARNING, 'You do not have sufficient access to perform this function')
         return HttpResponseRedirect('/')
 
 def new(request):

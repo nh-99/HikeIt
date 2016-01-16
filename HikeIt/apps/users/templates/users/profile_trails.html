@@ -128,6 +128,11 @@
               Trails </a>
             </li>
             <li>
+              <a href="/planner/">
+              <i class="glyphicon glyphicon-calendar"></i>
+              Planned Hikes </a>
+            </li>
+            <li>
               <a href="/user/profile/settings/">
               <i class="glyphicon glyphicon-user"></i>
               Account Settings </a>
@@ -147,11 +152,6 @@
               <a href="/trail/trails/">
               <i class="glyphicon glyphicon-map-marker"></i>
               Trail Approval </a>
-            </li>
-            <li>
-              <a href="/reviews/">
-              <i class="glyphicon glyphicon-pencil"></i>
-              Review Approval </a>
             </li>
             {% endif %}
           </ul>
@@ -185,6 +185,7 @@
         </center>
         {% if user.profile.completed_trails.count <= 0 %}
         <center>
+	  <br>
           <p style="color:gray">You have not marked any trails as completed yet<br>Try using the search function at the top to find trails that you have done before</p>
         </center>
         {% else %}
