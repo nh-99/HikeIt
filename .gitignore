@@ -4,5 +4,6 @@ media/
 HikeIt/settings/config.py
 setup.sh
 env/
+venv/
 .vagrant/
 *~

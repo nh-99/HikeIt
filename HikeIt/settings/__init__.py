@@ -33,7 +33,6 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'social.apps.django_app.default',
-    'django_jenkins',
     'widget_tweaks',
     'password_reset',
     'trails',

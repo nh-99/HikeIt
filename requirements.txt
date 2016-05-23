@@ -1,4 +1,4 @@
-django
+django==1.9
 mysql
 pillow
 python-social-auth
@@ -10,4 +10,3 @@ validation
 django-password-reset
 djangorestframework
 django-celery
-pypebbleapi
